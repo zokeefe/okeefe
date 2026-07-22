@@ -2,37 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>O'Keefe Family Tree Visualization</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
-        <!-- Left Section (20%): Logo, Search, and Dynamic Metadata -->
+        <!-- Left Section (20% on desktop, floating overlay on mobile) -->
         <aside class="sidebar">
-            <div class="logo-container">
-                <img src="logo.webp" alt="O'Keefe Family Logo">
-            </div>
+            <header class="sidebar-header">
+                <div class="logo-container">
+                    <img src="logo.webp" alt="O'Keefe Family Logo">
+                </div>
 
-            <div class="search-container">
-                <input 
-                    type="text" 
-                    id="search-input" 
-                    placeholder="Search family member by name..." 
-                    autocomplete="off" 
-                    spellcheck="false">
-                <ul id="autocomplete-dropdown" class="autocomplete-dropdown"></ul>
-            </div>
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search family member..." 
+                        autocomplete="off" 
+                        spellcheck="false">
+                    <ul id="autocomplete-dropdown" class="autocomplete-dropdown"></ul>
+                </div>
+            </header>
 
             <section id="metadata-panel" class="metadata-panel">
-                <p class="meta-header">Dynamic Metadata</p>
-                <div class="meta-placeholder">
-                    Select any person from the family tree graph or use the search bar above to inspect details and illuminate direct lineage.
+                <!-- Mobile Bottom Sheet Handle -->
+                <div id="sheet-handle" class="sheet-handle" title="Toggle Details Card" aria-label="Toggle Details Card">
+                    <span class="handle-bar"></span>
+                </div>
+
+                <div id="metadata-content" class="metadata-content">
+                    <p class="meta-header">Dynamic Metadata</p>
+                    <div class="meta-placeholder">
+                        Select any person from the family tree graph or use the search bar above to inspect details and illuminate direct lineage.
+                    </div>
                 </div>
             </section>
         </aside>
 
-        <!-- Right Section (80%): Infinite Canvas & Tree Graph -->
+        <!-- Right Section (80% on desktop, 100% full screen on mobile): Infinite Canvas & Tree Graph -->
         <main id="canvas-area" class="canvas-area">
             <svg id="graph-svg" class="graph-svg">
                 <g id="viewport-group">
@@ -41,7 +50,7 @@
                 </g>
             </svg>
 
-            <!-- Lineage & Node Legend -->
+            <!-- Lineage & Node Legend (Hidden on Mobile) -->
             <div class="legend">
                 <span class="legend-title">Legend</span>
                 <div class="legend-item">

@@ -1,6 +1,6 @@
 /*
  * O'Keefe Family Tree Visualization
- * Stylesheet featuring CSS Custom Properties (:root) for programmatic theming
+ * Stylesheet featuring responsive desktop/mobile layouts, bottom-sheet cards, and touch gestures
  */
 
 :root {
@@ -67,7 +67,7 @@
     --link-color: #2563eb;
 }
 
-/* Example Programmatic Dark Theme Override Support */
+/* Programmatic Dark Theme Override Support */
 body.theme-dark {
     --bg-color: #0f172a;
     --canvas-bg: #090d16;
@@ -108,9 +108,11 @@ html, body {
     color: var(--text-primary);
     background: var(--bg-color);
     -webkit-font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    user-select: none;
 }
 
-/* App Two-Column Split Layout */
+/* App Split Layout (Desktop default) */
 .app-container {
     display: flex;
     flex-direction: row;
@@ -118,7 +120,7 @@ html, body {
     height: 100vh;
 }
 
-/* Left Section (20% - Sidebar) */
+/* Left Section (Sidebar on Desktop) */
 .sidebar {
     width: var(--sidebar-width);
     min-width: var(--sidebar-min-width);
@@ -128,30 +130,35 @@ html, body {
     border-right: 1px solid var(--sidebar-border);
     display: flex;
     flex-direction: column;
-    padding: 24px 20px;
     z-index: 20;
     box-shadow: 4px 0 16px rgba(0, 0, 0, 0.04);
     overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 24px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .logo-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     flex-shrink: 0;
 }
 
 .logo-container img {
     max-width: 100%;
-    max-height: 90px;
+    max-height: 80px;
     height: auto;
     object-fit: contain;
 }
 
 .search-container {
     position: relative;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     flex-shrink: 0;
 }
 
@@ -215,14 +222,26 @@ html, body {
     background: var(--dropdown-hover);
 }
 
-/* Dynamic Metadata Section */
+/* Dynamic Metadata Panel & Pull-Up Card Container */
 .metadata-panel {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    padding: 20px;
     border-top: 1px solid var(--sidebar-border);
-    padding-top: 20px;
+    overflow-y: auto;
+}
+
+/* Sheet Handle (Hidden on Desktop) */
+.sheet-handle {
+    display: none;
+}
+
+.metadata-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1;
 }
 
 .meta-header {
@@ -251,6 +270,7 @@ html, body {
     flex-direction: column;
     gap: 16px;
     animation: fadeIn 0.25s ease-out;
+    user-select: text;
 }
 
 @keyframes fadeIn {
@@ -334,17 +354,18 @@ html, body {
     opacity: 0.8;
 }
 
-/* Right Section (80% - Infinite Canvas & Tree Graph) */
+/* Right Section - Infinite Canvas & Tree Graph */
 .canvas-area {
     flex: 1;
     height: 100%;
     position: relative;
     background-color: var(--canvas-bg);
-    /* Subtle dot grid pattern on infinite canvas */
     background-image: radial-gradient(var(--canvas-grid-dot) 1px, transparent 1px);
     background-size: 32px 32px;
     overflow: hidden;
     cursor: grab;
+    touch-action: none; /* Essential for mobile pinch/drag gesture control */
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -356,6 +377,7 @@ html, body {
     width: 100%;
     height: 100%;
     display: block;
+    touch-action: none;
 }
 
 /* SVG Elements & Node Visuals */
@@ -381,6 +403,7 @@ html, body {
 .node {
     cursor: pointer;
     transition: opacity 0.25s ease, filter 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .node-box {
@@ -443,7 +466,7 @@ html, body {
     transition: opacity 0.15s ease;
 }
 
-/* Greying-out / Saturation reduction for non-direct ancestry elements */
+/* Greying-out / Saturation reduction */
 .has-selection .node.dimmed,
 .has-selection .edge.dimmed {
     opacity: var(--dimmed-opacity);
@@ -462,7 +485,7 @@ html, body {
     visibility: hidden;
 }
 
-/* Canvas UI Helpers / Controls */
+/* Canvas UI Controls */
 .zoom-controls {
     position: absolute;
     bottom: 24px;
@@ -474,12 +497,12 @@ html, body {
 }
 
 .zoom-btn {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     background: var(--sidebar-bg);
     border: 1px solid var(--sidebar-border);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -489,18 +512,15 @@ html, body {
     font-weight: 700;
     transition: all 0.15s ease;
     outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.zoom-btn:hover {
+.zoom-btn:hover, .zoom-btn:active {
     background: var(--canvas-bg);
     transform: scale(1.05);
 }
 
-.zoom-btn:active {
-    transform: scale(0.95);
-}
-
-/* Legend in canvas corner */
+/* Legend in top right corner */
 .legend {
     position: absolute;
     top: 24px;
@@ -547,20 +567,161 @@ html, body {
 .legend-line.anc { background: var(--ancestor-edge-color); }
 .legend-line.desc { background: var(--descendant-edge-color); }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   Mobile & Tablet Responsive Layout (Google-Maps Style UI)
+   ========================================================================== */
 @media (max-width: 768px) {
     .app-container {
-        flex-direction: column;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
     }
+
+    /* Infinite canvas fills 100% of the screen */
+    .canvas-area {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    /* Hide the legend on mobile as requested */
+    .legend {
+        display: none !important;
+    }
+
+    /* Sidebar transforms into floating top overlay + bottom sheet card */
     .sidebar {
+        position: absolute;
+        inset: 0;
         width: 100%;
         max-width: none;
-        height: auto;
-        max-height: 40vh;
+        height: 100%;
+        background: transparent;
         border-right: none;
-        border-bottom: 1px solid var(--sidebar-border);
+        box-shadow: none;
+        pointer-events: none;
+        z-index: 20;
+        overflow: hidden;
     }
-    .canvas-area {
-        height: 60vh;
+
+    /* Top Floating Search Pill + Logo */
+    .sidebar-header {
+        pointer-events: auto;
+        background: var(--sidebar-bg);
+        margin: 12px 12px 0 12px;
+        padding: 8px 14px;
+        border-radius: var(--border-radius-lg);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+        border: 1px solid var(--sidebar-border);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-container {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .logo-container img {
+        max-height: 36px;
+        width: auto;
+    }
+
+    .search-container {
+        margin-bottom: 0;
+        flex-grow: 1;
+    }
+
+    #search-input {
+        padding: 8px 10px;
+        font-size: 15px; /* Preventing iOS zoom-on-focus */
+        border: none;
+        background: transparent;
+    }
+
+    #search-input:focus {
+        box-shadow: none;
+        border: none;
+    }
+
+    /* Google-Maps Style Pull-Up Bottom Sheet Card */
+    .metadata-panel {
+        pointer-events: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 75vh;
+        background: var(--sidebar-bg);
+        border-top: 1px solid var(--sidebar-border);
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.16);
+        padding: 0 20px 24px 20px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(100%); /* Completely out of view when no node is selected */
+        z-index: 30;
+    }
+
+    /* Bottom Sheet Active States */
+    .metadata-panel.sheet-open {
+        transform: translateY(0);
+    }
+
+    .metadata-panel.sheet-peek {
+        transform: translateY(calc(100% - 48px));
+    }
+
+    /* Visible Pull Handle Bar */
+    .sheet-handle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 0 14px 0;
+        cursor: pointer;
+        user-select: none;
+        touch-action: pan-y;
+        position: sticky;
+        top: 0;
+        background: var(--sidebar-bg);
+        z-index: 10;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .handle-bar {
+        width: 44px;
+        height: 5px;
+        background-color: var(--canvas-grid-dot);
+        border-radius: 999px;
+        transition: background-color 0.2s ease;
+    }
+
+    .sheet-handle:active .handle-bar,
+    .sheet-handle:hover .handle-bar {
+        background-color: var(--text-muted);
+    }
+
+    /* Position Zoom Controls dynamically above bottom card */
+    .zoom-controls {
+        bottom: 24px;
+        right: 16px;
+        transition: bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.sheet-active .zoom-controls {
+        bottom: calc(75vh + 16px);
+    }
+
+    body.sheet-peek-active .zoom-controls {
+        bottom: 64px;
     }
 }

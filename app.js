@@ -2,7 +2,7 @@
  * O'Keefe Family Tree Visualization Engine
  * Pure Vanilla JavaScript implementation with zero dependencies.
  * Features hierarchical graph layout, infinite canvas navigation, prefix auto-complete search,
- * and direct ancestry highlighting.
+ * direct ancestry highlighting, mobile bottom sheets, and multi-touch pinch-to-zoom.
  */
 
 // Visual Configuration and Zoom Thresholds
@@ -28,16 +28,21 @@ const state = {
     viewport: {
         x: 0,
         y: 0,
-        scale: 1.0,
-        targetX: 0,
-        targetY: 0,
-        targetScale: 1.0,
-        isAnimating: false
+        scale: 1.0
     },
     drag: {
         active: false,
         startX: 0,
         startY: 0,
+        panStartX: 0,
+        panStartY: 0
+    },
+    pinch: {
+        active: false,
+        initialDistance: 0,
+        initialScale: 1.0,
+        midX: 0,
+        midY: 0,
         panStartX: 0,
         panStartY: 0
     },
@@ -54,6 +59,8 @@ const DOM = {};
 document.addEventListener('DOMContentLoaded', () => {
     initDOMReferences();
     setupEventListeners();
+    setupTouchGestures();
+    setupMobileBottomSheet();
     loadFamilyTreeData('family_tree.json');
 });
 
@@ -66,6 +73,8 @@ function initDOMReferences() {
     DOM.searchInput = document.getElementById('search-input');
     DOM.autocompleteDropdown = document.getElementById('autocomplete-dropdown');
     DOM.metadataPanel = document.getElementById('metadata-panel');
+    DOM.metadataContent = document.getElementById('metadata-content');
+    DOM.sheetHandle = document.getElementById('sheet-handle');
     DOM.btnZoomIn = document.getElementById('btn-zoom-in');
     DOM.btnZoomOut = document.getElementById('btn-zoom-out');
     DOM.btnZoomFit = document.getElementById('btn-zoom-fit');
@@ -86,11 +95,11 @@ async function loadFamilyTreeData(url) {
         fitToScreen();
     } catch (err) {
         console.error('Failed to load family tree dataset:', err);
-        if (DOM.metadataPanel) {
-            DOM.metadataPanel.innerHTML = `
+        if (DOM.metadataContent) {
+            DOM.metadataContent.innerHTML = `
                 <div class="meta-placeholder" style="color: #ef4444;">
                     <strong>Error loading dataset:</strong><br>
-                    Could not fetch ${url}. Ensure you are serving index.html over a local HTTP server.
+                    Could not fetch ${url}. Ensure you are serving index.html over an HTTP server.
                 </div>
             `;
         }
@@ -105,7 +114,6 @@ function processData(rawData) {
     state.couples = [];
     const coupleMap = new Map();
 
-    // 1. First pass: Initialize person records
     rawData.forEach(item => {
         state.people[item.id] = {
             ...item,
@@ -118,7 +126,6 @@ function processData(rawData) {
         };
     });
 
-    // 2. Second pass: Link lineage and infer couples from shared children
     Object.values(state.people).forEach(p => {
         const hasMother = p.mother && state.people[p.mother];
         const hasFather = p.father && state.people[p.father];
@@ -132,7 +139,6 @@ function processData(rawData) {
             state.people[p.father].children.push(p.id);
         }
 
-        // If both parents are in dataset, register them as partners/couple
         if (hasMother && hasFather) {
             const m = state.people[p.mother];
             const f = state.people[p.father];
@@ -161,17 +167,12 @@ function processData(rawData) {
 
 /**
  * Custom hierarchical graph layout calculation
- * Assigns generation depth (Y) and minimizes branch tangling for spacing (X)
  */
 function computeHierarchicalLayout() {
     const people = Object.values(state.people);
-    
-    // 1. Determine Generation Depth (Y Axis)
-    // Find roots (individuals with no parents in dataset)
     const roots = people.filter(p => p.parents.length === 0);
     roots.forEach(r => { r.gen = 0; });
 
-    // Iteration to propagate generations down children and horizontally across spouses
     let changed = true;
     let iterations = 0;
     while (changed && iterations < 50) {
@@ -179,7 +180,6 @@ function computeHierarchicalLayout() {
         iterations++;
 
         people.forEach(p => {
-            // Child generation is max(parent generations) + 1
             if (p.parents.length > 0) {
                 const maxParentGen = Math.max(...p.parents.map(parentId => state.people[parentId].gen));
                 if (maxParentGen !== -1 && p.gen !== maxParentGen + 1) {
@@ -188,7 +188,6 @@ function computeHierarchicalLayout() {
                 }
             }
 
-            // Align partner generations if neither is an ancestor of the other
             p.partners.forEach(partnerId => {
                 const partner = state.people[partnerId];
                 if (partner.gen !== -1 && p.gen !== -1 && p.gen !== partner.gen) {
@@ -203,30 +202,23 @@ function computeHierarchicalLayout() {
         });
     }
 
-    // Fallback for any disconnected nodes
     people.forEach(p => {
         if (p.gen === -1) p.gen = 0;
         p.y = p.gen * CONFIG.GEN_HEIGHT;
     });
 
-    // Assign generation to couples
     state.couples.forEach(c => {
         c.gen = Math.max(state.people[c.p1].gen, state.people[c.p2].gen);
         c.y = c.gen * CONFIG.GEN_HEIGHT;
     });
 
-    // Group individuals by generation
     state.generations = {};
     people.forEach(p => {
         if (!state.generations[p.gen]) state.generations[p.gen] = [];
         state.generations[p.gen].push(p);
     });
 
-    // 2. Horizontal Placement (X Axis)
-    // Group partners adjacent to each other in initial ordering
     const maxGen = Math.max(...Object.keys(state.generations).map(Number));
-    
-    // Build ordered sibling clusters per generation
     for (let g = 0; g <= maxGen; g++) {
         const layer = state.generations[g] || [];
         const placed = new Set();
@@ -237,7 +229,6 @@ function computeHierarchicalLayout() {
             placed.add(p.id);
             ordered.push(p);
 
-            // Immediately place partners adjacent
             p.partners.forEach(partnerId => {
                 if (!placed.has(partnerId) && state.people[partnerId].gen === g) {
                     placed.add(partnerId);
@@ -248,9 +239,7 @@ function computeHierarchicalLayout() {
         state.generations[g] = ordered;
     }
 
-    // Iterative relaxation to align parents over children & children under parents
     for (let pass = 0; pass < 6; pass++) {
-        // Top-down: align children toward parent midpoints
         for (let g = 1; g <= maxGen; g++) {
             const layer = state.generations[g] || [];
             layer.forEach(p => {
@@ -264,7 +253,6 @@ function computeHierarchicalLayout() {
             spaceOutLayer(layer);
         }
 
-        // Bottom-up: align parents toward children midpoints
         for (let g = maxGen - 1; g >= 0; g--) {
             const layer = state.generations[g] || [];
             layer.forEach(p => {
@@ -279,7 +267,6 @@ function computeHierarchicalLayout() {
         }
     }
 
-    // Final layer spacing & center overall tree around X = 0
     let globalMinX = Infinity, globalMaxX = -Infinity;
     for (let g = 0; g <= maxGen; g++) {
         spaceOutLayer(state.generations[g] || []);
@@ -292,22 +279,15 @@ function computeHierarchicalLayout() {
     const treeCenter = (globalMinX + globalMaxX) / 2;
     people.forEach(p => { p.x -= treeCenter; });
 
-    // Update couple midX coordinates
     state.couples.forEach(c => {
         c.midX = (state.people[c.p1].x + state.people[c.p2].x) / 2;
     });
 }
 
-/**
- * Enforce minimum horizontal distance between nodes in a generation layer
- */
 function spaceOutLayer(layer) {
     if (layer.length === 0) return;
-    
-    // Sort by targetX or current X while keeping partners grouped
     layer.sort((a, b) => (a.targetX !== undefined ? a.targetX - b.targetX : a.x - b.x));
 
-    let currentX = 0;
     for (let i = 0; i < layer.length; i++) {
         const p = layer[i];
         if (i === 0) {
@@ -317,31 +297,25 @@ function spaceOutLayer(layer) {
             const isPartner = p.partners.includes(prev.id);
             const requiredGap = isPartner ? CONFIG.COUPLE_GAP_X : CONFIG.NODE_GAP_X;
             const minX = prev.x + CONFIG.NODE_WIDTH + requiredGap;
-            
             p.x = Math.max(p.targetX || 0, minX);
         }
-        currentX = p.x;
     }
 
-    // Center layer around its average coordinate to avoid drift
     const layerCenter = layer.reduce((sum, p) => sum + p.x, 0) / layer.length;
     layer.forEach(p => { p.x -= layerCenter; });
 }
 
 /**
- * Render edges and nodes into the SVG viewport
+ * Render edges and nodes into SVG
  */
 function renderGraph() {
     DOM.edgesLayer.innerHTML = '';
     DOM.nodesLayer.innerHTML = '';
 
-    // 1. Draw Edges
-    // Draw couple partnerships and descent paths to shared children
     state.couples.forEach(c => {
         const p1 = state.people[c.p1];
         const p2 = state.people[c.p2];
 
-        // Horizontal coupling bar between partners
         const couplePath = createSVGElement('path', {
             d: `M ${p1.x} ${c.y} L ${p2.x} ${c.y}`,
             class: 'edge couple-edge',
@@ -353,7 +327,6 @@ function renderGraph() {
         if (c.children.length > 0) {
             const busY = c.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
             
-            // Vertical drop from couple mid point down to horizontal bus
             const dropPath = createSVGElement('path', {
                 d: `M ${c.midX} ${c.y} L ${c.midX} ${busY}`,
                 class: 'edge parent-drop',
@@ -362,7 +335,6 @@ function renderGraph() {
             });
             DOM.edgesLayer.appendChild(dropPath);
 
-            // Calculate span of children for horizontal bus bar
             const childrenX = c.children.map(cid => state.people[cid].x);
             const minX = Math.min(c.midX, ...childrenX);
             const maxX = Math.max(c.midX, ...childrenX);
@@ -375,7 +347,6 @@ function renderGraph() {
             });
             DOM.edgesLayer.appendChild(busPath);
 
-            // Drops from horizontal bus to each child
             c.children.forEach(cid => {
                 const child = state.people[cid];
                 const childDrop = createSVGElement('path', {
@@ -390,13 +361,11 @@ function renderGraph() {
         }
     });
 
-    // Handle single parents (parent without partner in dataset)
     Object.values(state.people).forEach(p => {
         p.children.forEach(cid => {
             const child = state.people[cid];
             const otherParent = child.parents.find(id => id !== p.id);
             if (!otherParent) {
-                // Draw direct connection for single known parent
                 const busY = p.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
                 const path = createSVGElement('path', {
                     d: `M ${p.x} ${p.y + CONFIG.NODE_HEIGHT / 2} L ${p.x} ${busY} L ${child.x} ${busY} L ${child.x} ${child.y - CONFIG.NODE_HEIGHT / 2}`,
@@ -409,7 +378,6 @@ function renderGraph() {
         });
     });
 
-    // 2. Draw Nodes (People)
     Object.values(state.people).forEach(p => {
         const nodeGroup = createSVGElement('g', {
             id: `node-${p.id}`,
@@ -418,7 +386,6 @@ function renderGraph() {
             'data-id': p.id
         });
 
-        // Box container
         const box = createSVGElement('rect', {
             class: 'node-box',
             width: CONFIG.NODE_WIDTH,
@@ -426,7 +393,6 @@ function renderGraph() {
         });
         nodeGroup.appendChild(box);
 
-        // Priority 1: Name
         const textName = createSVGElement('text', {
             class: 'node-text-name',
             x: CONFIG.NODE_WIDTH / 2,
@@ -435,7 +401,6 @@ function renderGraph() {
         textName.textContent = truncateText(p.name, 22);
         nodeGroup.appendChild(textName);
 
-        // Priority 2: Birth year - Death year
         const textDates = createSVGElement('text', {
             class: 'node-text-dates',
             x: CONFIG.NODE_WIDTH / 2,
@@ -446,7 +411,6 @@ function renderGraph() {
         textDates.textContent = dy ? `${by} – ${dy}` : `b. ${by}`;
         nodeGroup.appendChild(textDates);
 
-        // Priority 3: Additional Metadata (Occupation / Location)
         const textMeta = createSVGElement('text', {
             class: 'node-text-meta',
             x: CONFIG.NODE_WIDTH / 2,
@@ -456,19 +420,18 @@ function renderGraph() {
         textMeta.textContent = truncateText(metaDetail, 28);
         nodeGroup.appendChild(textMeta);
 
-        // Click selection listener
         nodeGroup.addEventListener('click', (e) => {
             e.stopPropagation();
             selectPerson(p.id);
+            if (window.innerWidth <= 768) {
+                openBottomSheet();
+            }
         });
 
         DOM.nodesLayer.appendChild(nodeGroup);
     });
 }
 
-/**
- * Helper to create SVG elements with namespaces and attributes
- */
 function createSVGElement(tag, attributes = {}) {
     const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
     Object.entries(attributes).forEach(([k, v]) => el.setAttribute(k, v));
@@ -481,16 +444,12 @@ function truncateText(str, maxLen) {
 }
 
 /**
- * Node Selection & Direct Ancestry Lineage Calculation
+ * Node Selection & Ancestry Lineage Highlighting
  */
 function selectPerson(id) {
-    if (state.selectedId === id) {
-        // Optional toggle off on double select, or just re-focus
-        return;
-    }
+    if (state.selectedId === id && window.innerWidth > 768) return;
     
     state.selectedId = id;
-
     if (!id) {
         clearSelection();
         return;
@@ -499,7 +458,6 @@ function selectPerson(id) {
     const target = state.people[id];
     if (!target) return;
 
-    // 1. Calculate recursive Direct Ancestors set
     const ancestors = new Set();
     function findAncestors(pid) {
         const p = state.people[pid];
@@ -513,7 +471,6 @@ function selectPerson(id) {
     }
     findAncestors(id);
 
-    // 2. Calculate recursive Direct Descendants set
     const descendants = new Set();
     function findDescendants(pid) {
         const p = state.people[pid];
@@ -528,17 +485,13 @@ function selectPerson(id) {
     findDescendants(id);
 
     const directLine = new Set([id, ...ancestors, ...descendants]);
-
-    // 3. Update Visual States (Highlight vs Dim)
     DOM.viewportGroup.classList.add('has-selection');
 
-    // Update Nodes
     Object.values(state.people).forEach(p => {
         const el = document.getElementById(`node-${p.id}`);
         if (!el) return;
         
         el.classList.remove('selected', 'dimmed', 'in-ancestry');
-        
         if (p.id === id) {
             el.classList.add('selected', 'in-ancestry');
         } else if (directLine.has(p.id)) {
@@ -548,7 +501,6 @@ function selectPerson(id) {
         }
     });
 
-    // Update Edges
     const edges = DOM.edgesLayer.querySelectorAll('.edge');
     edges.forEach(edge => {
         const p1 = edge.getAttribute('data-parent1');
@@ -557,11 +509,8 @@ function selectPerson(id) {
 
         edge.classList.remove('ancestor-edge', 'descendant-edge', 'dimmed');
 
-        // Check if edge belongs to ancestor tree (connecting child in ancestors/self to parent in ancestors)
         const isAncestorLink = (child ? (child === id || ancestors.has(child)) : true) && 
                                ((p1 && (p1 === id || ancestors.has(p1))) || (p2 && (p2 === id || ancestors.has(p2))));
-        
-        // Check if edge belongs to descendant tree
         const isDescendantLink = (child ? (child === id || descendants.has(child)) : false) || 
                                  (!child && ((p1 && (p1 === id || descendants.has(p1))) || (p2 && (p2 === id || descendants.has(p2)))));
 
@@ -574,8 +523,10 @@ function selectPerson(id) {
         }
     });
 
-    // 4. Update Sidebar Dynamic Metadata Panel
     renderMetadata(target);
+    if (window.innerWidth <= 768) {
+        openBottomSheet();
+    }
 }
 
 function clearSelection() {
@@ -589,40 +540,41 @@ function clearSelection() {
         e.classList.remove('ancestor-edge', 'descendant-edge', 'dimmed');
     });
 
-    if (DOM.metadataPanel) {
-        DOM.metadataPanel.innerHTML = `
+    if (DOM.metadataContent) {
+        DOM.metadataContent.innerHTML = `
             <p class="meta-header">Dynamic Metadata</p>
             <div class="meta-placeholder">
                 Select any person from the family tree graph or use the search bar above to inspect details and illuminate direct lineage.
             </div>
         `;
     }
+    if (window.innerWidth <= 768) {
+        closeBottomSheet();
+    }
 }
 
 /**
- * Render Dynamic Metadata Card in the left sidebar
+ * Render Dynamic Metadata Card
  */
 function renderMetadata(p) {
+    if (!DOM.metadataContent) return;
     const by = p.meta?.birth_year || 'Unknown';
     const dy = p.meta?.death_year || 'Present';
     const bday = p.meta?.birthday || null;
 
-    // Build interactive parent links
     const parentLinks = p.parents.length > 0 
         ? p.parents.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
         : 'None recorded';
 
-    // Build interactive children links
     const childrenLinks = p.children.length > 0
         ? p.children.map(cid => `<span class="meta-link" data-id="${cid}">${state.people[cid]?.name || cid}</span>`).join(', ')
         : 'None recorded';
 
-    // Build interactive spouse/partner links
     const partnerLinks = p.partners.length > 0
         ? p.partners.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
         : 'None recorded';
 
-    DOM.metadataPanel.innerHTML = `
+    DOM.metadataContent.innerHTML = `
         <p class="meta-header">Person Details</p>
         <div class="meta-card">
             <div class="meta-title-bar">
@@ -665,25 +617,105 @@ function renderMetadata(p) {
         </div>
     `;
 
-    // Attach link click events to navigate directly to relatives
-    DOM.metadataPanel.querySelectorAll('.meta-link').forEach(link => {
+    DOM.metadataContent.querySelectorAll('.meta-link').forEach(link => {
         link.addEventListener('click', () => {
             const targetId = link.getAttribute('data-id');
             if (targetId && state.people[targetId]) {
                 selectPerson(targetId);
                 focusNode(targetId);
+                if (window.innerWidth <= 768) {
+                    openBottomSheet();
+                }
             }
         });
     });
 }
 
 /**
- * Infinite Canvas Pan, Zoom, and Smooth Navigation
+ * Mobile Bottom Sheet Handlers
+ */
+function setupMobileBottomSheet() {
+    const panel = DOM.metadataPanel;
+    const handle = DOM.sheetHandle;
+    if (!panel || !handle) return;
+
+    let startY = 0;
+    let currentY = 0;
+    let isDraggingSheet = false;
+
+    handle.addEventListener('click', () => {
+        if (window.innerWidth > 768) return;
+        if (panel.classList.contains('sheet-open')) {
+            peekBottomSheet();
+        } else if (panel.classList.contains('sheet-peek') || state.selectedId) {
+            openBottomSheet();
+        }
+    });
+
+    handle.addEventListener('touchstart', (e) => {
+        if (window.innerWidth > 768) return;
+        isDraggingSheet = true;
+        startY = e.touches[0].clientY;
+        panel.style.transition = 'none';
+    }, { passive: true });
+
+    handle.addEventListener('touchmove', (e) => {
+        if (!isDraggingSheet || window.innerWidth > 768) return;
+        currentY = e.touches[0].clientY;
+        const deltaY = currentY - startY;
+        if (deltaY > 0) {
+            panel.style.transform = `translateY(${Math.min(deltaY, panel.offsetHeight - 48)}px)`;
+        }
+    }, { passive: true });
+
+    const endTouch = () => {
+        if (!isDraggingSheet || window.innerWidth > 768) return;
+        isDraggingSheet = false;
+        panel.style.transition = '';
+        const deltaY = currentY - startY;
+        if (deltaY > 40) {
+            peekBottomSheet();
+        } else {
+            openBottomSheet();
+        }
+        currentY = startY = 0;
+    };
+
+    handle.addEventListener('touchend', endTouch);
+    handle.addEventListener('touchcancel', endTouch);
+}
+
+function openBottomSheet() {
+    if (window.innerWidth > 768 || !DOM.metadataPanel) return;
+    DOM.metadataPanel.style.transform = '';
+    DOM.metadataPanel.classList.remove('sheet-peek');
+    DOM.metadataPanel.classList.add('sheet-open');
+    document.body.classList.remove('sheet-peek-active');
+    document.body.classList.add('sheet-active');
+}
+
+function peekBottomSheet() {
+    if (window.innerWidth > 768 || !DOM.metadataPanel) return;
+    DOM.metadataPanel.style.transform = '';
+    DOM.metadataPanel.classList.remove('sheet-open');
+    DOM.metadataPanel.classList.add('sheet-peek');
+    document.body.classList.remove('sheet-active');
+    document.body.classList.add('sheet-peek-active');
+}
+
+function closeBottomSheet() {
+    if (!DOM.metadataPanel) return;
+    DOM.metadataPanel.style.transform = '';
+    DOM.metadataPanel.classList.remove('sheet-open', 'sheet-peek');
+    document.body.classList.remove('sheet-active', 'sheet-peek-active');
+}
+
+/**
+ * Infinite Canvas Pan, Zoom & Navigation
  */
 function updateViewport() {
     DOM.viewportGroup.setAttribute('transform', `translate(${state.viewport.x}, ${state.viewport.y}) scale(${state.viewport.scale})`);
 
-    // Manage zoom detail class visibility thresholds
     DOM.viewportGroup.classList.remove('zoom-low', 'zoom-med');
     if (state.viewport.scale < CONFIG.ZOOM_LOW) {
         DOM.viewportGroup.classList.add('zoom-low');
@@ -712,26 +744,24 @@ function fitToScreen() {
     const graphCenterY = (minY + maxY) / 2;
 
     const scaleX = rect.width / graphWidth;
-    const scaleY = rect.height / graphHeight;
+    const scaleY = (window.innerWidth <= 768 ? rect.height * 0.75 : rect.height) / graphHeight;
     const bestScale = Math.min(Math.max(Math.min(scaleX, scaleY), CONFIG.MIN_ZOOM), CONFIG.MAX_ZOOM);
 
     state.viewport.scale = bestScale;
     state.viewport.x = rect.width / 2 - graphCenterX * bestScale;
-    state.viewport.y = rect.height / 2 - graphCenterY * bestScale;
+    state.viewport.y = (window.innerWidth <= 768 ? rect.height * 0.45 : rect.height / 2) - graphCenterY * bestScale;
     updateViewport();
 }
 
-/**
- * Smoothly pan and zoom canvas to center directly on a specific target person node
- */
 function focusNode(id) {
     const target = state.people[id];
     if (!target) return;
 
     const rect = DOM.canvasArea.getBoundingClientRect();
-    const targetScale = Math.max(state.viewport.scale, 1.15); // Ensure high detail zoom level
+    const targetScale = Math.max(state.viewport.scale, 1.15);
     const targetX = rect.width / 2 - target.x * targetScale;
-    const targetY = rect.height / 2 - target.y * targetScale;
+    // On mobile, position node slightly in the top half so bottom sheet doesn't cover it
+    const targetY = (window.innerWidth <= 768 ? rect.height * 0.35 : rect.height / 2) - target.y * targetScale;
 
     animateViewportTo(targetX, targetY, targetScale);
 }
@@ -745,8 +775,6 @@ function animateViewportTo(targetX, targetY, targetScale) {
     function step(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / CONFIG.ANIM_DURATION, 1);
-        
-        // Ease-out cubic calculation
         const ease = 1 - Math.pow(1 - progress, 3);
 
         state.viewport.x = startX + (targetX - startX) * ease;
@@ -762,23 +790,22 @@ function animateViewportTo(targetX, targetY, targetScale) {
 }
 
 /**
- * Event Listeners Configuration
+ * Single-Pointer & Mouse Navigation Event Listeners
  */
 function setupEventListeners() {
-    // Canvas Click & Drag Panning
     DOM.canvasArea.addEventListener('pointerdown', (e) => {
-        if (e.target.closest('.node')) return; // Allow node click to process instead of drag
+        if (e.target.closest('.node') || state.pinch.active || (e.pointerType === 'touch' && e.isPrimary === false)) return;
         state.drag.active = true;
         state.drag.startX = e.clientX;
         state.drag.startY = e.clientY;
         state.drag.panStartX = state.viewport.x;
         state.drag.panStartY = state.viewport.y;
         DOM.canvasArea.classList.add('grabbing');
-        DOM.canvasArea.setPointerCapture(e.pointerId);
+        try { DOM.canvasArea.setPointerCapture(e.pointerId); } catch (err) {}
     });
 
     DOM.canvasArea.addEventListener('pointermove', (e) => {
-        if (!state.drag.active) return;
+        if (!state.drag.active || state.pinch.active) return;
         const dx = e.clientX - state.drag.startX;
         const dy = e.clientY - state.drag.startY;
         state.viewport.x = state.drag.panStartX + dx;
@@ -792,41 +819,36 @@ function setupEventListeners() {
         DOM.canvasArea.classList.remove('grabbing');
         try { DOM.canvasArea.releasePointerCapture(e.pointerId); } catch (err) {}
         
-        // If minimal movement occurred, treat as background click to clear selection
         const moved = Math.hypot(e.clientX - state.drag.startX, e.clientY - state.drag.startY);
-        if (moved < 5) clearSelection();
+        if (moved < 5 && !e.target.closest('.node')) clearSelection();
     };
     DOM.canvasArea.addEventListener('pointerup', endDrag);
     DOM.canvasArea.addEventListener('pointercancel', endDrag);
 
-    // Mouse Wheel / Trackpad Natural Panning and Zooming
+    // Google-Maps Style Trackpad Two-Finger Scrolling and Mouse Wheel Zooming
     DOM.canvasArea.addEventListener('wheel', (e) => {
         e.preventDefault();
 
-        // Trackpad pinch-zoom or Ctrl+Wheel sets ctrlKey true
-        if (e.ctrlKey || e.metaKey) {
-            const zoomFactor = Math.pow(0.99, e.deltaY);
-            const newScale = Math.min(Math.max(state.viewport.scale * zoomFactor, CONFIG.MIN_ZOOM), CONFIG.MAX_ZOOM);
-            const rect = DOM.canvasArea.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+        // Normalize deltas across trackpads (pixel mode) and standard mouse wheels (line mode)
+        let delta = e.deltaY;
+        if (e.deltaMode === 1) delta *= 20;
+        else if (e.deltaMode === 2) delta *= 100;
 
-            state.viewport.x = mouseX - (mouseX - state.viewport.x) * (newScale / state.viewport.scale);
-            state.viewport.y = mouseY - (mouseY - state.viewport.y) * (newScale / state.viewport.scale);
-            state.viewport.scale = newScale;
-            updateViewport();
-        } else {
-            // Standard wheel / two-finger trackpad scrolling pans canvas naturally
-            state.viewport.x -= e.deltaX * 0.9;
-            state.viewport.y -= e.deltaY * 0.9;
-            updateViewport();
-        }
+        const zoomFactor = Math.pow(0.992, delta);
+        const newScale = Math.min(Math.max(state.viewport.scale * zoomFactor, CONFIG.MIN_ZOOM), CONFIG.MAX_ZOOM);
+        const rect = DOM.canvasArea.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        state.viewport.x = mouseX - (mouseX - state.viewport.x) * (newScale / state.viewport.scale);
+        state.viewport.y = mouseY - (mouseY - state.viewport.y) * (newScale / state.viewport.scale);
+        state.viewport.scale = newScale;
+        updateViewport();
     }, { passive: false });
 
-    // UI Zoom Control Buttons
     DOM.btnZoomIn?.addEventListener('click', () => {
         const rect = DOM.canvasArea.getBoundingClientRect();
-        const centerX = rect.width / 2, centerY = rect.height / 2;
+        const centerX = rect.width / 2, centerY = (window.innerWidth <= 768 ? rect.height * 0.4 : rect.height / 2);
         const newScale = Math.min(state.viewport.scale * 1.3, CONFIG.MAX_ZOOM);
         state.viewport.x = centerX - (centerX - state.viewport.x) * (newScale / state.viewport.scale);
         state.viewport.y = centerY - (centerY - state.viewport.y) * (newScale / state.viewport.scale);
@@ -836,7 +858,7 @@ function setupEventListeners() {
 
     DOM.btnZoomOut?.addEventListener('click', () => {
         const rect = DOM.canvasArea.getBoundingClientRect();
-        const centerX = rect.width / 2, centerY = rect.height / 2;
+        const centerX = rect.width / 2, centerY = (window.innerWidth <= 768 ? rect.height * 0.4 : rect.height / 2);
         const newScale = Math.max(state.viewport.scale / 1.3, CONFIG.MIN_ZOOM);
         state.viewport.x = centerX - (centerX - state.viewport.x) * (newScale / state.viewport.scale);
         state.viewport.y = centerY - (centerY - state.viewport.y) * (newScale / state.viewport.scale);
@@ -851,8 +873,80 @@ function setupEventListeners() {
         }
     });
 
-    // Search input prefix auto-complete matching
     setupSearchAutoComplete();
+}
+
+/**
+ * Native Touch Gestures (Multi-touch two-finger pinch-to-zoom & simultaneous panning)
+ */
+function setupTouchGestures() {
+    const canvas = DOM.canvasArea;
+    if (!canvas) return;
+
+    canvas.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.node') && e.touches.length === 1) return;
+        
+        if (e.touches.length >= 2) {
+            e.preventDefault();
+            state.drag.active = false;
+            state.pinch.active = true;
+
+            const t1 = e.touches[0];
+            const t2 = e.touches[1];
+            state.pinch.initialDistance = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+            state.pinch.initialScale = state.viewport.scale;
+            state.pinch.midX = (t1.clientX + t2.clientX) / 2;
+            state.pinch.midY = (t1.clientY + t2.clientY) / 2;
+            state.pinch.panStartX = state.viewport.x;
+            state.pinch.panStartY = state.viewport.y;
+        }
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+        if (!state.pinch.active || e.touches.length < 2) return;
+        e.preventDefault();
+
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+        const currentMidX = (t1.clientX + t2.clientX) / 2;
+        const currentMidY = (t1.clientY + t2.clientY) / 2;
+
+        const scaleRatio = currentDist / (state.pinch.initialDistance || 1);
+        const newScale = Math.min(Math.max(state.pinch.initialScale * scaleRatio, CONFIG.MIN_ZOOM), CONFIG.MAX_ZOOM);
+
+        const rect = canvas.getBoundingClientRect();
+        const initRelX = state.pinch.midX - rect.left;
+        const initRelY = state.pinch.midY - rect.top;
+        const currRelX = currentMidX - rect.left;
+        const currRelY = currentMidY - rect.top;
+
+        const unscaledX = (initRelX - state.pinch.panStartX) / state.pinch.initialScale;
+        const unscaledY = (initRelY - state.pinch.panStartY) / state.pinch.initialScale;
+
+        state.viewport.x = currRelX - unscaledX * newScale;
+        state.viewport.y = currRelY - unscaledY * newScale;
+        state.viewport.scale = newScale;
+        updateViewport();
+    }, { passive: false });
+
+    const endPinch = (e) => {
+        if (!state.pinch.active) return;
+        if (e.touches.length < 2) {
+            state.pinch.active = false;
+            if (e.touches.length === 1) {
+                // Resume single touch panning smoothly without jumping
+                state.drag.active = true;
+                state.drag.startX = e.touches[0].clientX;
+                state.drag.startY = e.touches[0].clientY;
+                state.drag.panStartX = state.viewport.x;
+                state.drag.panStartY = state.viewport.y;
+            }
+        }
+    };
+
+    canvas.addEventListener('touchend', endPinch);
+    canvas.addEventListener('touchcancel', endPinch);
 }
 
 /**
@@ -873,7 +967,6 @@ function setupSearchAutoComplete() {
             return;
         }
 
-        // Prefix match first, then partial match fallback
         const allPeople = Object.values(state.people);
         const prefixMatches = allPeople.filter(p => p.name.toLowerCase().startsWith(query));
         const partialMatches = allPeople.filter(p => !p.name.toLowerCase().startsWith(query) && p.name.toLowerCase().includes(query));
@@ -903,7 +996,6 @@ function setupSearchAutoComplete() {
         selectAndFocusFromSearch(targetId);
     });
 
-    // Keyboard navigation (Arrows + Enter)
     input.addEventListener('keydown', (e) => {
         const items = dropdown.querySelectorAll('.autocomplete-item[data-id]');
         if (items.length === 0) return;
@@ -922,7 +1014,6 @@ function setupSearchAutoComplete() {
                 const id = items[state.search.selectedIndex].getAttribute('data-id');
                 selectAndFocusFromSearch(id);
             } else if (state.search.matches.length > 0) {
-                // Default to top match on Enter
                 selectAndFocusFromSearch(state.search.matches[0].id);
             }
         } else if (e.key === 'Escape') {
@@ -953,4 +1044,7 @@ function selectAndFocusFromSearch(id) {
 
     selectPerson(id);
     focusNode(id);
+    if (window.innerWidth <= 768) {
+        openBottomSheet();
+    }
 }
