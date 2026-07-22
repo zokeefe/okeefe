@@ -428,7 +428,8 @@ function renderGraph() {
             x: CONFIG.NODE_WIDTH / 2,
             y: 32
         });
-        textName.textContent = truncateText(p.name, 22);
+        const nodeDisplayName = p.nickname ? `${p.name} "${p.nickname}"` : p.name;
+        textName.textContent = truncateText(nodeDisplayName, 22);
         nodeGroup.appendChild(textName);
 
         const textDates = createSVGElement('text', {
@@ -654,7 +655,7 @@ function renderMetadata(p) {
         <p class="meta-header">Person Details</p>
         <div class="meta-card">
             <div class="meta-title-bar">
-                <h2 class="meta-name">${p.name}</h2>
+                <h2 class="meta-name">${p.name}${p.nickname ? ` "${p.nickname}"` : ''}</h2>
                 <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
             </div>
             <div class="meta-rows">
@@ -1137,8 +1138,9 @@ function setupSearchAutoComplete() {
         }
 
         const allPeople = Object.values(state.people);
-        const prefixMatches = allPeople.filter(p => p.name.toLowerCase().startsWith(query));
-        const partialMatches = allPeople.filter(p => !p.name.toLowerCase().startsWith(query) && p.name.toLowerCase().includes(query));
+        const getSearchText = p => `${p.name} ${p.nickname || ''}`.toLowerCase();
+        const prefixMatches = allPeople.filter(p => getSearchText(p).startsWith(query));
+        const partialMatches = allPeople.filter(p => !getSearchText(p).startsWith(query) && getSearchText(p).includes(query));
         const matches = [...prefixMatches, ...partialMatches].slice(0, 8);
 
         state.search.matches = matches;
@@ -1150,7 +1152,7 @@ function setupSearchAutoComplete() {
 
         dropdown.innerHTML = matches.map((m, i) => `
             <li class="autocomplete-item" data-index="${i}" data-id="${m.id}">
-                <span>${m.name}</span>
+                <span>${m.nickname ? `${m.name} "${m.nickname}"` : m.name}</span>
                 <span class="item-sub">${m.meta?.birth_year || '?'} – ${m.meta?.death_year || 'Present'} • ${m.meta?.occupation || 'Family Member'}</span>
             </li>
         `).join('');

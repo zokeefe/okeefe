@@ -2,6 +2,7 @@
     {
         "id": "ok-001",
         "name": "James Lake",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -18,6 +19,7 @@
     {
         "id": "ok-002",
         "name": "Susannah Gallop",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -34,6 +36,7 @@
     {
         "id": "ok-003",
         "name": "Michael O'Keefe",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -50,6 +53,7 @@
     {
         "id": "ok-004",
         "name": "Maria Louisa Hefferman",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -66,6 +70,7 @@
     {
         "id": "ok-005",
         "name": "William O'Keefe",
+        "nickname": null,
         "mother": "ok-004",
         "father": "ok-003",
         "gender": "M",
@@ -82,6 +87,7 @@
     {
         "id": "ok-006",
         "name": "Susannah Daly",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -98,6 +104,7 @@
     {
         "id": "ok-007",
         "name": "William Gould",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -114,6 +121,7 @@
     {
         "id": "ok-008",
         "name": "George Edward Lake",
+        "nickname": null,
         "mother": "ok-002",
         "father": "ok-001",
         "gender": "M",
@@ -130,6 +138,7 @@
     {
         "id": "ok-009",
         "name": "Eleanor Hickman",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -146,6 +155,7 @@
     {
         "id": "ok-010",
         "name": "Lucinda Moulton",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -162,6 +172,7 @@
     {
         "id": "ok-011",
         "name": "Charles Leroy (leRoux ?)",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -178,6 +189,7 @@
     {
         "id": "ok-012",
         "name": "James Button",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -194,6 +206,7 @@
     {
         "id": "ok-013",
         "name": "Margaret Price",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -210,6 +223,7 @@
     {
         "id": "ok-014",
         "name": "Amelia Osmond",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -226,6 +240,7 @@
     {
         "id": "ok-015",
         "name": "Phillip Parsons",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -242,6 +257,7 @@
     {
         "id": "ok-016",
         "name": "Phillip Nicholle",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -258,6 +274,7 @@
     {
         "id": "ok-017",
         "name": "Hannah Jane Pardy",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -274,6 +291,7 @@
     {
         "id": "ok-018",
         "name": "George Thomas Lake",
+        "nickname": null,
         "mother": "ok-009",
         "father": "ok-008",
         "gender": "M",
@@ -290,6 +308,7 @@
     {
         "id": "ok-019",
         "name": "Ellen Agnes X",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -306,6 +325,7 @@
     {
         "id": "ok-020",
         "name": "Ellen Leroux",
+        "nickname": null,
         "mother": null,
         "father": "ok-011",
         "gender": "F",
@@ -322,6 +342,7 @@
     {
         "id": "ok-021",
         "name": "Thomas O'Keefe",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -338,6 +359,7 @@
     {
         "id": "ok-022",
         "name": "Lawrence O'Keefe",
+        "nickname": null,
         "mother": "ok-006",
         "father": "ok-005",
         "gender": "M",
@@ -354,6 +376,7 @@
     {
         "id": "ok-023",
         "name": "Bridget Hayden",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -370,6 +393,7 @@
     {
         "id": "ok-024",
         "name": "William Gould",
+        "nickname": null,
         "mother": "ok-010",
         "father": "ok-007",
         "gender": "M",
@@ -386,6 +410,7 @@
     {
         "id": "ok-025",
         "name": "Susannah Mariah Connors",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -402,6 +427,7 @@
     {
         "id": "ok-026",
         "name": "Anne Tarrington",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -418,6 +444,7 @@
     {
         "id": "ok-027",
         "name": "Thomas Butler",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "M",
@@ -434,6 +461,7 @@
     {
         "id": "ok-028",
         "name": "Susannah Parsons",
+        "nickname": null,
         "mother": "ok-014",
         "father": "ok-015",
         "gender": "F",
@@ -450,6 +478,7 @@
     {
         "id": "ok-029",
         "name": "Jacob Button",
+        "nickname": null,
         "mother": "ok-013",
         "father": "ok-012",
         "gender": "M",
@@ -466,6 +495,7 @@
     {
         "id": "ok-030",
         "name": "John Nicolle",
+        "nickname": null,
         "mother": "ok-017",
         "father": "ok-016",
         "gender": "M",
@@ -482,6 +512,7 @@
     {
         "id": "ok-031",
         "name": "Emeline Lake",
+        "nickname": null,
         "mother": "ok-020",
         "father": "ok-018",
         "gender": "F",
@@ -498,6 +529,7 @@
     {
         "id": "ok-032",
         "name": "William O'Keefe",
+        "nickname": null,
         "mother": "ok-023",
         "father": "ok-022",
         "gender": "M",
@@ -514,6 +546,7 @@
     {
         "id": "ok-033",
         "name": "John J O'Keefe",
+        "nickname": null,
         "mother": "ok-019",
         "father": "ok-021",
         "gender": "M",
@@ -530,6 +563,7 @@
     {
         "id": "ok-034",
         "name": "Beatrice Gould",
+        "nickname": null,
         "mother": "ok-025",
         "father": "ok-024",
         "gender": "F",
@@ -546,6 +580,7 @@
     {
         "id": "ok-035",
         "name": "Mary Agnes Butler",
+        "nickname": null,
         "mother": "ok-026",
         "father": "ok-027",
         "gender": "F",
@@ -562,6 +597,7 @@
     {
         "id": "ok-036",
         "name": "Clarence Button",
+        "nickname": null,
         "mother": "ok-028",
         "father": "ok-029",
         "gender": "M",
@@ -578,6 +614,7 @@
     {
         "id": "ok-037",
         "name": "Emma Nicholle",
+        "nickname": null,
         "mother": "ok-031",
         "father": "ok-030",
         "gender": "F",
@@ -594,6 +631,7 @@
     {
         "id": "ok-038",
         "name": "Helen Agnes O'Keefe",
+        "nickname": null,
         "mother": "ok-034",
         "father": "ok-033",
         "gender": "F",
@@ -610,6 +648,7 @@
     {
         "id": "ok-039",
         "name": "Lawrence O'Keefe",
+        "nickname": null,
         "mother": "ok-035",
         "father": "ok-032",
         "gender": "M",
@@ -626,6 +665,7 @@
     {
         "id": "ok-040",
         "name": "Craig O'Keefe",
+        "nickname": null,
         "mother": "ok-038",
         "father": "ok-039",
         "gender": "M",
@@ -642,6 +682,7 @@
     {
         "id": "ok-041",
         "name": "Peggy Button",
+        "nickname": null,
         "mother": "ok-037",
         "father": "ok-036",
         "gender": "F",
@@ -658,6 +699,7 @@
     {
         "id": "ok-042",
         "name": "Zachary O'Keefe",
+        "nickname": null,
         "mother": "ok-041",
         "father": "ok-040",
         "gender": "M",
@@ -674,6 +716,7 @@
     {
         "id": "ok-043",
         "name": "Joshua O'Keefe",
+        "nickname": null,
         "mother": "ok-041",
         "father": "ok-040",
         "gender": "M",
@@ -690,6 +733,7 @@
     {
         "id": "ok-044",
         "name": "Joanna O'Keefe",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -706,6 +750,7 @@
     {
         "id": "ok-045",
         "name": "Quinn O'Keefe",
+        "nickname": null,
         "mother": "ok-044",
         "father": "ok-042",
         "gender": "F",
@@ -722,6 +767,7 @@
     {
         "id": "ok-046",
         "name": "Alyssa O'Keefe",
+        "nickname": null,
         "mother": null,
         "father": null,
         "gender": "F",
@@ -738,6 +784,7 @@
     {
         "id": "ok-047",
         "name": "Bella O'Keefe",
+        "nickname": null,
         "mother": "ok-046",
         "father": "ok-043",
         "gender": "F",
