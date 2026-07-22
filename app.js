@@ -96,6 +96,9 @@ async function loadFamilyTreeData(url) {
         computeHierarchicalLayout();
         renderGraph();
         fitToScreen();
+        
+        // Handle URL hash deep links on load and browser navigation
+        handleInitialURLHash();
     } catch (err) {
         console.error('Failed to load family tree dataset:', err);
         if (DOM.metadataContent) {
@@ -107,6 +110,29 @@ async function loadFamilyTreeData(url) {
             `;
         }
     }
+}
+
+/**
+ * URL Deep Linking & Browser History Navigation
+ */
+function handleInitialURLHash() {
+    const initialId = window.location.hash.replace(/^#/, '').trim();
+    if (initialId && state.people[initialId]) {
+        selectPerson(initialId, false);
+        setTimeout(() => focusNode(initialId), 150);
+    }
+
+    window.addEventListener('hashchange', () => {
+        const id = window.location.hash.replace(/^#/, '').trim();
+        if (id && state.people[id]) {
+            if (state.selectedId !== id) {
+                selectPerson(id, false);
+                focusNode(id);
+            }
+        } else if (!id && state.selectedId) {
+            clearSelection(false);
+        }
+    });
 }
 
 /**
@@ -446,13 +472,17 @@ function truncateText(str, maxLen) {
 /**
  * Node Selection & Precision Ancestry Lineage Highlighting
  */
-function selectPerson(id) {
+function selectPerson(id, updateURL = true) {
     if (state.selectedId === id && window.innerWidth > 768) return;
     
     state.selectedId = id;
     if (!id) {
-        clearSelection();
+        clearSelection(updateURL);
         return;
+    }
+
+    if (updateURL && window.location.hash !== `#${id}`) {
+        try { history.pushState(null, '', `#${id}`); } catch (err) {}
     }
 
     const target = state.people[id];
@@ -570,9 +600,13 @@ function selectPerson(id) {
     }
 }
 
-function clearSelection() {
+function clearSelection(updateURL = true) {
     state.selectedId = null;
     DOM.viewportGroup.classList.remove('has-selection');
+
+    if (updateURL && window.location.hash) {
+        try { history.pushState(null, '', window.location.pathname + window.location.search); } catch (err) {}
+    }
     
     document.querySelectorAll('.node').forEach(n => {
         n.classList.remove('selected', 'dimmed', 'in-ancestry');
