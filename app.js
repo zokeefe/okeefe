@@ -2,7 +2,7 @@
  * O'Keefe Family Tree Visualization Engine
  * Pure Vanilla JavaScript implementation with zero dependencies.
  * Features hierarchical graph layout, infinite canvas navigation, prefix auto-complete search,
- * direct ancestry highlighting, Google Maps style 4-state pull-up card, and multi-touch pinch zoom.
+ * precision ancestry path highlighting, Google Maps style 4-state pull-up card, and unified canvas drag physics.
  */
 
 // Visual Configuration and Zoom Thresholds
@@ -310,6 +310,7 @@ function spaceOutLayer(layer) {
 
 /**
  * Render edges and nodes into SVG
+ * Edges are drawn strictly outside rectangle boundaries and broken into individual child paths
  */
 function renderGraph() {
     DOM.edgesLayer.innerHTML = '';
@@ -319,51 +320,49 @@ function renderGraph() {
         const p1 = state.people[c.p1];
         const p2 = state.people[c.p2];
 
+        // Route couple bar strictly between the outer edges of partner node rectangles
+        const leftEdgeX = Math.min(p1.x, p2.x) + CONFIG.NODE_WIDTH / 2;
+        const rightEdgeX = Math.max(p1.x, p2.x) - CONFIG.NODE_WIDTH / 2;
+
         const couplePath = createSVGElement('path', {
-            d: `M ${p1.x} ${c.y} L ${p2.x} ${c.y}`,
+            d: `M ${leftEdgeX} ${c.y} L ${rightEdgeX} ${c.y}`,
             class: 'edge couple-edge',
             'data-parent1': p1.id,
-            'data-parent2': p2.id
+            'data-parent2': p2.id,
+            'data-type': 'couple'
         });
         DOM.edgesLayer.appendChild(couplePath);
 
         if (c.children.length > 0) {
             const busY = c.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
             
+            // Vertical parent drop from couple midpoint down to generation midway level
             const dropPath = createSVGElement('path', {
                 d: `M ${c.midX} ${c.y} L ${c.midX} ${busY}`,
                 class: 'edge parent-drop',
                 'data-parent1': p1.id,
-                'data-parent2': p2.id
+                'data-parent2': p2.id,
+                'data-type': 'parent-drop'
             });
             DOM.edgesLayer.appendChild(dropPath);
 
-            const childrenX = c.children.map(cid => state.people[cid].x);
-            const minX = Math.min(c.midX, ...childrenX);
-            const maxX = Math.max(c.midX, ...childrenX);
-
-            const busPath = createSVGElement('path', {
-                d: `M ${minX} ${busY} L ${maxX} ${busY}`,
-                class: 'edge bus-line',
-                'data-parent1': p1.id,
-                'data-parent2': p2.id
-            });
-            DOM.edgesLayer.appendChild(busPath);
-
+            // Create individualized orthogonal path segments per child so we can highlight single parent->child traces
             c.children.forEach(cid => {
                 const child = state.people[cid];
-                const childDrop = createSVGElement('path', {
-                    d: `M ${child.x} ${busY} L ${child.x} ${child.y - CONFIG.NODE_HEIGHT / 2}`,
-                    class: 'edge child-drop',
+                const childPath = createSVGElement('path', {
+                    d: `M ${c.midX} ${busY} L ${child.x} ${busY} L ${child.x} ${child.y - CONFIG.NODE_HEIGHT / 2}`,
+                    class: 'edge child-path',
                     'data-parent1': p1.id,
                     'data-parent2': p2.id,
-                    'data-child': cid
+                    'data-child': cid,
+                    'data-type': 'child-path'
                 });
-                DOM.edgesLayer.appendChild(childDrop);
+                DOM.edgesLayer.appendChild(childPath);
             });
         }
     });
 
+    // Single parent connections (parents without documented partner in dataset)
     Object.values(state.people).forEach(p => {
         p.children.forEach(cid => {
             const child = state.people[cid];
@@ -374,13 +373,15 @@ function renderGraph() {
                     d: `M ${p.x} ${p.y + CONFIG.NODE_HEIGHT / 2} L ${p.x} ${busY} L ${child.x} ${busY} L ${child.x} ${child.y - CONFIG.NODE_HEIGHT / 2}`,
                     class: 'edge single-parent-edge',
                     'data-parent1': p.id,
-                    'data-child': cid
+                    'data-child': cid,
+                    'data-type': 'child-path'
                 });
                 DOM.edgesLayer.appendChild(path);
             }
         });
     });
 
+    // Draw Node Rectangles
     Object.values(state.people).forEach(p => {
         const nodeGroup = createSVGElement('g', {
             id: `node-${p.id}`,
@@ -423,10 +424,9 @@ function renderGraph() {
         textMeta.textContent = truncateText(metaDetail, 28);
         nodeGroup.appendChild(textMeta);
 
-        nodeGroup.addEventListener('click', (e) => {
-            e.stopPropagation();
-            selectPerson(p.id);
-        });
+        // NOTE: Individual node click events are intentionally omitted here.
+        // Unified interaction is managed centrally in pointerup/touchend on the canvas area
+        // to permit click-and-drag map panning directly over node surfaces.
 
         DOM.nodesLayer.appendChild(nodeGroup);
     });
@@ -444,7 +444,7 @@ function truncateText(str, maxLen) {
 }
 
 /**
- * Node Selection & Ancestry Lineage Highlighting
+ * Node Selection & Precision Ancestry Lineage Highlighting
  */
 function selectPerson(id) {
     if (state.selectedId === id && window.innerWidth > 768) return;
@@ -501,31 +501,70 @@ function selectPerson(id) {
         }
     });
 
+    // Precision Edge Highlighting: Only highlight single paths directly traversing the lineage
     const edges = DOM.edgesLayer.querySelectorAll('.edge');
     edges.forEach(edge => {
         const p1 = edge.getAttribute('data-parent1');
         const p2 = edge.getAttribute('data-parent2');
         const child = edge.getAttribute('data-child');
+        const type = edge.getAttribute('data-type');
 
         edge.classList.remove('ancestor-edge', 'descendant-edge', 'dimmed');
 
-        const isAncestorLink = (child ? (child === id || ancestors.has(child)) : true) && 
-                               ((p1 && (p1 === id || ancestors.has(p1))) || (p2 && (p2 === id || ancestors.has(p2))));
-        const isDescendantLink = (child ? (child === id || descendants.has(child)) : false) || 
-                                 (!child && ((p1 && (p1 === id || descendants.has(p1))) || (p2 && (p2 === id || descendants.has(p2)))));
+        // Determine if an individual child path is in the ancestor or descendant lineage
+        const isChildAnc = child && (child === id || ancestors.has(child)) && ((p1 && ancestors.has(p1)) || (p2 && ancestors.has(p2)) || (child === id && ((p1 && ancestors.has(p1)) || (p2 && ancestors.has(p2)))));
+        const isChildDesc = child && (descendants.has(child)) && ((p1 && (p1 === id || descendants.has(p1))) || (p2 && (p2 === id || descendants.has(p2))));
 
-        if (isAncestorLink && (child ? ancestors.has(child) || child === id : (ancestors.has(p1) || ancestors.has(p2)))) {
-            edge.classList.add('ancestor-edge');
-        } else if (isDescendantLink && (child ? descendants.has(child) : true)) {
-            edge.classList.add('descendant-edge');
-        } else {
-            edge.classList.add('dimmed');
+        if (type === 'child-path') {
+            if (isChildAnc || (child === id && (ancestors.has(p1) || ancestors.has(p2)))) {
+                edge.classList.add('ancestor-edge');
+            } else if (isChildDesc) {
+                edge.classList.add('descendant-edge');
+            } else {
+                edge.classList.add('dimmed');
+            }
+            return;
         }
+
+        // For parent drops and couple partnership bars, highlight if any associated child in the lineage connects through here
+        const coupleAnc = (p1 && (p1 === id || ancestors.has(p1))) && (p2 && (p2 === id || ancestors.has(p2)));
+        const parentDropAnc = ancestors.has(p1) || ancestors.has(p2);
+        const parentDropDesc = (p1 === id || descendants.has(p1)) || (p2 === id || descendants.has(p2));
+
+        // Search if any active child in direct ancestry shares this parent combination
+        let hasAncChild = false, hasDescChild = false;
+        if (p1 || p2) {
+            const childrenList = state.people[p1]?.children || state.people[p2]?.children || [];
+            hasAncChild = childrenList.some(cid => cid === id || ancestors.has(cid));
+            hasDescChild = childrenList.some(cid => descendants.has(cid));
+        }
+
+        if (type === 'parent-drop') {
+            if (hasAncChild && parentDropAnc) {
+                edge.classList.add('ancestor-edge');
+            } else if (hasDescChild && parentDropDesc) {
+                edge.classList.add('descendant-edge');
+            } else {
+                edge.classList.add('dimmed');
+            }
+            return;
+        }
+
+        if (type === 'couple') {
+            if ((hasAncChild && parentDropAnc) || coupleAnc) {
+                edge.classList.add('ancestor-edge');
+            } else if (hasDescChild && parentDropDesc) {
+                edge.classList.add('descendant-edge');
+            } else {
+                edge.classList.add('dimmed');
+            }
+            return;
+        }
+
+        edge.classList.add('dimmed');
     });
 
     renderMetadata(target);
-    
-    // On mobile, selecting a node default opens the bottom sheet in Medium (~50%) state
     if (window.innerWidth <= 768) {
         setSheetState('medium');
     }
@@ -636,15 +675,13 @@ function renderMetadata(p) {
 
 /**
  * Google Maps Style 4-State Mobile Bottom Sheet Controller
- * States: 'hidden' (0%), 'minimized' (~11%), 'medium' (50%), 'expanded' (~92% with scroll)
  */
 function getSnapOffsets() {
     const H = window.innerHeight;
     const panel = DOM.metadataPanel;
     const cardH = panel ? (panel.offsetHeight || H * 0.92) : (H * 0.92);
     
-    // Calculate visible height targets in pixels
-    const minimizedVisH = Math.max(96, H * 0.11); // ~11% screen or enough for handle + name badge
+    const minimizedVisH = Math.max(96, H * 0.11); // ~11% screen height (grab handle + title bar)
     const mediumVisH = H * 0.50;                 // 50% screen height
     const expandedVisH = cardH;                  // 92% screen height (0px translate)
 
@@ -662,13 +699,12 @@ function setSheetState(newState) {
     if (!panel) return;
 
     state.sheet.current = newState;
-    panel.style.transition = ''; // restore CSS transition
+    panel.style.transition = ''; // Restore CSS spring transition
 
     const offsets = getSnapOffsets();
     const targetOffset = offsets[newState] ?? offsets.hidden;
     panel.style.transform = `translateY(${targetOffset}px)`;
 
-    // Enable internal scrolling ONLY when in 'expanded' state
     if (newState === 'expanded') {
         panel.style.overflowY = 'auto';
     } else {
@@ -676,7 +712,6 @@ function setSheetState(newState) {
         if (panel.scrollTop !== 0) panel.scrollTop = 0;
     }
 
-    // Update body classes for dynamic zoom controls positioning
     document.body.classList.remove('sheet-hidden', 'sheet-minimized', 'sheet-medium', 'sheet-expanded');
     document.body.classList.add(`sheet-${newState}`);
 }
@@ -685,28 +720,19 @@ function setupMobileBottomSheet() {
     const panel = DOM.metadataPanel;
     if (!panel) return;
 
-    let startY = 0;
-    let startX = 0;
-    let currentY = 0;
-    let startTranslateY = 0;
-    let startScrollTop = 0;
-    let isDraggingSheet = false;
-    let touchStartedOnCard = false;
+    let startY = 0, startX = 0, currentY = 0;
+    let startTranslateY = 0, startScrollTop = 0;
+    let isDraggingSheet = false, touchStartedOnCard = false;
 
-    // Tap behaviour on title header or handle bar
     panel.addEventListener('click', (e) => {
         if (window.innerWidth > 768) return;
-        
-        // Don't interfere with active hyperlinks or buttons
         if (e.target.closest('.meta-link') || e.target.closest('a') || e.target.closest('button')) return;
 
-        // When minimized, tapping anywhere on the compressed header opens to medium
         if (state.sheet.current === 'minimized') {
             setSheetState('medium');
             return;
         }
 
-        // When medium or expanded, tapping the grab handle toggles state
         if (e.target.closest('#sheet-handle') || e.target.closest('.meta-title-bar')) {
             if (state.sheet.current === 'medium') {
                 setSheetState('expanded');
@@ -716,7 +742,6 @@ function setupMobileBottomSheet() {
         }
     });
 
-    // Touch down anywhere on the card area initiates pull eligibility
     panel.addEventListener('touchstart', (e) => {
         if (window.innerWidth > 768 || e.touches.length > 1) return;
         
@@ -730,7 +755,6 @@ function setupMobileBottomSheet() {
         startTranslateY = offsets[state.sheet.current] ?? offsets.hidden;
     }, { passive: false });
 
-    // Touch move evaluates whether to drag the sheet or allow inner text scrolling
     panel.addEventListener('touchmove', (e) => {
         if (!touchStartedOnCard || window.innerWidth > 768 || e.touches.length > 1) return;
 
@@ -738,20 +762,17 @@ function setupMobileBottomSheet() {
         const deltaY = currentY - startY;
         const deltaX = e.touches[0].clientX - startX;
 
-        // Ignore mostly horizontal gestures (e.g., text selection or horizontal swipes)
         if (!isDraggingSheet && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 8) {
             touchStartedOnCard = false;
             return;
         }
 
-        // In 'expanded' state, allow native inner content scrolling unless pulling down from top edge
         if (state.sheet.current === 'expanded') {
             if (startScrollTop > 0 || (startScrollTop <= 0 && deltaY <= 0)) {
-                return; // Native internal text scroll takes over
+                return; // Native internal scroll takes over in expanded state
             }
         }
 
-        // Otherwise, drag the physical card smoothly with the finger
         if (Math.abs(deltaY) > 6 || isDraggingSheet) {
             isDraggingSheet = true;
             if (e.cancelable) e.preventDefault();
@@ -771,30 +792,19 @@ function setupMobileBottomSheet() {
         panel.style.transition = '';
         const deltaY = currentY - startY;
 
-        // Snapping logic based on swipe distance and direction
         if (Math.abs(deltaY) > 35) {
             if (deltaY > 0) {
-                // Dragging Down
-                if (state.sheet.current === 'expanded') {
-                    setSheetState('medium');
-                } else if (state.sheet.current === 'medium') {
-                    setSheetState('minimized');
-                } else if (state.sheet.current === 'minimized') {
-                    // Swiping down past minimized closes card & clears selection
-                    clearSelection();
-                }
+                // Dragging Downward
+                if (state.sheet.current === 'expanded') setSheetState('medium');
+                else if (state.sheet.current === 'medium') setSheetState('minimized');
+                else if (state.sheet.current === 'minimized') clearSelection();
             } else {
-                // Dragging Up
-                if (state.sheet.current === 'minimized') {
-                    setSheetState('medium');
-                } else if (state.sheet.current === 'medium') {
-                    setSheetState('expanded');
-                } else if (state.sheet.current === 'hidden') {
-                    setSheetState('medium');
-                }
+                // Dragging Upward
+                if (state.sheet.current === 'minimized') setSheetState('medium');
+                else if (state.sheet.current === 'medium') setSheetState('expanded');
+                else if (state.sheet.current === 'hidden') setSheetState('medium');
             }
         } else {
-            // Re-snap to current state if gesture was brief
             setSheetState(state.sheet.current);
         }
         currentY = startY = 0;
@@ -854,7 +864,6 @@ function focusNode(id) {
     const rect = DOM.canvasArea.getBoundingClientRect();
     const targetScale = Math.max(state.viewport.scale, 1.15);
     const targetX = rect.width / 2 - target.x * targetScale;
-    // Position target node slightly in top half on mobile to sit above medium bottom sheet
     const targetY = (window.innerWidth <= 768 ? rect.height * 0.32 : rect.height / 2) - target.y * targetScale;
 
     animateViewportTo(targetX, targetY, targetScale);
@@ -884,16 +893,22 @@ function animateViewportTo(targetX, targetY, targetScale) {
 }
 
 /**
- * Single-Pointer & Mouse Navigation Event Listeners
+ * Unified Canvas Navigation & Node Click Evaluator
+ * Permits dragging the map from ANY starting surface (including node boxes)
  */
 function setupEventListeners() {
     DOM.canvasArea.addEventListener('pointerdown', (e) => {
-        if (e.target.closest('.node') || state.pinch.active || (e.pointerType === 'touch' && e.isPrimary === false)) return;
+        if (state.pinch.active || (e.pointerType === 'touch' && e.isPrimary === false)) return;
         state.drag.active = true;
         state.drag.startX = e.clientX;
         state.drag.startY = e.clientY;
         state.drag.panStartX = state.viewport.x;
         state.drag.panStartY = state.viewport.y;
+
+        // Capture initial node box under cursor before setPointerCapture re-routes e.target
+        const targetNode = e.target.closest('.node');
+        state.drag.startNodeId = targetNode?.getAttribute('data-id') || null;
+
         DOM.canvasArea.classList.add('grabbing');
         try { DOM.canvasArea.setPointerCapture(e.pointerId); } catch (err) {}
     });
@@ -913,8 +928,27 @@ function setupEventListeners() {
         DOM.canvasArea.classList.remove('grabbing');
         try { DOM.canvasArea.releasePointerCapture(e.pointerId); } catch (err) {}
         
+        // Measure displacement between pointerdown and pointerup
         const moved = Math.hypot(e.clientX - state.drag.startX, e.clientY - state.drag.startY);
-        if (moved < 5 && !e.target.closest('.node')) clearSelection();
+        
+        // If displacement >= 6 pixels, treat strictly as a map pan/drag interaction!
+        if (moved >= 6) {
+            state.drag.startNodeId = null;
+            return;
+        }
+
+        // Otherwise (< 6px), evaluate as a deliberate tap / click interaction.
+        // Because setPointerCapture forces e.target to be canvasArea, we check elementFromPoint or our recorded startNodeId.
+        const elUnderCursor = document.elementFromPoint(e.clientX, e.clientY);
+        const nodeUnderCursor = elUnderCursor?.closest('.node');
+        const id = nodeUnderCursor?.getAttribute('data-id') || state.drag.startNodeId;
+
+        state.drag.startNodeId = null;
+        if (id) {
+            selectPerson(id);
+        } else {
+            clearSelection();
+        }
     };
     DOM.canvasArea.addEventListener('pointerup', endDrag);
     DOM.canvasArea.addEventListener('pointercancel', endDrag);
@@ -963,7 +997,6 @@ function setupEventListeners() {
 
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
-            // Restore static sidebar appearance on desktop resize
             if (DOM.metadataPanel) {
                 DOM.metadataPanel.style.transform = '';
                 DOM.metadataPanel.style.overflowY = '';
@@ -989,8 +1022,6 @@ function setupTouchGestures() {
     if (!canvas) return;
 
     canvas.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.node') && e.touches.length === 1) return;
-        
         if (e.touches.length >= 2) {
             e.preventDefault();
             state.drag.active = false;

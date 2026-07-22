@@ -53,9 +53,10 @@
     --descendant-edge-width: 3.5px;
     --selected-node-border: #7c3aed;   /* Purple ring for active selection */
 
-    /* Dimmed / Saturation-reduced state for non-ancestry elements */
-    --dimmed-opacity: 0.25;
-    --dimmed-filter: grayscale(80%);
+    /* Dimmed states for non-ancestry elements */
+    --dimmed-node-opacity: 0.35;
+    --dimmed-edge-opacity: 0.12;
+    --dimmed-filter: grayscale(90%);
 
     /* Form & Interactive Controls */
     --input-bg: #ffffff;
@@ -364,7 +365,7 @@ html, body {
     background-size: 32px 32px;
     overflow: hidden;
     cursor: grab;
-    touch-action: none; /* Essential for mobile pinch/drag gesture control */
+    touch-action: none;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -401,16 +402,20 @@ html, body {
 }
 
 .node {
-    cursor: pointer;
+    cursor: grab; /* Shows consistent draggable behavior across the entire canvas */
     transition: opacity 0.25s ease, filter 0.25s ease;
     -webkit-tap-highlight-color: transparent;
+}
+
+.canvas-area.grabbing .node {
+    cursor: grabbing;
 }
 
 .node-box {
     stroke-width: 2px;
     rx: var(--border-radius-md);
     filter: drop-shadow(0 4px 8px var(--node-shadow));
-    transition: all 0.2s ease;
+    transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
 .node.M .node-box {
@@ -426,7 +431,6 @@ html, body {
 .node:hover .node-box {
     stroke-width: 3px;
     filter: drop-shadow(0 8px 16px var(--node-shadow-hover));
-    transform: translateY(-1px);
 }
 
 .node.selected .node-box {
@@ -467,9 +471,13 @@ html, body {
 }
 
 /* Greying-out / Saturation reduction */
-.has-selection .node.dimmed,
+.has-selection .node.dimmed {
+    opacity: var(--dimmed-node-opacity);
+    filter: var(--dimmed-filter);
+}
+
 .has-selection .edge.dimmed {
-    opacity: var(--dimmed-opacity);
+    opacity: var(--dimmed-edge-opacity);
     filter: var(--dimmed-filter);
 }
 
@@ -640,7 +648,7 @@ html, body {
 
     #search-input {
         padding: 8px 10px;
-        font-size: 15px; /* Preventing iOS zoom-on-focus */
+        font-size: 15px;
         border: none;
         background: transparent;
     }
@@ -658,7 +666,7 @@ html, body {
         left: 0;
         right: 0;
         width: 100%;
-        height: 92vh; /* Physical height matched to expanded state (~92% screen) */
+        height: 92vh;
         max-height: 92vh;
         background: var(--sidebar-bg);
         border-top: 1px solid var(--sidebar-border);
@@ -666,10 +674,10 @@ html, body {
         border-top-right-radius: 24px;
         box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
         padding: 0 20px 28px 20px;
-        overflow-y: hidden; /* Dynamically set to auto when in 'expanded' state */
+        overflow-y: hidden;
         overscroll-behavior: contain;
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        transform: translateY(100%); /* Hidden state by default */
+        transform: translateY(100%);
         z-index: 30;
     }
 
