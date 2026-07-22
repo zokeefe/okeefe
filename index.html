@@ -1,8 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'Keefe Family Tree Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
+    <div class="app-container">
+        <!-- Left Section (20%): Logo, Search, and Dynamic Metadata -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="logo.webp" alt="O'Keefe Family Logo">
+            </div>
 
-<h1>okeefe</h1>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Search family member by name..." 
+                    autocomplete="off" 
+                    spellcheck="false">
+                <ul id="autocomplete-dropdown" class="autocomplete-dropdown"></ul>
+            </div>
 
+            <section id="metadata-panel" class="metadata-panel">
+                <p class="meta-header">Dynamic Metadata</p>
+                <div class="meta-placeholder">
+                    Select any person from the family tree graph or use the search bar above to inspect details and illuminate direct lineage.
+                </div>
+            </section>
+        </aside>
+
+        <!-- Right Section (80%): Infinite Canvas & Tree Graph -->
+        <main id="canvas-area" class="canvas-area">
+            <svg id="graph-svg" class="graph-svg">
+                <g id="viewport-group">
+                    <g id="edges-layer"></g>
+                    <g id="nodes-layer"></g>
+                </g>
+            </svg>
+
+            <!-- Lineage & Node Legend -->
+            <div class="legend">
+                <span class="legend-title">Legend</span>
+                <div class="legend-item">
+                    <span class="legend-box m"></span>
+                    <span>Male Node</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-box f"></span>
+                    <span>Female Node</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-line anc"></span>
+                    <span>Direct Ancestors</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-line desc"></span>
+                    <span>Direct Descendants</span>
+                </div>
+            </div>
+
+            <!-- Canvas Zoom & Fit Navigation -->
+            <div class="zoom-controls">
+                <button id="btn-zoom-in" class="zoom-btn" title="Zoom In" aria-label="Zoom In">+</button>
+                <button id="btn-zoom-out" class="zoom-btn" title="Zoom Out" aria-label="Zoom Out">−</button>
+                <button id="btn-zoom-fit" class="zoom-btn" title="Fit Tree to Screen" aria-label="Fit Tree to Screen">⛶</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>

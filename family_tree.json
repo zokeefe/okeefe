@@ -1,0 +1,322 @@
+[
+    {
+        "id": "ok-001",
+        "name": "Cornelius O'Keefe",
+        "mother": null,
+        "father": null,
+        "gender": "M",
+        "meta": {
+            "birth_year": 1862,
+            "death_year": 1934,
+            "birthday": "March 14, 1862",
+            "occupation": "Master Cooper",
+            "country_of_residence": "Ireland / United States",
+            "town_of_residence": "Boston, MA (from Co. Cork)",
+            "about": "Emigrated from County Cork, Ireland in 1886 during the late 19th century industrial boom. Founded a successful cooperage in South Boston supplying maritime and local merchant industries."
+        }
+    },
+    {
+        "id": "ok-002",
+        "name": "Mary O'Shea",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1865,
+            "death_year": 1941,
+            "birthday": "November 2, 1865",
+            "occupation": "Homemaker & Community Organizer",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Originally from County Kerry, Mary met Cornelius in Boston. Known for her extensive charitable work with immigrant mutual aid societies in New England."
+        }
+    },
+    {
+        "id": "ok-003",
+        "name": "Thomas O'Keefe",
+        "mother": "ok-002",
+        "father": "ok-001",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1890,
+            "death_year": 1971,
+            "birthday": "June 18, 1890",
+            "occupation": "Railway Engineer",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Served as a chief mechanical engineer for the Boston and Maine Railroad. Passionate amateur astronomer and woodworker."
+        }
+    },
+    {
+        "id": "ok-004",
+        "name": "Bridget O'Keefe",
+        "mother": "ok-002",
+        "father": "ok-001",
+        "gender": "F",
+        "meta": {
+            "birth_year": 1893,
+            "death_year": 1980,
+            "birthday": "September 5, 1893",
+            "occupation": "Surgical Nurse",
+            "country_of_residence": "United States",
+            "town_of_residence": "Chicago, IL",
+            "about": "Pioneered early surgical nursing protocols at Cook County Hospital during and after World War I. Avid world traveler and watercolor artist."
+        }
+    },
+    {
+        "id": "ok-005",
+        "name": "Patrick O'Keefe",
+        "mother": "ok-002",
+        "father": "ok-001",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1897,
+            "death_year": 1968,
+            "birthday": "December 12, 1897",
+            "occupation": "Architect",
+            "country_of_residence": "United States",
+            "town_of_residence": "New York, NY",
+            "about": "Designed prominent Art Deco commercial and civic buildings across New York and the mid-Atlantic states during the 1920s and 1930s."
+        }
+    },
+    {
+        "id": "ok-006",
+        "name": "Margaret Sullivan",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1895,
+            "death_year": 1982,
+            "birthday": "April 22, 1895",
+            "occupation": "Literature Teacher",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Taught American and British literature at Boston public high schools for over four decades. Wrote several essays on Transcendentalist philosophy."
+        }
+    },
+    {
+        "id": "ok-007",
+        "name": "Eleanor Vance",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1900,
+            "death_year": 1985,
+            "birthday": "July 9, 1900",
+            "occupation": "Botanical Illustrator",
+            "country_of_residence": "United States",
+            "town_of_residence": "New York, NY",
+            "about": "Renowned for intricate floral and landscape illustrations published in scientific journals and nature encyclopedias."
+        }
+    },
+    {
+        "id": "ok-008",
+        "name": "James O'Keefe",
+        "mother": "ok-006",
+        "father": "ok-003",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1922,
+            "death_year": 2004,
+            "birthday": "January 15, 1922",
+            "occupation": "Professor of History",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Professor of Early American History at Harvard University. Author of award-winning historical studies on New England maritime commerce."
+        }
+    },
+    {
+        "id": "ok-009",
+        "name": "Kathleen O'Keefe",
+        "mother": "ok-006",
+        "father": "ok-003",
+        "gender": "F",
+        "meta": {
+            "birth_year": 1925,
+            "death_year": 2011,
+            "birthday": "August 30, 1925",
+            "occupation": "Investigative Journalist",
+            "country_of_residence": "United States",
+            "town_of_residence": "San Francisco, CA",
+            "about": "Covered mid-century civic architecture and environmental preservation across the West Coast for prominent California news publications."
+        }
+    },
+    {
+        "id": "ok-010",
+        "name": "Michael O'Keefe",
+        "mother": "ok-007",
+        "father": "ok-005",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1928,
+            "death_year": 2015,
+            "birthday": "October 3, 1928",
+            "occupation": "Structural & Civil Engineer",
+            "country_of_residence": "United States",
+            "town_of_residence": "Seattle, WA",
+            "about": "Specialized in long-span suspension bridge design and earthquake-resilient infrastructure in the Pacific Northwest."
+        }
+    },
+    {
+        "id": "ok-011",
+        "name": "Dr. Helen Miller",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1924,
+            "death_year": 2008,
+            "birthday": "February 19, 1924",
+            "occupation": "Pediatrician",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Dedicated pediatrician at Children's Hospital Boston, active innovator in children's vaccine outreach and community healthcare."
+        }
+    },
+    {
+        "id": "ok-012",
+        "name": "Clara Evans",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1930,
+            "death_year": 2020,
+            "birthday": "May 28, 1930",
+            "occupation": "Research Botanist",
+            "country_of_residence": "United States",
+            "town_of_residence": "Seattle, WA",
+            "about": "Curator and researcher at Pacific Northwest botanical conservatories, focusing on alpine ecology and rare fern conservation."
+        }
+    },
+    {
+        "id": "ok-013",
+        "name": "Robert O'Keefe",
+        "mother": "ok-011",
+        "father": "ok-008",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1955,
+            "death_year": null,
+            "birthday": "November 11, 1955",
+            "occupation": "Software Systems Architect",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Early pioneer in relational database architectures and distributed networking during the rise of computing in Route 128 tech corridors."
+        }
+    },
+    {
+        "id": "ok-014",
+        "name": "Dr. Maureen O'Keefe",
+        "mother": "ok-011",
+        "father": "ok-008",
+        "gender": "F",
+        "meta": {
+            "birth_year": 1958,
+            "death_year": null,
+            "birthday": "July 24, 1958",
+            "occupation": "Environmental Scientist",
+            "country_of_residence": "United States",
+            "town_of_residence": "Denver, CO",
+            "about": "Leads atmospheric research studies and mountain watershed conservation programs across the Rocky Mountain region."
+        }
+    },
+    {
+        "id": "ok-015",
+        "name": "Dr. Brendan O'Keefe",
+        "mother": "ok-012",
+        "father": "ok-010",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1962,
+            "death_year": null,
+            "birthday": "March 8, 1962",
+            "occupation": "Oceanographer",
+            "country_of_residence": "United States",
+            "town_of_residence": "Seattle, WA",
+            "about": "Conducts deep-sea sonar mapping and hydrothermal vent ecosystems research in the North Pacific and Arctic oceans."
+        }
+    },
+    {
+        "id": "ok-016",
+        "name": "Dr. Sarah Jenkins",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1957,
+            "death_year": null,
+            "birthday": "September 14, 1957",
+            "occupation": "Clinical Psychologist",
+            "country_of_residence": "United States",
+            "town_of_residence": "Boston, MA",
+            "about": "Specializes in cognitive behavioral interventions and resilience training for healthcare practitioners."
+        }
+    },
+    {
+        "id": "ok-017",
+        "name": "Dr. Laura Chen",
+        "mother": null,
+        "father": null,
+        "gender": "F",
+        "meta": {
+            "birth_year": 1965,
+            "death_year": null,
+            "birthday": "December 1, 1965",
+            "occupation": "Marine Biologist",
+            "country_of_residence": "United States",
+            "town_of_residence": "Seattle, WA",
+            "about": "Investigates kelp forest restoration and marine biodiversity along the Puget Sound and Pacific coastline."
+        }
+    },
+    {
+        "id": "ok-018",
+        "name": "Liam O'Keefe",
+        "mother": "ok-016",
+        "father": "ok-013",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1988,
+            "death_year": null,
+            "birthday": "February 3, 1988",
+            "occupation": "AI Research Scientist",
+            "country_of_residence": "United States",
+            "town_of_residence": "San Francisco, CA",
+            "about": "Develops large-scale machine learning systems, natural language reasoning models, and agentic coding assistance tools."
+        }
+    },
+    {
+        "id": "ok-019",
+        "name": "Siobhan O'Keefe",
+        "mother": "ok-016",
+        "father": "ok-013",
+        "gender": "F",
+        "meta": {
+            "birth_year": 1991,
+            "death_year": null,
+            "birthday": "April 17, 1991",
+            "occupation": "Data Scientist",
+            "country_of_residence": "United States",
+            "town_of_residence": "Austin, TX",
+            "about": "Leads real-time spatial data telemetry and predictive analytics platforms for sustainable urban mobility networks."
+        }
+    },
+    {
+        "id": "ok-020",
+        "name": "Declan O'Keefe",
+        "mother": "ok-017",
+        "father": "ok-015",
+        "gender": "M",
+        "meta": {
+            "birth_year": 1994,
+            "death_year": null,
+            "birthday": "October 29, 1994",
+            "occupation": "Renewable Energy Engineer",
+            "country_of_residence": "United States",
+            "town_of_residence": "Seattle, WA",
+            "about": "Designs offshore wind turbines and tidal power integration systems for Pacific island and coastal communities."
+        }
+    }
+]
