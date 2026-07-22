@@ -10,9 +10,15 @@
             "birth_year": 1775,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -27,9 +33,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -44,9 +56,15 @@
             "birth_year": 1778,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Fogo",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Fogo"
+            },
             "about": null
         }
     },
@@ -61,9 +79,15 @@
             "birth_year": 1792,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -78,9 +102,15 @@
             "birth_year": 1816,
             "death_year": 1899,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Keefe's Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Keefe's Cove"
+            },
             "about": null
         }
     },
@@ -95,9 +125,15 @@
             "birth_year": 1825,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -112,9 +148,15 @@
             "birth_year": 1827,
             "death_year": 1884,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -129,9 +171,15 @@
             "birth_year": 1830,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -146,9 +194,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -163,9 +217,15 @@
             "birth_year": 1833,
             "death_year": 1903,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -180,9 +240,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -197,9 +263,15 @@
             "birth_year": 1841,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -214,9 +286,15 @@
             "birth_year": 1845,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -231,9 +309,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -248,9 +332,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -265,9 +355,15 @@
             "birth_year": 1852,
             "death_year": 1917,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -282,9 +378,15 @@
             "birth_year": 1855,
             "death_year": 1929,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -299,9 +401,15 @@
             "birth_year": 1855,
             "death_year": 1885,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -316,9 +424,15 @@
             "birth_year": 1861,
             "death_year": 1923,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -333,9 +447,15 @@
             "birth_year": 1861,
             "death_year": 1890,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Burgeo",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Burgeo"
+            },
             "about": null
         }
     },
@@ -350,9 +470,15 @@
             "birth_year": null,
             "death_year": 1901,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Pouch Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Pouch Cove"
+            },
             "about": null
         }
     },
@@ -367,9 +493,15 @@
             "birth_year": 1863,
             "death_year": 1925,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Keefe's Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Keefe's Cove"
+            },
             "about": null
         }
     },
@@ -384,9 +516,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -401,9 +539,15 @@
             "birth_year": 1867,
             "death_year": 1956,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -418,9 +562,15 @@
             "birth_year": 1875,
             "death_year": 1962,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -435,9 +585,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -452,9 +608,15 @@
             "birth_year": null,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -469,9 +631,15 @@
             "birth_year": 1878,
             "death_year": 1969,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "St. John's",
+            "residence_location": {
+                "country": "Canada",
+                "town": "St. John's"
+            },
             "about": null
         }
     },
@@ -486,9 +654,15 @@
             "birth_year": 1878,
             "death_year": 1958,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "St. John's",
+            "residence_location": {
+                "country": "Canada",
+                "town": "St. John's"
+            },
             "about": null
         }
     },
@@ -503,9 +677,15 @@
             "birth_year": 1884,
             "death_year": 1958,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Grand Bank",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Grand Bank"
+            },
             "about": null
         }
     },
@@ -520,9 +700,15 @@
             "birth_year": 1885,
             "death_year": 1973,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Grand Bank",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Grand Bank"
+            },
             "about": null
         }
     },
@@ -537,9 +723,15 @@
             "birth_year": 1889,
             "death_year": 1949,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Keefe's Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Keefe's Cove"
+            },
             "about": null
         }
     },
@@ -554,9 +746,15 @@
             "birth_year": 1895,
             "death_year": 1965,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Pouch Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Pouch Cove"
+            },
             "about": null
         }
     },
@@ -571,9 +769,15 @@
             "birth_year": 1898,
             "death_year": 1985,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "St. John's",
+            "residence_location": {
+                "country": "Canada",
+                "town": "St. John's"
+            },
             "about": null
         }
     },
@@ -588,9 +792,15 @@
             "birth_year": 1904,
             "death_year": 1948,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": null,
-            "town_of_residence": null,
+            "residence_location": {
+                "country": null,
+                "town": null
+            },
             "about": null
         }
     },
@@ -605,9 +815,15 @@
             "birth_year": 1916,
             "death_year": 2004,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "St. John's",
+            "residence_location": {
+                "country": "Canada",
+                "town": "St. John's"
+            },
             "about": null
         }
     },
@@ -622,9 +838,15 @@
             "birth_year": 1922,
             "death_year": 2009,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Grand Bank",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Grand Bank"
+            },
             "about": null
         }
     },
@@ -639,9 +861,15 @@
             "birth_year": 1936,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Pouch Cove",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Pouch Cove"
+            },
             "about": null
         }
     },
@@ -656,9 +884,15 @@
             "birth_year": 1938,
             "death_year": 2018,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Harbor Grace",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Harbor Grace"
+            },
             "about": "\"Skipper\""
         }
     },
@@ -673,9 +907,15 @@
             "birth_year": 1961,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "St. John's",
+            "residence_location": {
+                "country": "Canada",
+                "town": "St. John's"
+            },
             "about": null
         }
     },
@@ -690,9 +930,15 @@
             "birth_year": 1962,
             "death_year": null,
             "birthday": "1962-05-05",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Ottawa",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Ottawa"
+            },
             "about": null
         }
     },
@@ -707,9 +953,15 @@
             "birth_year": 1990,
             "death_year": null,
             "birthday": "1990-04-05",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "USA",
-            "town_of_residence": "Rancho Palos Verdes",
+            "residence_location": {
+                "country": "USA",
+                "town": "Rancho Palos Verdes"
+            },
             "about": null
         }
     },
@@ -724,9 +976,15 @@
             "birth_year": 1992,
             "death_year": null,
             "birthday": "1992-05-01",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Ottawa",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Ottawa"
+            },
             "about": null
         }
     },
@@ -741,9 +999,15 @@
             "birth_year": 1991,
             "death_year": null,
             "birthday": "1991-05-09",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": "Country Manager, Razer",
-            "country_of_residence": "USA",
-            "town_of_residence": "Rancho Palos Verdes",
+            "residence_location": {
+                "country": "USA",
+                "town": "Rancho Palos Verdes"
+            },
             "about": null
         }
     },
@@ -758,9 +1022,15 @@
             "birth_year": 2022,
             "death_year": null,
             "birthday": "2022-11-08",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": "Future Soccer Player",
-            "country_of_residence": "USA",
-            "town_of_residence": "Rancho Palos Verdes",
+            "residence_location": {
+                "country": "USA",
+                "town": "Rancho Palos Verdes"
+            },
             "about": null
         }
     },
@@ -775,9 +1045,15 @@
             "birth_year": 1992,
             "death_year": null,
             "birthday": null,
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Ottawa",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Ottawa"
+            },
             "about": null
         }
     },
@@ -792,9 +1068,15 @@
             "birth_year": 2024,
             "death_year": null,
             "birthday": "2024-05-02",
+            "birth_location": {
+                "country": null,
+                "town": null
+            },
             "occupation": null,
-            "country_of_residence": "Canada",
-            "town_of_residence": "Ottawa",
+            "residence_location": {
+                "country": "Canada",
+                "town": "Ottawa"
+            },
             "about": null
         }
     }

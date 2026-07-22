@@ -447,7 +447,9 @@ function renderGraph() {
             x: CONFIG.NODE_WIDTH / 2,
             y: 82
         });
-        const metaDetail = p.meta?.occupation || p.meta?.town_of_residence || '';
+        const resTown = p.meta?.residence_location?.town;
+        const birthTown = p.meta?.birth_location?.town;
+        const metaDetail = p.meta?.occupation || resTown || birthTown || p.meta?.town_of_residence || '';
         textMeta.textContent = truncateText(metaDetail, 28);
         nodeGroup.appendChild(textMeta);
 
@@ -684,10 +686,15 @@ function renderMetadata(p) {
                     <span class="meta-label">Occupation</span>
                     <span class="meta-value">${p.meta.occupation}</span>
                 </div>` : ''}
-                ${p.meta?.town_of_residence || p.meta?.country_of_residence ? `
+                ${p.meta?.birth_location?.town || p.meta?.birth_location?.country ? `
+                <div class="meta-row">
+                    <span class="meta-label">Birthplace</span>
+                    <span class="meta-value">${[p.meta.birth_location.town, p.meta.birth_location.country].filter(Boolean).join(', ')}</span>
+                </div>` : ''}
+                ${p.meta?.residence_location?.town || p.meta?.residence_location?.country || p.meta?.town_of_residence || p.meta?.country_of_residence ? `
                 <div class="meta-row">
                     <span class="meta-label">Residence</span>
-                    <span class="meta-value">${[p.meta.town_of_residence, p.meta.country_of_residence].filter(Boolean).join(', ')}</span>
+                    <span class="meta-value">${[p.meta?.residence_location?.town || p.meta?.town_of_residence, p.meta?.residence_location?.country || p.meta?.country_of_residence].filter(Boolean).join(', ')}</span>
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Parents</span>
