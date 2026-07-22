@@ -1,0 +1,18 @@
+{
+    "name": "O'Keefe Family Tree",
+    "short_name": "O'Keefe Tree",
+    "description": "Interactive genealogy visualization graph for the O'Keefe family tree.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#f1f5f9",
+    "theme_color": "#ffffff",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "logo.webp",
+            "sizes": "192x192 512x512",
+            "type": "image/webp",
+            "purpose": "any maskable"
+        }
+    ]
+}
