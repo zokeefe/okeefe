@@ -689,7 +689,7 @@
         "meta": {
             "birth_year": 1962,
             "death_year": null,
-            "birthday": "May 5, 1962",
+            "birthday": "1962-05-05",
             "occupation": null,
             "country_of_residence": "Canada",
             "town_of_residence": "Ottawa",
@@ -706,7 +706,7 @@
         "meta": {
             "birth_year": 1990,
             "death_year": null,
-            "birthday": "April 5, 1990",
+            "birthday": "1990-04-05",
             "occupation": null,
             "country_of_residence": "USA",
             "town_of_residence": "Rancho Palos Verdes",
@@ -723,7 +723,7 @@
         "meta": {
             "birth_year": 1992,
             "death_year": null,
-            "birthday": "May 1, 1992",
+            "birthday": "1992-05-01",
             "occupation": null,
             "country_of_residence": "Canada",
             "town_of_residence": "Ottawa",
@@ -740,7 +740,7 @@
         "meta": {
             "birth_year": 1991,
             "death_year": null,
-            "birthday": "May 9, 1991",
+            "birthday": "1991-05-09",
             "occupation": "Country Manager, Razer",
             "country_of_residence": "USA",
             "town_of_residence": "Rancho Palos Verdes",
@@ -757,7 +757,7 @@
         "meta": {
             "birth_year": 2022,
             "death_year": null,
-            "birthday": "November 8, 2022",
+            "birthday": "2022-11-08",
             "occupation": "Future Soccer Player",
             "country_of_residence": "USA",
             "town_of_residence": "Rancho Palos Verdes",
@@ -791,7 +791,7 @@
         "meta": {
             "birth_year": 2024,
             "death_year": null,
-            "birthday": "May 2, 2024",
+            "birthday": "2024-05-02",
             "occupation": null,
             "country_of_residence": "Canada",
             "town_of_residence": "Ottawa",

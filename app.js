@@ -631,13 +631,29 @@ function clearSelection(updateURL = true) {
 }
 
 /**
+ * Format standardized ISO 8601 (YYYY-MM-DD) birthday strings for presentation
+ */
+function formatBirthday(isoString) {
+    if (!isoString || typeof isoString !== 'string') return null;
+    const parts = isoString.split('-');
+    if (parts.length === 3) {
+        const [year, month, day] = parts.map(Number);
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+            return `${months[month - 1]} ${day}, ${year}`;
+        }
+    }
+    return isoString;
+}
+
+/**
  * Render Dynamic Metadata Card
  */
 function renderMetadata(p) {
     if (!DOM.metadataContent) return;
     const by = p.meta?.birth_year || 'Unknown';
     const dy = p.meta?.death_year || 'Present';
-    const bday = p.meta?.birthday || null;
+    const bday = p.meta?.birthday ? formatBirthday(p.meta.birthday) : null;
 
     const parentLinks = p.parents.length > 0 
         ? p.parents.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
