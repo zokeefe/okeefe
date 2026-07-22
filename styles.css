@@ -1,6 +1,6 @@
 /*
  * O'Keefe Family Tree Visualization
- * Stylesheet featuring responsive desktop/mobile layouts, bottom-sheet cards, and touch gestures
+ * Stylesheet featuring responsive desktop/mobile layouts, Google Maps style 4-state bottom sheet, and touch gestures
  */
 
 :root {
@@ -494,6 +494,7 @@ html, body {
     flex-direction: column;
     gap: 8px;
     z-index: 10;
+    transition: bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
 }
 
 .zoom-btn {
@@ -568,7 +569,7 @@ html, body {
 .legend-line.desc { background: var(--descendant-edge-color); }
 
 /* ==========================================================================
-   Mobile & Tablet Responsive Layout (Google-Maps Style UI)
+   Mobile & Tablet Responsive Layout (Google-Maps Style 4-State UI)
    ========================================================================== */
 @media (max-width: 768px) {
     .app-container {
@@ -649,7 +650,7 @@ html, body {
         border: none;
     }
 
-    /* Google-Maps Style Pull-Up Bottom Sheet Card */
+    /* Google-Maps Style 4-State Pull-Up Bottom Sheet Card */
     .metadata-panel {
         pointer-events: auto;
         position: absolute;
@@ -657,27 +658,19 @@ html, body {
         left: 0;
         right: 0;
         width: 100%;
-        max-height: 75vh;
+        height: 92vh; /* Physical height matched to expanded state (~92% screen) */
+        max-height: 92vh;
         background: var(--sidebar-bg);
         border-top: 1px solid var(--sidebar-border);
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.16);
-        padding: 0 20px 24px 20px;
-        overflow-y: auto;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
+        padding: 0 20px 28px 20px;
+        overflow-y: hidden; /* Dynamically set to auto when in 'expanded' state */
         overscroll-behavior: contain;
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        transform: translateY(100%); /* Completely out of view when no node is selected */
+        transform: translateY(100%); /* Hidden state by default */
         z-index: 30;
-    }
-
-    /* Bottom Sheet Active States */
-    .metadata-panel.sheet-open {
-        transform: translateY(0);
-    }
-
-    .metadata-panel.sheet-peek {
-        transform: translateY(calc(100% - 48px));
     }
 
     /* Visible Pull Handle Bar */
@@ -710,18 +703,26 @@ html, body {
         background-color: var(--text-muted);
     }
 
-    /* Position Zoom Controls dynamically above bottom card */
+    /* Dynamically position map zoom controls based on sheet state */
+    body.sheet-hidden .zoom-controls,
     .zoom-controls {
         bottom: 24px;
         right: 16px;
-        transition: bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity: 1;
     }
 
-    body.sheet-active .zoom-controls {
-        bottom: calc(75vh + 16px);
+    body.sheet-minimized .zoom-controls {
+        bottom: calc(11vh + 24px);
+        opacity: 1;
     }
 
-    body.sheet-peek-active .zoom-controls {
-        bottom: 64px;
+    body.sheet-medium .zoom-controls {
+        bottom: calc(50vh + 20px);
+        opacity: 1;
+    }
+
+    body.sheet-expanded .zoom-controls {
+        opacity: 0;
+        pointer-events: none;
     }
 }

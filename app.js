@@ -2,7 +2,7 @@
  * O'Keefe Family Tree Visualization Engine
  * Pure Vanilla JavaScript implementation with zero dependencies.
  * Features hierarchical graph layout, infinite canvas navigation, prefix auto-complete search,
- * direct ancestry highlighting, mobile bottom sheets, and multi-touch pinch-to-zoom.
+ * direct ancestry highlighting, Google Maps style 4-state pull-up card, and multi-touch pinch zoom.
  */
 
 // Visual Configuration and Zoom Thresholds
@@ -25,6 +25,9 @@ const state = {
     couples: [],             // Array of couple relationships inferred from shared children
     generations: {},         // Map of generation index -> array of person objects
     selectedId: null,        // Active selected node ID
+    sheet: {
+        current: 'hidden'    // Mobile card state: 'hidden', 'minimized', 'medium', 'expanded'
+    },
     viewport: {
         x: 0,
         y: 0,
@@ -423,9 +426,6 @@ function renderGraph() {
         nodeGroup.addEventListener('click', (e) => {
             e.stopPropagation();
             selectPerson(p.id);
-            if (window.innerWidth <= 768) {
-                openBottomSheet();
-            }
         });
 
         DOM.nodesLayer.appendChild(nodeGroup);
@@ -524,8 +524,10 @@ function selectPerson(id) {
     });
 
     renderMetadata(target);
+    
+    // On mobile, selecting a node default opens the bottom sheet in Medium (~50%) state
     if (window.innerWidth <= 768) {
-        openBottomSheet();
+        setSheetState('medium');
     }
 }
 
@@ -548,8 +550,9 @@ function clearSelection() {
             </div>
         `;
     }
+    
     if (window.innerWidth <= 768) {
-        closeBottomSheet();
+        setSheetState('hidden');
     }
 }
 
@@ -623,8 +626,8 @@ function renderMetadata(p) {
             if (targetId && state.people[targetId]) {
                 selectPerson(targetId);
                 focusNode(targetId);
-                if (window.innerWidth <= 768) {
-                    openBottomSheet();
+                if (window.innerWidth <= 768 && state.sheet.current === 'minimized') {
+                    setSheetState('medium');
                 }
             }
         });
@@ -632,82 +635,173 @@ function renderMetadata(p) {
 }
 
 /**
- * Mobile Bottom Sheet Handlers
+ * Google Maps Style 4-State Mobile Bottom Sheet Controller
+ * States: 'hidden' (0%), 'minimized' (~11%), 'medium' (50%), 'expanded' (~92% with scroll)
  */
+function getSnapOffsets() {
+    const H = window.innerHeight;
+    const panel = DOM.metadataPanel;
+    const cardH = panel ? (panel.offsetHeight || H * 0.92) : (H * 0.92);
+    
+    // Calculate visible height targets in pixels
+    const minimizedVisH = Math.max(96, H * 0.11); // ~11% screen or enough for handle + name badge
+    const mediumVisH = H * 0.50;                 // 50% screen height
+    const expandedVisH = cardH;                  // 92% screen height (0px translate)
+
+    return {
+        expanded: 0,
+        medium: Math.max(0, cardH - mediumVisH),
+        minimized: Math.max(0, cardH - minimizedVisH),
+        hidden: cardH + 40
+    };
+}
+
+function setSheetState(newState) {
+    if (window.innerWidth > 768) return;
+    const panel = DOM.metadataPanel;
+    if (!panel) return;
+
+    state.sheet.current = newState;
+    panel.style.transition = ''; // restore CSS transition
+
+    const offsets = getSnapOffsets();
+    const targetOffset = offsets[newState] ?? offsets.hidden;
+    panel.style.transform = `translateY(${targetOffset}px)`;
+
+    // Enable internal scrolling ONLY when in 'expanded' state
+    if (newState === 'expanded') {
+        panel.style.overflowY = 'auto';
+    } else {
+        panel.style.overflowY = 'hidden';
+        if (panel.scrollTop !== 0) panel.scrollTop = 0;
+    }
+
+    // Update body classes for dynamic zoom controls positioning
+    document.body.classList.remove('sheet-hidden', 'sheet-minimized', 'sheet-medium', 'sheet-expanded');
+    document.body.classList.add(`sheet-${newState}`);
+}
+
 function setupMobileBottomSheet() {
     const panel = DOM.metadataPanel;
-    const handle = DOM.sheetHandle;
-    if (!panel || !handle) return;
+    if (!panel) return;
 
     let startY = 0;
+    let startX = 0;
     let currentY = 0;
+    let startTranslateY = 0;
+    let startScrollTop = 0;
     let isDraggingSheet = false;
+    let touchStartedOnCard = false;
 
-    handle.addEventListener('click', () => {
+    // Tap behaviour on title header or handle bar
+    panel.addEventListener('click', (e) => {
         if (window.innerWidth > 768) return;
-        if (panel.classList.contains('sheet-open')) {
-            peekBottomSheet();
-        } else if (panel.classList.contains('sheet-peek') || state.selectedId) {
-            openBottomSheet();
+        
+        // Don't interfere with active hyperlinks or buttons
+        if (e.target.closest('.meta-link') || e.target.closest('a') || e.target.closest('button')) return;
+
+        // When minimized, tapping anywhere on the compressed header opens to medium
+        if (state.sheet.current === 'minimized') {
+            setSheetState('medium');
+            return;
+        }
+
+        // When medium or expanded, tapping the grab handle toggles state
+        if (e.target.closest('#sheet-handle') || e.target.closest('.meta-title-bar')) {
+            if (state.sheet.current === 'medium') {
+                setSheetState('expanded');
+            } else if (state.sheet.current === 'expanded') {
+                setSheetState('medium');
+            }
         }
     });
 
-    handle.addEventListener('touchstart', (e) => {
-        if (window.innerWidth > 768) return;
-        isDraggingSheet = true;
+    // Touch down anywhere on the card area initiates pull eligibility
+    panel.addEventListener('touchstart', (e) => {
+        if (window.innerWidth > 768 || e.touches.length > 1) return;
+        
+        touchStartedOnCard = true;
+        isDraggingSheet = false;
         startY = e.touches[0].clientY;
-        panel.style.transition = 'none';
-    }, { passive: true });
+        startX = e.touches[0].clientX;
+        startScrollTop = panel.scrollTop;
 
-    handle.addEventListener('touchmove', (e) => {
-        if (!isDraggingSheet || window.innerWidth > 768) return;
+        const offsets = getSnapOffsets();
+        startTranslateY = offsets[state.sheet.current] ?? offsets.hidden;
+    }, { passive: false });
+
+    // Touch move evaluates whether to drag the sheet or allow inner text scrolling
+    panel.addEventListener('touchmove', (e) => {
+        if (!touchStartedOnCard || window.innerWidth > 768 || e.touches.length > 1) return;
+
         currentY = e.touches[0].clientY;
         const deltaY = currentY - startY;
-        if (deltaY > 0) {
-            panel.style.transform = `translateY(${Math.min(deltaY, panel.offsetHeight - 48)}px)`;
+        const deltaX = e.touches[0].clientX - startX;
+
+        // Ignore mostly horizontal gestures (e.g., text selection or horizontal swipes)
+        if (!isDraggingSheet && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 8) {
+            touchStartedOnCard = false;
+            return;
         }
-    }, { passive: true });
+
+        // In 'expanded' state, allow native inner content scrolling unless pulling down from top edge
+        if (state.sheet.current === 'expanded') {
+            if (startScrollTop > 0 || (startScrollTop <= 0 && deltaY <= 0)) {
+                return; // Native internal text scroll takes over
+            }
+        }
+
+        // Otherwise, drag the physical card smoothly with the finger
+        if (Math.abs(deltaY) > 6 || isDraggingSheet) {
+            isDraggingSheet = true;
+            if (e.cancelable) e.preventDefault();
+            panel.style.transition = 'none';
+            
+            const newY = Math.max(0, startTranslateY + deltaY);
+            panel.style.transform = `translateY(${newY}px)`;
+        }
+    }, { passive: false });
 
     const endTouch = () => {
-        if (!isDraggingSheet || window.innerWidth > 768) return;
+        if (!touchStartedOnCard || window.innerWidth > 768) return;
+        touchStartedOnCard = false;
+        if (!isDraggingSheet) return;
         isDraggingSheet = false;
+
         panel.style.transition = '';
         const deltaY = currentY - startY;
-        if (deltaY > 40) {
-            peekBottomSheet();
+
+        // Snapping logic based on swipe distance and direction
+        if (Math.abs(deltaY) > 35) {
+            if (deltaY > 0) {
+                // Dragging Down
+                if (state.sheet.current === 'expanded') {
+                    setSheetState('medium');
+                } else if (state.sheet.current === 'medium') {
+                    setSheetState('minimized');
+                } else if (state.sheet.current === 'minimized') {
+                    // Swiping down past minimized closes card & clears selection
+                    clearSelection();
+                }
+            } else {
+                // Dragging Up
+                if (state.sheet.current === 'minimized') {
+                    setSheetState('medium');
+                } else if (state.sheet.current === 'medium') {
+                    setSheetState('expanded');
+                } else if (state.sheet.current === 'hidden') {
+                    setSheetState('medium');
+                }
+            }
         } else {
-            openBottomSheet();
+            // Re-snap to current state if gesture was brief
+            setSheetState(state.sheet.current);
         }
         currentY = startY = 0;
     };
 
-    handle.addEventListener('touchend', endTouch);
-    handle.addEventListener('touchcancel', endTouch);
-}
-
-function openBottomSheet() {
-    if (window.innerWidth > 768 || !DOM.metadataPanel) return;
-    DOM.metadataPanel.style.transform = '';
-    DOM.metadataPanel.classList.remove('sheet-peek');
-    DOM.metadataPanel.classList.add('sheet-open');
-    document.body.classList.remove('sheet-peek-active');
-    document.body.classList.add('sheet-active');
-}
-
-function peekBottomSheet() {
-    if (window.innerWidth > 768 || !DOM.metadataPanel) return;
-    DOM.metadataPanel.style.transform = '';
-    DOM.metadataPanel.classList.remove('sheet-open');
-    DOM.metadataPanel.classList.add('sheet-peek');
-    document.body.classList.remove('sheet-active');
-    document.body.classList.add('sheet-peek-active');
-}
-
-function closeBottomSheet() {
-    if (!DOM.metadataPanel) return;
-    DOM.metadataPanel.style.transform = '';
-    DOM.metadataPanel.classList.remove('sheet-open', 'sheet-peek');
-    document.body.classList.remove('sheet-active', 'sheet-peek-active');
+    panel.addEventListener('touchend', endTouch);
+    panel.addEventListener('touchcancel', endTouch);
 }
 
 /**
@@ -749,7 +843,7 @@ function fitToScreen() {
 
     state.viewport.scale = bestScale;
     state.viewport.x = rect.width / 2 - graphCenterX * bestScale;
-    state.viewport.y = (window.innerWidth <= 768 ? rect.height * 0.45 : rect.height / 2) - graphCenterY * bestScale;
+    state.viewport.y = (window.innerWidth <= 768 ? rect.height * 0.40 : rect.height / 2) - graphCenterY * bestScale;
     updateViewport();
 }
 
@@ -760,8 +854,8 @@ function focusNode(id) {
     const rect = DOM.canvasArea.getBoundingClientRect();
     const targetScale = Math.max(state.viewport.scale, 1.15);
     const targetX = rect.width / 2 - target.x * targetScale;
-    // On mobile, position node slightly in the top half so bottom sheet doesn't cover it
-    const targetY = (window.innerWidth <= 768 ? rect.height * 0.35 : rect.height / 2) - target.y * targetScale;
+    // Position target node slightly in top half on mobile to sit above medium bottom sheet
+    const targetY = (window.innerWidth <= 768 ? rect.height * 0.32 : rect.height / 2) - target.y * targetScale;
 
     animateViewportTo(targetX, targetY, targetScale);
 }
@@ -829,7 +923,6 @@ function setupEventListeners() {
     DOM.canvasArea.addEventListener('wheel', (e) => {
         e.preventDefault();
 
-        // Normalize deltas across trackpads (pixel mode) and standard mouse wheels (line mode)
         let delta = e.deltaY;
         if (e.deltaMode === 1) delta *= 20;
         else if (e.deltaMode === 2) delta *= 100;
@@ -867,7 +960,19 @@ function setupEventListeners() {
     });
 
     DOM.btnZoomFit?.addEventListener('click', fitToScreen);
+
     window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            // Restore static sidebar appearance on desktop resize
+            if (DOM.metadataPanel) {
+                DOM.metadataPanel.style.transform = '';
+                DOM.metadataPanel.style.overflowY = '';
+            }
+            document.body.classList.remove('sheet-hidden', 'sheet-minimized', 'sheet-medium', 'sheet-expanded');
+        } else if (state.sheet.current !== 'hidden') {
+            setSheetState(state.sheet.current);
+        }
+
         if (Object.keys(state.people).length > 0 && !state.selectedId) {
             fitToScreen();
         }
@@ -935,7 +1040,6 @@ function setupTouchGestures() {
         if (e.touches.length < 2) {
             state.pinch.active = false;
             if (e.touches.length === 1) {
-                // Resume single touch panning smoothly without jumping
                 state.drag.active = true;
                 state.drag.startX = e.touches[0].clientX;
                 state.drag.startY = e.touches[0].clientY;
@@ -1044,7 +1148,4 @@ function selectAndFocusFromSearch(id) {
 
     selectPerson(id);
     focusNode(id);
-    if (window.innerWidth <= 768) {
-        openBottomSheet();
-    }
 }
