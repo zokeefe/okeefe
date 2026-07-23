@@ -721,7 +721,7 @@
                 "death_year": null,
                 "birthday": null,
                 "birth_location_id": null,
-                "occupation": null,
+                "occupation": "Software Engineer",
                 "residence_location_id": "loc-st-johns",
                 "about": null
             }
@@ -738,7 +738,7 @@
                 "death_year": null,
                 "birthday": "1962-05-05",
                 "birth_location_id": null,
-                "occupation": null,
+                "occupation": "Software Engineer",
                 "residence_location_id": "loc-ottawa",
                 "about": null
             }
@@ -755,7 +755,7 @@
                 "death_year": null,
                 "birthday": "1990-04-05",
                 "birth_location_id": null,
-                "occupation": null,
+                "occupation": "Software Engineer",
                 "residence_location_id": "loc-rancho-palos-verdes",
                 "about": null
             }
@@ -904,7 +904,7 @@
             "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": null,
+                "birth_year": 1961,
                 "death_year": 2026,
                 "birthday": null,
                 "birth_location_id": null,
@@ -921,7 +921,7 @@
             "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": null,
+                "birth_year": 1961,
                 "death_year": null,
                 "birthday": null,
                 "birth_location_id": null,
