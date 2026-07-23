@@ -40,6 +40,10 @@
             "country": "USA",
             "town": "Rancho Palos Verdes"
         },
+	"loc-la-canada": {
+            "country": "USA",
+            "town": "La Cañada Flintridge"
+        },
         "loc-st-johns": {
             "country": "Canada",
             "town": "St. John's"
@@ -949,8 +953,8 @@
             "middle_names": null,
             "last_name": "Jao",
             "nickname": null,
-            "mother": null,
-            "father": null,
+            "mother": "ok-081",
+            "father": "ok-080",
             "gender": "F",
             "meta": {
                 "birth_year": null,
@@ -958,7 +962,7 @@
                 "birthday": null,
                 "birth_location_id": null,
                 "occupation": null,
-                "residence_location_id": null,
+                "residence_location_id": "loc-la-canada",
                 "about": null
             }
         },
@@ -968,8 +972,8 @@
             "middle_names": null,
             "last_name": "Jao",
             "nickname": null,
-            "mother": null,
-            "father": null,
+            "mother": "ok-079",
+            "father": "ok-078",
             "gender": "M",
             "meta": {
                 "birth_year": null,
@@ -977,7 +981,7 @@
                 "birthday": null,
                 "birth_location_id": null,
                 "occupation": null,
-                "residence_location_id": null,
+                "residence_location_id": "loc-la-canada",
                 "about": null
             }
         },
@@ -1508,6 +1512,120 @@
                 "death_year": null,
                 "birthday": null,
                 "birth_location_id": "loc-sudbury",
+                "occupation": null,
+                "residence_location_id": null,
+                "about": null
+            }
+        },
+	{
+            "id": "ok-078",
+            "first_name": "Shao",
+            "middle_names": "Tseng",
+            "last_name": "Jao",
+            "nickname": null,
+            "mother": null,
+            "father": null,
+            "gender": "M",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
+                "occupation": null,
+                "residence_location_id": "loc-los-angeles",
+                "about": null
+            }
+        },
+	{
+            "id": "ok-079",
+            "first_name": "Kanru",
+            "middle_names": null,
+            "last_name": "Chen",
+            "nickname": null,
+            "mother": null,
+            "father": null,
+            "gender": "F",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
+                "occupation": null,
+                "residence_location_id": "loc-la-canada",
+                "about": null
+            }
+        },
+	{
+            "id": "ok-080",
+            "first_name": "David",
+            "middle_names": null,
+            "last_name": "Yao",
+            "nickname": null,
+            "mother": null,
+            "father": null,
+            "gender": "M",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
+                "occupation": null,
+                "residence_location_id": null,
+                "about": null
+            }
+        },
+	{
+            "id": "ok-081",
+            "first_name": "Yuehming",
+            "middle_names": null,
+            "last_name": "Hu",
+            "nickname": null,
+            "mother": "ok-083",
+            "father": "ok-082",
+            "gender": "F",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
+                "occupation": null,
+                "residence_location_id": null,
+                "about": null
+            }
+        },
+	{
+            "id": "ok-082",
+            "first_name": "Zhenduo",
+            "middle_names": null,
+            "last_name": "Hu",
+            "nickname": null,
+            "mother": null,
+            "father": null,
+            "gender": "M",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
+                "occupation": null,
+                "residence_location_id": null,
+                "about": null
+            }
+        },
+	{
+            "id": "ok-083",
+            "first_name": "Ms",
+            "middle_names": null,
+            "last_name": "Su",
+            "nickname": null,
+            "mother": null,
+            "father": null,
+            "gender": "F",
+            "meta": {
+                "birth_year": null,
+                "death_year": null,
+                "birthday": null,
+                "birth_location_id": null,
                 "occupation": null,
                 "residence_location_id": null,
                 "about": null
