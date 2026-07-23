@@ -17,18 +17,36 @@ def validate_family_tree(json_path="family_tree.json"):
         print(f"ERROR: Failed to parse JSON from {json_path}: {e}")
         return False
 
-    if not isinstance(data, list):
-        print("ERROR: Top-level JSON data must be an array of person objects.")
+    if isinstance(data, dict):
+        places = data.get("places", {})
+        people_list = data.get("people", [])
+    elif isinstance(data, list):
+        places = {}
+        people_list = data
+    else:
+        print("ERROR: Top-level JSON data must be an object with 'places' and 'people', or an array.")
         return False
 
     errors = []
     warnings = []
     people_map = {}
     
+    if not isinstance(places, dict):
+        errors.append("Top-level 'places' property must be a dictionary.")
+        places = {}
+    else:
+        for loc_id, loc_val in places.items():
+            if not isinstance(loc_val, dict):
+                errors.append(f"Place ID '{loc_id}' must be a dictionary with country/town pairs.")
+            else:
+                invalid_keys = set(loc_val.keys()) - {"country", "town"}
+                if invalid_keys:
+                    warnings.append(f"Place ID '{loc_id}' contains unexpected keys: {invalid_keys}.")
+    
     required_keys = {"id", "name", "mother", "father", "gender", "meta"}
 
     # Pass 1: Syntax, ID uniqueness, and indexing
-    for i, p in enumerate(data):
+    for i, p in enumerate(people_list):
         if not isinstance(p, dict):
             errors.append(f"Index {i}: Entry is not a JSON object.")
             continue
@@ -108,8 +126,15 @@ def validate_family_tree(json_path="family_tree.json"):
             if not isinstance(birthday, str) or not re.match(r"^\d{4}-\d{2}-\d{2}$", birthday):
                 errors.append(f"ID '{pid}' ({name}): 'birthday' ({birthday}) must be formatted as an ISO 8601 date string 'YYYY-MM-DD'.")
         
-        # Location structure check
+        # Location structure check (supports both normalized ID references and inline objects)
         for loc_key in ["birth_location", "residence_location"]:
+            loc_id = meta.get(f"{loc_key}_id")
+            if loc_id is not None:
+                if not isinstance(loc_id, str):
+                    errors.append(f"ID '{pid}' ({name}): '{loc_key}_id' must be a string referencing a place ID.")
+                elif loc_id not in places:
+                    errors.append(f"ID '{pid}' ({name}): Referenced '{loc_key}_id' ('{loc_id}') does not exist in 'places' registry.")
+
             loc_val = meta.get(loc_key)
             if loc_val is not None:
                 if not isinstance(loc_val, dict):
@@ -149,7 +174,8 @@ def validate_family_tree(json_path="family_tree.json"):
     # Summary Output
     print("=== Family Tree Validation Summary ===")
     print(f"Dataset File      : {json_path}")
-    print(f"Total Individuals : {len(data)}")
+    print(f"Places Registered : {len(places)}")
+    print(f"Total Individuals : {len(people_list)}")
     print(f"Unique IDs Checked: {len(people_map)}")
     
     if warnings:

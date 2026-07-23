@@ -22,6 +22,7 @@ const CONFIG = {
 // Application State
 const state = {
     people: {},              // Map of id -> person object
+    places: {},              // Map of place id -> location struct
     couples: [],             // Array of couple relationships inferred from shared children
     generations: {},         // Map of generation index -> array of person objects
     selectedId: null,        // Active selected node ID
@@ -141,9 +142,11 @@ function handleInitialURLHash() {
 function processData(rawData) {
     state.people = {};
     state.couples = [];
+    state.places = (!Array.isArray(rawData) && rawData.places) ? rawData.places : {};
+    const peopleArray = Array.isArray(rawData) ? rawData : (rawData.people || []);
     const coupleMap = new Map();
 
-    rawData.forEach(item => {
+    peopleArray.forEach(item => {
         state.people[item.id] = {
             ...item,
             children: [],
@@ -463,11 +466,9 @@ function renderGraph() {
             x: CONFIG.NODE_WIDTH / 2,
             y: 82
         });
-        const formatLoc = loc => loc ? [loc.town, loc.country].filter(Boolean).join(', ') : null;
-        const resLoc = formatLoc(p.meta?.residence_location);
-        const birthLoc = formatLoc(p.meta?.birth_location);
-        const legacyLoc = [p.meta?.town_of_residence, p.meta?.country_of_residence].filter(Boolean).join(', ');
-        const locationDisplay = resLoc || birthLoc || legacyLoc || '';
+        const resLoc = formatLocation(resolveLocation(p.meta?.residence_location_id, p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence));
+        const birthLoc = formatLocation(resolveLocation(p.meta?.birth_location_id, p.meta?.birth_location));
+        const locationDisplay = resLoc || birthLoc || '';
         const metaDetail = locationDisplay || p.meta?.occupation || '';
         textMeta.textContent = truncateText(metaDetail, 28);
         nodeGroup.appendChild(textMeta);
@@ -652,6 +653,21 @@ function clearSelection(updateURL = true) {
 }
 
 /**
+ * Location resolver and formatter helpers
+ */
+function resolveLocation(locId, inlineLoc, legacyTown, legacyCountry) {
+    if (locId && state.places[locId]) return state.places[locId];
+    if (inlineLoc) return inlineLoc;
+    if (legacyTown || legacyCountry) return { town: legacyTown, country: legacyCountry };
+    return null;
+}
+
+function formatLocation(loc) {
+    if (!loc) return null;
+    return [loc.town, loc.country].filter(Boolean).join(', ') || null;
+}
+
+/**
  * Format standardized ISO 8601 (YYYY-MM-DD) birthday strings for presentation
  */
 function formatBirthday(isoString, short = false) {
@@ -677,6 +693,8 @@ function renderMetadata(p) {
     const by = p.meta?.birth_year || 'Unknown';
     const dy = p.meta?.death_year || 'Present';
     const bday = p.meta?.birthday ? formatBirthday(p.meta.birthday) : null;
+    const birthLocStr = formatLocation(resolveLocation(p.meta?.birth_location_id, p.meta?.birth_location));
+    const resLocStr = formatLocation(resolveLocation(p.meta?.residence_location_id, p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence));
 
     const parentLinks = p.parents.length > 0 
         ? p.parents.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
@@ -712,15 +730,15 @@ function renderMetadata(p) {
                     <span class="meta-label">Occupation</span>
                     <span class="meta-value">${p.meta.occupation}</span>
                 </div>` : ''}
-                ${p.meta?.birth_location?.town || p.meta?.birth_location?.country ? `
+                ${birthLocStr ? `
                 <div class="meta-row">
                     <span class="meta-label">Birthplace</span>
-                    <span class="meta-value">${[p.meta.birth_location.town, p.meta.birth_location.country].filter(Boolean).join(', ')}</span>
+                    <span class="meta-value">${birthLocStr}</span>
                 </div>` : ''}
-                ${p.meta?.residence_location?.town || p.meta?.residence_location?.country || p.meta?.town_of_residence || p.meta?.country_of_residence ? `
+                ${resLocStr ? `
                 <div class="meta-row">
                     <span class="meta-label">Residence</span>
-                    <span class="meta-value">${[p.meta?.residence_location?.town || p.meta?.town_of_residence, p.meta?.residence_location?.country || p.meta?.country_of_residence].filter(Boolean).join(', ')}</span>
+                    <span class="meta-value">${resLocStr}</span>
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Parents</span>
@@ -1199,12 +1217,15 @@ function setupSearchAutoComplete() {
             return;
         }
 
-        dropdown.innerHTML = matches.map((m, i) => `
+        dropdown.innerHTML = matches.map((m, i) => {
+            const locStr = formatLocation(resolveLocation(m.meta?.residence_location_id, m.meta?.residence_location, m.meta?.town_of_residence, m.meta?.country_of_residence)) || formatLocation(resolveLocation(m.meta?.birth_location_id, m.meta?.birth_location));
+            return `
             <li class="autocomplete-item" data-index="${i}" data-id="${m.id}">
                 <span>${m.nickname ? `${m.name} "${m.nickname}"` : m.name}</span>
-                <span class="item-sub">${m.meta?.birth_year || '?'} – ${m.meta?.death_year || 'Present'} • ${m.meta?.occupation || 'Family Member'}</span>
+                <span class="item-sub">${m.meta?.birth_year || '?'} – ${m.meta?.death_year || 'Present'} • ${m.meta?.occupation || locStr || 'Family Member'}</span>
             </li>
-        `).join('');
+            `;
+        }).join('');
         dropdown.style.display = 'block';
     });
 
