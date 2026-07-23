@@ -12,8 +12,8 @@ const CONFIG = {
     GEN_HEIGHT: 210,         // Vertical distance between generations
     NODE_GAP_X: 50,          // Minimum horizontal gap between separate families/nodes
     COUPLE_GAP_X: 24,        // Horizontal gap between partners/spouses
-    ZOOM_LOW: 0.60,          // Scale threshold below which only names are shown
-    ZOOM_MED: 1.00,          // Scale threshold below which dates are shown but secondary meta is hidden
+    ZOOM_LOW: 0.20,          // Scale threshold below which only names are shown
+    ZOOM_MED: 0.35,          // Scale threshold below which dates are shown but secondary meta is hidden
     MAX_ZOOM: 3.5,
     MIN_ZOOM: 0.15,
     ANIM_DURATION: 600       // Milliseconds for smooth panning animations
@@ -439,7 +439,8 @@ function renderGraph() {
         });
         const by = p.meta?.birth_year || '?';
         const dy = p.meta?.death_year || '';
-        textDates.textContent = dy ? `${by} – ${dy}` : `b. ${by}`;
+        const bdayStr = p.meta?.birthday ? formatBirthday(p.meta.birthday, true) : null;
+        textDates.textContent = bdayStr ? (dy ? `${bdayStr} – ${dy}` : `b. ${bdayStr}`) : (dy ? `${by} – ${dy}` : `b. ${by}`);
         nodeGroup.appendChild(textDates);
 
         const textMeta = createSVGElement('text', {
@@ -447,9 +448,12 @@ function renderGraph() {
             x: CONFIG.NODE_WIDTH / 2,
             y: 82
         });
-        const resTown = p.meta?.residence_location?.town;
-        const birthTown = p.meta?.birth_location?.town;
-        const metaDetail = p.meta?.occupation || resTown || birthTown || p.meta?.town_of_residence || '';
+        const formatLoc = loc => loc ? [loc.town, loc.country].filter(Boolean).join(', ') : null;
+        const resLoc = formatLoc(p.meta?.residence_location);
+        const birthLoc = formatLoc(p.meta?.birth_location);
+        const legacyLoc = [p.meta?.town_of_residence, p.meta?.country_of_residence].filter(Boolean).join(', ');
+        const locationDisplay = resLoc || birthLoc || legacyLoc || '';
+        const metaDetail = locationDisplay || p.meta?.occupation || '';
         textMeta.textContent = truncateText(metaDetail, 28);
         nodeGroup.appendChild(textMeta);
 
@@ -635,12 +639,14 @@ function clearSelection(updateURL = true) {
 /**
  * Format standardized ISO 8601 (YYYY-MM-DD) birthday strings for presentation
  */
-function formatBirthday(isoString) {
+function formatBirthday(isoString, short = false) {
     if (!isoString || typeof isoString !== 'string') return null;
     const parts = isoString.split('-');
     if (parts.length === 3) {
         const [year, month, day] = parts.map(Number);
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const months = short ? shortMonths : fullMonths;
         if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
             return `${months[month - 1]} ${day}, ${year}`;
         }
@@ -679,8 +685,13 @@ function renderMetadata(p) {
             <div class="meta-rows">
                 <div class="meta-row">
                     <span class="meta-label">Lifespan</span>
-                    <span class="meta-value">${by} – ${dy} ${bday ? `(${bday})` : ''}</span>
+                    <span class="meta-value">${by} – ${dy}</span>
                 </div>
+                ${bday ? `
+                <div class="meta-row">
+                    <span class="meta-label">Birthday</span>
+                    <span class="meta-value">${bday}</span>
+                </div>` : ''}
                 ${p.meta?.occupation ? `
                 <div class="meta-row">
                     <span class="meta-label">Occupation</span>

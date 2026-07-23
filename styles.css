@@ -488,10 +488,6 @@ html, body {
     visibility: hidden;
 }
 
-.zoom-med .node-text-meta {
-    opacity: 0;
-    visibility: hidden;
-}
 
 /* Canvas UI Controls */
 .zoom-controls {
