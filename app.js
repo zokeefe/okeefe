@@ -333,6 +333,29 @@ function computeHierarchicalLayout() {
 
 function spaceOutLayer(layer) {
     if (layer.length === 0) return;
+
+    // Group couple partners by average targetX to prevent separation and reduce line crossing
+    const processed = new Set();
+    layer.forEach(p => {
+        if (processed.has(p.id)) return;
+        p.partners.forEach(partnerId => {
+            const partner = state.people[partnerId];
+            if (partner && partner.gen === p.gen && !processed.has(partnerId)) {
+                processed.add(p.id);
+                processed.add(partnerId);
+                const avgTarget = ((p.targetX || 0) + (partner.targetX || 0)) / 2;
+                if (p.id < partnerId) {
+                    p.targetX = avgTarget - 5;
+                    partner.targetX = avgTarget + 5;
+                } else {
+                    p.targetX = avgTarget + 5;
+                    partner.targetX = avgTarget - 5;
+                }
+            }
+        });
+        processed.add(p.id);
+    });
+
     layer.sort((a, b) => (a.targetX !== undefined ? a.targetX - b.targetX : a.x - b.x));
 
     for (let i = 0; i < layer.length; i++) {
@@ -360,6 +383,73 @@ function renderGraph() {
     DOM.edgesLayer.innerHTML = '';
     DOM.nodesLayer.innerHTML = '';
 
+    // Dynamic Multi-Track Channel Routing (Interval Track Assignment)
+    // Prevents horizontal ancestry routing lines between generation layers from ever overlapping or colliding
+    const maxGen = Math.max(0, ...Object.keys(state.generations || {}).map(Number));
+    const busTrackMap = new Map();
+
+    for (let g = 0; g <= maxGen; g++) {
+        const buses = [];
+        
+        state.couples.forEach(c => {
+            if (c.gen === g && c.children.length > 0) {
+                const childXs = c.children.map(cid => state.people[cid]?.x || 0);
+                const minX = Math.min(c.midX, ...childXs) - 20;
+                const maxX = Math.max(c.midX, ...childXs) + 20;
+                buses.push({ key: c.id, minX, maxX, gen: g });
+            }
+        });
+
+        Object.values(state.people).forEach(p => {
+            if (p.gen === g && p.children.length > 0) {
+                const singleChildren = p.children.filter(cid => {
+                    const child = state.people[cid];
+                    const otherParent = child?.parents.find(id => id !== p.id);
+                    return !otherParent || !state.couples.some(c => (c.p1 === p.id && c.p2 === otherParent) || (c.p2 === p.id && c.p1 === otherParent));
+                });
+                if (singleChildren.length > 0) {
+                    const childXs = singleChildren.map(cid => state.people[cid]?.x || 0);
+                    const minX = Math.min(p.x, ...childXs) - 20;
+                    const maxX = Math.max(p.x, ...childXs) + 20;
+                    buses.push({ key: `sp-${p.id}`, minX, maxX, gen: g });
+                }
+            }
+        });
+
+        if (buses.length === 0) continue;
+
+        buses.sort((a, b) => a.minX - b.minX || (a.maxX - a.minX) - (b.maxX - b.minX));
+
+        const tracks = [];
+        buses.forEach(b => {
+            let assigned = -1;
+            for (let t = 0; t < tracks.length; t++) {
+                const overlap = tracks[t].some(existing => !(b.maxX < existing.minX || b.minX > existing.maxX));
+                if (!overlap) {
+                    tracks[t].push(b);
+                    assigned = t;
+                    break;
+                }
+            }
+            if (assigned === -1) {
+                tracks.push([b]);
+                b.track = tracks.length - 1;
+            } else {
+                b.track = assigned;
+            }
+        });
+
+        const numTracks = tracks.length;
+        const startY = g * CONFIG.GEN_HEIGHT + CONFIG.NODE_HEIGHT / 2 + 16;
+        const endY = (g + 1) * CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT / 2 - 16;
+        const stepY = (endY - startY) / (numTracks + 1);
+
+        buses.forEach(b => {
+            const busY = startY + stepY * (b.track + 1);
+            busTrackMap.set(b.key, busY);
+        });
+    }
+
     state.couples.forEach(c => {
         const p1 = state.people[c.p1];
         const p2 = state.people[c.p2];
@@ -378,9 +468,10 @@ function renderGraph() {
         DOM.edgesLayer.appendChild(couplePath);
 
         if (c.children.length > 0) {
-            const busY = c.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
+            const defaultBusY = c.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
+            const busY = busTrackMap.get(c.id) || defaultBusY;
             
-            // Vertical parent drop from couple midpoint down to generation midway level
+            // Vertical parent drop from couple midpoint down to assigned bus track elevation
             const dropPath = createSVGElement('path', {
                 d: `M ${c.midX} ${c.y} L ${c.midX} ${busY}`,
                 class: 'edge parent-drop',
@@ -390,7 +481,7 @@ function renderGraph() {
             });
             DOM.edgesLayer.appendChild(dropPath);
 
-            // Create individualized orthogonal path segments per child so we can highlight single parent->child traces
+            // Create individualized orthogonal path segments per child on dedicated bus track
             c.children.forEach(cid => {
                 const child = state.people[cid];
                 const childPath = createSVGElement('path', {
@@ -412,7 +503,8 @@ function renderGraph() {
             const child = state.people[cid];
             const otherParent = child.parents.find(id => id !== p.id);
             if (!otherParent) {
-                const busY = p.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
+                const defaultBusY = p.y + CONFIG.NODE_HEIGHT / 2 + (CONFIG.GEN_HEIGHT - CONFIG.NODE_HEIGHT) / 2;
+                const busY = busTrackMap.get(`sp-${p.id}`) || defaultBusY;
                 const path = createSVGElement('path', {
                     d: `M ${p.x} ${p.y + CONFIG.NODE_HEIGHT / 2} L ${p.x} ${busY} L ${child.x} ${busY} L ${child.x} ${child.y - CONFIG.NODE_HEIGHT / 2}`,
                     class: 'edge single-parent-edge',
