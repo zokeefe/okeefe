@@ -43,7 +43,7 @@ def validate_family_tree(json_path="family_tree.json"):
                 if invalid_keys:
                     warnings.append(f"Place ID '{loc_id}' contains unexpected keys: {invalid_keys}.")
     
-    required_keys = {"id", "first_name", "middle_names", "last_name", "mother", "father", "gender", "meta"}
+    required_keys = {"id", "first_name", "last_name", "gender"}
 
     # Pass 1: Syntax, ID uniqueness, and indexing
     for i, p in enumerate(people_list):
@@ -55,8 +55,9 @@ def validate_family_tree(json_path="family_tree.json"):
         if missing_keys:
             errors.append(f"Index {i}: Missing required keys: {missing_keys}")
 
+        # Check required fields are non-null and valid strings
         pid = p.get("id")
-        if not pid or not isinstance(pid, str):
+        if pid is None or not isinstance(pid, str):
             errors.append(f"Index {i}: Invalid or missing 'id' string: {pid}")
             continue
         
@@ -65,17 +66,18 @@ def validate_family_tree(json_path="family_tree.json"):
         else:
             people_map[pid] = p
 
-        # Check name fields types
         for k in ["first_name", "last_name"]:
-            if not isinstance(p.get(k), (str, type(None))):
-                errors.append(f"ID '{pid}': '{k}' must be a string or null.")
-        if not isinstance(p.get("middle_names"), (str, type(None))):
-            errors.append(f"ID '{pid}': 'middle_names' must be a string or null.")
+            val = p.get(k)
+            if val is None or not isinstance(val, str):
+                errors.append(f"ID '{pid}': required field '{k}' must be a non-null string.")
 
-        # Check gender validity
+        if "middle_names" in p and p.get("middle_names") is not None and not isinstance(p.get("middle_names"), str):
+            errors.append(f"ID '{pid}': 'middle_names' must be a string when provided.")
+
+        # Check gender validity (must be non-null 'M' or 'F')
         gender = p.get("gender")
-        if gender not in {"M", "F", None}:
-            errors.append(f"ID '{pid}': Invalid gender '{gender}'. Must be 'M', 'F', or null.")
+        if gender not in {"M", "F"}:
+            errors.append(f"ID '{pid}': Invalid required gender '{gender}'. Must be 'M' or 'F'.")
 
     get_full_name = lambda rec, fallback: " ".join(filter(None, [rec.get("first_name"), rec.get("middle_names"), rec.get("last_name")])) or rec.get("name", fallback)
 

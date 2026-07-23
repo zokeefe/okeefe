@@ -149,6 +149,7 @@ function processData(rawData) {
     peopleArray.forEach(item => {
         const fullName = [item.first_name, item.middle_names, item.last_name].filter(Boolean).join(' ') || item.name || item.id;
         state.people[item.id] = {
+            meta: {},
             ...item,
             name: fullName,
             children: [],

@@ -40,7 +40,7 @@
             "country": "USA",
             "town": "Rancho Palos Verdes"
         },
-	"loc-la-canada": {
+        "loc-la-canada": {
             "country": "USA",
             "town": "La Cañada Flintridge"
         },
@@ -57,58 +57,26 @@
         {
             "id": "ok-001",
             "first_name": "James",
-            "middle_names": null,
             "last_name": "Lake",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": 1775,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1775
             }
         },
         {
             "id": "ok-002",
             "first_name": "Susannah",
-            "middle_names": null,
             "last_name": "Gallop",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         },
         {
             "id": "ok-003",
             "first_name": "Michael",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
                 "birth_year": 1778,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-fogo",
-                "about": null
+                "residence_location_id": "loc-fogo"
             }
         },
         {
@@ -116,75 +84,41 @@
             "first_name": "Maria",
             "middle_names": "Louisa",
             "last_name": "Hefferman",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": 1792,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1792
             }
         },
         {
             "id": "ok-005",
             "first_name": "William",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-004",
             "father": "ok-003",
-            "gender": "M",
             "meta": {
                 "birth_year": 1816,
                 "death_year": 1899,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-keefes-cove",
-                "about": null
+                "residence_location_id": "loc-keefes-cove"
             }
         },
         {
             "id": "ok-006",
             "first_name": "Susannah",
-            "middle_names": null,
             "last_name": "Daly",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": 1825,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1825
             }
         },
         {
             "id": "ok-007",
             "first_name": "William",
-            "middle_names": null,
             "last_name": "Gould",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
                 "birth_year": 1827,
-                "death_year": 1884,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1884
             }
         },
         {
@@ -192,170 +126,73 @@
             "first_name": "George",
             "middle_names": "Edward",
             "last_name": "Lake",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-002",
             "father": "ok-001",
-            "gender": "M",
             "meta": {
-                "birth_year": 1830,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1830
             }
         },
         {
             "id": "ok-009",
             "first_name": "Eleanor",
-            "middle_names": null,
             "last_name": "Hickman",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         },
         {
             "id": "ok-010",
             "first_name": "Lucinda",
-            "middle_names": null,
             "last_name": "Moulton",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": 1833,
-                "death_year": 1903,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1903
             }
         },
         {
             "id": "ok-011",
             "first_name": "Charles",
-            "middle_names": null,
             "last_name": "Leroy (leRoux ?)",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "M",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "M"
         },
         {
             "id": "ok-012",
             "first_name": "James",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": 1841,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1841
             }
         },
         {
             "id": "ok-013",
             "first_name": "Margaret",
-            "middle_names": null,
             "last_name": "Price",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": 1845,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_year": 1845
             }
         },
         {
             "id": "ok-014",
             "first_name": "Amelia",
-            "middle_names": null,
             "last_name": "Osmond",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         },
         {
             "id": "ok-015",
             "first_name": "Phillip",
-            "middle_names": null,
             "last_name": "Parsons",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "M",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "M"
         },
         {
             "id": "ok-016",
             "first_name": "Phillip",
-            "middle_names": null,
             "last_name": "Nicholle",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
                 "birth_year": 1852,
-                "death_year": 1917,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1917
             }
         },
         {
@@ -363,18 +200,10 @@
             "first_name": "Hannah",
             "middle_names": "Jane",
             "last_name": "Pardy",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": 1855,
-                "death_year": 1929,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1929
             }
         },
         {
@@ -382,132 +211,75 @@
             "first_name": "George",
             "middle_names": "Thomas",
             "last_name": "Lake",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-009",
             "father": "ok-008",
-            "gender": "M",
             "meta": {
                 "birth_year": 1855,
-                "death_year": 1885,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1885
             }
         },
         {
             "id": "ok-019",
             "first_name": "Ellen",
-            "middle_names": null,
             "last_name": "Agnes",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": 1861,
-                "death_year": 1923,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1923
             }
         },
         {
             "id": "ok-020",
             "first_name": "Ellen",
-            "middle_names": null,
             "last_name": "Leroux",
-            "nickname": null,
-            "mother": null,
-            "father": "ok-011",
             "gender": "F",
+            "father": "ok-011",
             "meta": {
                 "birth_year": 1861,
                 "death_year": 1890,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-burgeo",
-                "about": null
+                "residence_location_id": "loc-burgeo"
             }
         },
         {
             "id": "ok-021",
             "first_name": "Thomas",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": null,
                 "death_year": 1901,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-pouch-cove",
-                "about": null
+                "residence_location_id": "loc-pouch-cove"
             }
         },
         {
             "id": "ok-022",
             "first_name": "Lawrence",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-006",
             "father": "ok-005",
-            "gender": "M",
             "meta": {
                 "birth_year": 1863,
                 "death_year": 1925,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-keefes-cove",
-                "about": null
+                "residence_location_id": "loc-keefes-cove"
             }
         },
         {
             "id": "ok-023",
             "first_name": "Bridget",
-            "middle_names": null,
             "last_name": "Hayden",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         },
         {
             "id": "ok-024",
             "first_name": "William",
-            "middle_names": null,
             "last_name": "Gould",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-010",
             "father": "ok-007",
-            "gender": "M",
             "meta": {
                 "birth_year": 1867,
-                "death_year": 1956,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1956
             }
         },
         {
@@ -515,151 +287,87 @@
             "first_name": "Susannah",
             "middle_names": "Mariah",
             "last_name": "Connors",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": 1875,
-                "death_year": 1962,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1962
             }
         },
         {
             "id": "ok-026",
             "first_name": "Anne",
-            "middle_names": null,
             "last_name": "Tarrington",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         },
         {
             "id": "ok-027",
             "first_name": "Thomas",
-            "middle_names": null,
             "last_name": "Butler",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "M",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "M"
         },
         {
             "id": "ok-028",
             "first_name": "Susannah",
-            "middle_names": null,
             "last_name": "Parsons",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-014",
             "father": "ok-015",
-            "gender": "F",
             "meta": {
                 "birth_year": 1878,
                 "death_year": 1969,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-029",
             "first_name": "Jacob",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-013",
             "father": "ok-012",
-            "gender": "M",
             "meta": {
                 "birth_year": 1878,
                 "death_year": 1958,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-030",
             "first_name": "John",
-            "middle_names": null,
             "last_name": "Nicolle",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-017",
             "father": "ok-016",
-            "gender": "M",
             "meta": {
                 "birth_year": 1884,
                 "death_year": 1958,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-grand-bank",
-                "about": null
+                "residence_location_id": "loc-grand-bank"
             }
         },
         {
             "id": "ok-031",
             "first_name": "Emeline",
-            "middle_names": null,
             "last_name": "Lake",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-020",
             "father": "ok-018",
-            "gender": "F",
             "meta": {
                 "birth_year": 1885,
                 "death_year": 1973,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-grand-bank",
-                "about": null
+                "residence_location_id": "loc-grand-bank"
             }
         },
         {
             "id": "ok-032",
             "first_name": "William",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-023",
             "father": "ok-022",
-            "gender": "M",
             "meta": {
                 "birth_year": 1889,
                 "death_year": 1949,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-keefes-cove",
-                "about": null
+                "residence_location_id": "loc-keefes-cove"
             }
         },
         {
@@ -667,37 +375,26 @@
             "first_name": "John",
             "middle_names": "J",
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-019",
             "father": "ok-021",
-            "gender": "M",
             "meta": {
                 "birth_year": 1895,
                 "death_year": 1965,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-pouch-cove",
-                "about": null
+                "residence_location_id": "loc-pouch-cove"
             }
         },
         {
             "id": "ok-034",
             "first_name": "Beatrice",
-            "middle_names": null,
             "last_name": "Gould",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-025",
             "father": "ok-024",
-            "gender": "F",
             "meta": {
                 "birth_year": 1898,
                 "death_year": 1985,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
@@ -705,56 +402,38 @@
             "first_name": "Mary",
             "middle_names": "Agnes",
             "last_name": "Butler",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-026",
             "father": "ok-027",
-            "gender": "F",
             "meta": {
                 "birth_year": 1904,
-                "death_year": 1948,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "death_year": 1948
             }
         },
         {
             "id": "ok-036",
             "first_name": "Clarence",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-028",
             "father": "ok-029",
-            "gender": "M",
             "meta": {
                 "birth_year": 1916,
                 "death_year": 2004,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-037",
             "first_name": "Emma",
-            "middle_names": null,
             "last_name": "Nicholle",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-031",
             "father": "ok-030",
-            "gender": "F",
             "meta": {
                 "birth_year": 1922,
                 "death_year": 2009,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-grand-bank",
-                "about": null
+                "residence_location_id": "loc-grand-bank"
             }
         },
         {
@@ -762,874 +441,522 @@
             "first_name": "Helen",
             "middle_names": "Agnes",
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-034",
             "father": "ok-033",
-            "gender": "F",
             "meta": {
                 "birth_year": 1936,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-pouch-cove",
-                "about": null
+                "residence_location_id": "loc-pouch-cove"
             }
         },
         {
             "id": "ok-039",
             "first_name": "Lawrence",
-            "middle_names": null,
             "last_name": "O'Keefe",
             "nickname": "Skipper",
+            "gender": "M",
             "mother": "ok-035",
             "father": "ok-032",
-            "gender": "M",
             "meta": {
                 "birth_year": 1938,
                 "death_year": 2018,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-harbor-grace",
-                "about": null
+                "residence_location_id": "loc-harbor-grace"
             }
         },
         {
             "id": "ok-040",
             "first_name": "Craig",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-038",
             "father": "ok-039",
-            "gender": "M",
             "meta": {
                 "birth_year": 1961,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
                 "occupation": "Software Engineer",
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-041",
             "first_name": "Peggy",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-037",
             "father": "ok-036",
-            "gender": "F",
             "meta": {
                 "birth_year": 1962,
-                "death_year": null,
                 "birthday": "1962-05-05",
-                "birth_location_id": null,
                 "occupation": "Software Engineer",
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-042",
             "first_name": "Zachary",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-041",
             "father": "ok-040",
-            "gender": "M",
             "meta": {
                 "birth_year": 1990,
-                "death_year": null,
                 "birthday": "1990-04-05",
-                "birth_location_id": null,
                 "occupation": "Software Engineer",
-                "residence_location_id": "loc-rancho-palos-verdes",
-                "about": null
+                "residence_location_id": "loc-rancho-palos-verdes"
             }
         },
         {
             "id": "ok-043",
             "first_name": "Joshua",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-041",
             "father": "ok-040",
-            "gender": "M",
             "meta": {
                 "birth_year": 1992,
-                "death_year": null,
                 "birthday": "1992-05-01",
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-044",
             "first_name": "Joanna",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-048",
             "father": "ok-049",
-            "gender": "F",
             "meta": {
                 "birth_year": 1991,
-                "death_year": null,
                 "birthday": "1991-05-09",
-                "birth_location_id": null,
                 "occupation": "Country Manager, Razer",
-                "residence_location_id": "loc-rancho-palos-verdes",
-                "about": null
+                "residence_location_id": "loc-rancho-palos-verdes"
             }
         },
         {
             "id": "ok-045",
             "first_name": "Quinn",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-044",
             "father": "ok-042",
-            "gender": "F",
             "meta": {
                 "birth_year": 2022,
-                "death_year": null,
                 "birthday": "2022-11-08",
-                "birth_location_id": null,
                 "occupation": "Future Soccer Player",
-                "residence_location_id": "loc-rancho-palos-verdes",
-                "about": null
+                "residence_location_id": "loc-rancho-palos-verdes"
             }
         },
         {
             "id": "ok-046",
             "first_name": "Alyssa",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-052",
             "father": "ok-051",
-            "gender": "F",
             "meta": {
                 "birth_year": 1992,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-047",
             "first_name": "Bella",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-046",
             "father": "ok-043",
-            "gender": "F",
             "meta": {
                 "birth_year": 2024,
-                "death_year": null,
                 "birthday": "2024-05-02",
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-048",
             "first_name": "Grace",
-            "middle_names": null,
             "last_name": "Jao",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-081",
             "father": "ok-080",
-            "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-la-canada",
-                "about": null
+                "residence_location_id": "loc-la-canada"
             }
         },
         {
             "id": "ok-049",
             "first_name": "Joseph",
-            "middle_names": null,
             "last_name": "Jao",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-079",
             "father": "ok-078",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-la-canada",
-                "about": null
+                "residence_location_id": "loc-la-canada"
             }
         },
         {
             "id": "ok-050",
             "first_name": "Timothy",
-            "middle_names": null,
             "last_name": "Jao",
             "nickname": "Timo",
+            "gender": "M",
             "mother": "ok-048",
             "father": "ok-049",
-            "gender": "M",
             "meta": {
                 "birth_year": 1997,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-los-angeles",
                 "occupation": "Software Engineer",
-                "residence_location_id": "loc-montebello",
-                "about": null
+                "residence_location_id": "loc-montebello"
             }
         },
         {
             "id": "ok-051",
             "first_name": "Vince",
-            "middle_names": null,
             "last_name": "Malette",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
                 "birth_year": 1961,
                 "death_year": 2026,
-                "birthday": null,
-                "birth_location_id": null,
                 "occupation": "Hockey Coach",
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-052",
             "first_name": "Joanna",
-            "middle_names": null,
             "last_name": "Malette",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": 1961,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-ottawa",
-                "about": null
+                "residence_location_id": "loc-ottawa"
             }
         },
         {
             "id": "ok-053",
             "first_name": "Joanne",
-            "middle_names": null,
             "last_name": "White",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-038",
             "father": "ok-039",
-            "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
                 "occupation": "Nurse",
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-054",
             "first_name": "Robert",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-038",
             "father": "ok-039",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
                 "occupation": "City Sand, City Sign",
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-055",
             "first_name": "Lawrence",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-038",
             "father": "ok-039",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
                 "occupation": "City Sand",
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-056",
             "first_name": "Kirk",
-            "middle_names": null,
             "last_name": "White",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
                 "occupation": "Nurse",
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-057",
             "first_name": "Janine",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-058",
             "first_name": "Ryan",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-057",
             "father": "ok-054",
-            "gender": "M",
             "meta": {
                 "birth_year": 1989,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-059",
             "first_name": "Sara",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-057",
             "father": "ok-054",
-            "gender": "F",
             "meta": {
                 "birth_year": 1990,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-060",
             "first_name": "Adam",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-057",
             "father": "ok-054",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-061",
             "first_name": "Steven",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
-            "mother": null,
-            "father": "ok-055",
             "gender": "M",
+            "father": "ok-055",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-062",
             "first_name": "Mark",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
-            "mother": null,
-            "father": "ok-055",
             "gender": "M",
+            "father": "ok-055",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-063",
             "first_name": "Hunter",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-053",
             "father": "ok-056",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-064",
             "first_name": "Morgan",
-            "middle_names": null,
             "last_name": "O'Keefe",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-053",
             "father": "ok-056",
-            "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-065",
             "first_name": "John",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-037",
             "father": "ok-036",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-066",
             "first_name": "Clarence",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-037",
             "father": "ok-036",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-067",
             "first_name": "Sue",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-037",
             "father": "ok-036",
-            "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-068",
             "first_name": "Cheryl",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "F",
             "mother": "ok-037",
             "father": "ok-036",
-            "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-sudbury",
-                "about": null
+                "residence_location_id": "loc-sudbury"
             }
         },
         {
             "id": "ok-069",
             "first_name": "Jeniffer",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": null,
-            "father": "ok-065",
             "gender": "F",
+            "father": "ok-065",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-070",
             "first_name": "Nicholas",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": null,
-            "father": "ok-065",
             "gender": "F",
+            "father": "ok-065",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-071",
             "first_name": "Kath",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-072",
             "first_name": "Christopher",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-071",
             "father": "ok-066",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-073",
             "first_name": "Cait",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
+            "gender": "M",
             "mother": "ok-071",
             "father": "ok-066",
-            "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-074",
             "first_name": "Amanda",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": "ok-067",
-            "father": null,
             "gender": "F",
+            "mother": "ok-067",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
                 "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": "loc-st-johns",
-                "about": null
+                "residence_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-075",
             "first_name": "Allison",
-            "middle_names": null,
             "last_name": "Button",
-            "nickname": null,
-            "mother": "ok-067",
-            "father": null,
             "gender": "F",
+            "mother": "ok-067",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": "loc-st-johns",
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_location_id": "loc-st-johns"
             }
         },
         {
             "id": "ok-076",
             "first_name": "Matthew",
-            "middle_names": null,
             "last_name": "Herst",
-            "nickname": null,
-            "mother": "ok-068",
-            "father": null,
             "gender": "M",
+            "mother": "ok-068",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": "loc-sudbury",
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_location_id": "loc-sudbury"
             }
         },
         {
             "id": "ok-077",
             "first_name": "Sarah",
-            "middle_names": null,
             "last_name": "Herst",
-            "nickname": null,
-            "mother": "ok-068",
-            "father": null,
             "gender": "M",
+            "mother": "ok-068",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": "loc-sudbury",
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
+                "birth_location_id": "loc-sudbury"
             }
         },
-	{
+        {
             "id": "ok-078",
             "first_name": "Shao",
             "middle_names": "Tseng",
             "last_name": "Jao",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "M",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-los-angeles",
-                "about": null
+                "residence_location_id": "loc-los-angeles"
             }
         },
-	{
+        {
             "id": "ok-079",
             "first_name": "Kanru",
-            "middle_names": null,
             "last_name": "Chen",
-            "nickname": null,
-            "mother": null,
-            "father": null,
             "gender": "F",
             "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": "loc-la-canada",
-                "about": null
+                "residence_location_id": "loc-la-canada"
             }
         },
-	{
+        {
             "id": "ok-080",
             "first_name": "David",
-            "middle_names": null,
             "last_name": "Yao",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "M",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "M"
         },
-	{
+        {
             "id": "ok-081",
             "first_name": "Yuehming",
-            "middle_names": null,
             "last_name": "Hu",
-            "nickname": null,
-            "mother": "ok-083",
-            "father": "ok-082",
             "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "mother": "ok-083",
+            "father": "ok-082"
         },
-	{
+        {
             "id": "ok-082",
             "first_name": "Zhenduo",
-            "middle_names": null,
             "last_name": "Hu",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "M",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "M"
         },
-	{
+        {
             "id": "ok-083",
             "first_name": "Ms",
-            "middle_names": null,
             "last_name": "Su",
-            "nickname": null,
-            "mother": null,
-            "father": null,
-            "gender": "F",
-            "meta": {
-                "birth_year": null,
-                "death_year": null,
-                "birthday": null,
-                "birth_location_id": null,
-                "occupation": null,
-                "residence_location_id": null,
-                "about": null
-            }
+            "gender": "F"
         }
     ]
 }
