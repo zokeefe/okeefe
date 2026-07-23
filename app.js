@@ -204,35 +204,50 @@ function computeHierarchicalLayout() {
 
     let changed = true;
     let iterations = 0;
-    while (changed && iterations < 50) {
+    while (changed && iterations < 100) {
         changed = false;
         iterations++;
 
         people.forEach(p => {
-            if (p.parents.length > 0) {
-                const maxParentGen = Math.max(...p.parents.map(parentId => state.people[parentId].gen));
-                if (maxParentGen !== -1 && p.gen !== maxParentGen + 1) {
-                    p.gen = maxParentGen + 1;
+            if (p.gen === -1 || p.gen === undefined) return;
+
+            // Push generation down to children
+            p.children.forEach(cid => {
+                const child = state.people[cid];
+                if (child && (child.gen === -1 || child.gen === undefined || child.gen < p.gen + 1)) {
+                    child.gen = p.gen + 1;
                     changed = true;
                 }
-            }
+            });
 
+            // Synchronize generation horizontally between partners / spouses
             p.partners.forEach(partnerId => {
                 const partner = state.people[partnerId];
-                if (partner.gen !== -1 && p.gen !== -1 && p.gen !== partner.gen) {
-                    const highestGen = Math.max(p.gen, partner.gen);
-                    if (p.gen < highestGen) { p.gen = highestGen; changed = true; }
-                    if (partner.gen < highestGen) { partner.gen = highestGen; changed = true; }
-                } else if (partner.gen === -1 && p.gen !== -1) {
+                if (!partner) return;
+                if (partner.gen === -1 || partner.gen === undefined || partner.gen < p.gen) {
                     partner.gen = p.gen;
+                    changed = true;
+                } else if (p.gen < partner.gen) {
+                    p.gen = partner.gen;
+                    changed = true;
+                }
+            });
+
+            // Push generation up to parents (crucial for aligning shorter ancestor branches)
+            p.parents.forEach(parentId => {
+                const parent = state.people[parentId];
+                if (parent && (parent.gen === -1 || parent.gen === undefined || parent.gen < p.gen - 1)) {
+                    parent.gen = p.gen - 1;
                     changed = true;
                 }
             });
         });
     }
 
+    const minGen = Math.min(...people.map(p => (p.gen !== -1 && p.gen !== undefined) ? p.gen : 0));
     people.forEach(p => {
-        if (p.gen === -1) p.gen = 0;
+        if (p.gen === -1 || p.gen === undefined) p.gen = 0;
+        p.gen -= minGen;
         p.y = p.gen * CONFIG.GEN_HEIGHT;
     });
 
