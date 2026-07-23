@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     setupTouchGestures();
     setupMobileBottomSheet();
-    loadFamilyTreeData('family_tree.json');
+    loadFamilyTreeData(`family_tree.json?v=${Date.now()}`);
 });
 
 function initDOMReferences() {
@@ -88,7 +88,7 @@ function initDOMReferences() {
  */
 async function loadFamilyTreeData(url) {
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const rawData = await response.json();
         

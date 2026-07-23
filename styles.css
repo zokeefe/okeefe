@@ -482,11 +482,6 @@ html, body {
 }
 
 /* Zoom-based Dynamic Content Visibility */
-.zoom-low .node-text-dates,
-.zoom-low .node-text-meta {
-    opacity: 0;
-    visibility: hidden;
-}
 
 
 /* Canvas UI Controls */
