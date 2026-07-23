@@ -71,8 +71,9 @@ def validate_family_tree(json_path="family_tree.json"):
             if val is None or not isinstance(val, str):
                 errors.append(f"ID '{pid}': required field '{k}' must be a non-null string.")
 
-        if "middle_names" in p and p.get("middle_names") is not None and not isinstance(p.get("middle_names"), str):
-            errors.append(f"ID '{pid}': 'middle_names' must be a string when provided.")
+        for k in ["middle_names", "alt_lang_name", "maiden_name", "nickname"]:
+            if k in p and p.get(k) is not None and not isinstance(p.get(k), str):
+                errors.append(f"ID '{pid}': '{k}' must be a string when provided.")
 
         # Check gender validity (must be non-null 'M' or 'F')
         gender = p.get("gender")

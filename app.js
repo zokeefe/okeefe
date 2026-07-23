@@ -820,7 +820,7 @@ function renderMetadata(p) {
         <p class="meta-header">Person Details</p>
         <div class="meta-card">
             <div class="meta-title-bar">
-                <h2 class="meta-name">${getPersonName(p, true)}</h2>
+                <h2 class="meta-name">${getPersonName(p, true)}${p.alt_lang_name ? ` (${p.alt_lang_name})` : ''}</h2>
                 <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
             </div>
             <div class="meta-rows">
@@ -837,6 +837,16 @@ function renderMetadata(p) {
                     <span class="meta-label">Last Name</span>
                     <span class="meta-value">${p.last_name || 'N/A'}</span>
                 </div>
+                ${p.maiden_name ? `
+                <div class="meta-row">
+                    <span class="meta-label">Maiden Name</span>
+                    <span class="meta-value">${p.maiden_name}</span>
+                </div>` : ''}
+                ${p.alt_lang_name ? `
+                <div class="meta-row">
+                    <span class="meta-label">Alt Lang Name</span>
+                    <span class="meta-value">${p.alt_lang_name}</span>
+                </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Lifespan</span>
                     <span class="meta-value">${by} – ${dy}</span>
@@ -1326,7 +1336,7 @@ function setupSearchAutoComplete() {
         }
 
         const allPeople = Object.values(state.people);
-        const getSearchText = p => `${p.first_name || ''} ${p.middle_names || ''} ${p.last_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
+        const getSearchText = p => `${p.first_name || ''} ${p.middle_names || ''} ${p.last_name || ''} ${p.maiden_name || ''} ${p.alt_lang_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
         const prefixMatches = allPeople.filter(p => getSearchText(p).startsWith(query));
         const partialMatches = allPeople.filter(p => !getSearchText(p).startsWith(query) && getSearchText(p).includes(query));
         const matches = [...prefixMatches, ...partialMatches].slice(0, 8);
@@ -1342,7 +1352,7 @@ function setupSearchAutoComplete() {
             const locStr = formatLocation(resolveLocation(m.meta?.residence_location_id, m.meta?.residence_location, m.meta?.town_of_residence, m.meta?.country_of_residence)) || formatLocation(resolveLocation(m.meta?.birth_location_id, m.meta?.birth_location));
             return `
             <li class="autocomplete-item" data-index="${i}" data-id="${m.id}">
-                <span>${getPersonName(m, true)}</span>
+                <span>${getPersonName(m, true)}${m.alt_lang_name ? ` (${m.alt_lang_name})` : ''}${m.maiden_name ? ` (née ${m.maiden_name})` : ''}</span>
                 <span class="item-sub">${m.meta?.birth_year || '?'} – ${m.meta?.death_year || 'Present'} • ${m.meta?.occupation || locStr || 'Family Member'}</span>
             </li>
             `;
