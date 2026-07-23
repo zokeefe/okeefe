@@ -44,7 +44,7 @@
             "country": "Canada",
             "town": "St. John's"
         },
-	"loc-sudbury": {
+        "loc-sudbury": {
             "country": "Canada",
             "town": "Sudbury"
         }
@@ -52,7 +52,9 @@
     "people": [
         {
             "id": "ok-001",
-            "name": "James Lake",
+            "first_name": "James",
+            "middle_names": null,
+            "last_name": "Lake",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -69,7 +71,9 @@
         },
         {
             "id": "ok-002",
-            "name": "Susannah Gallop",
+            "first_name": "Susannah",
+            "middle_names": null,
+            "last_name": "Gallop",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -86,7 +90,9 @@
         },
         {
             "id": "ok-003",
-            "name": "Michael O'Keefe",
+            "first_name": "Michael",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -103,7 +109,9 @@
         },
         {
             "id": "ok-004",
-            "name": "Maria Louisa Hefferman",
+            "first_name": "Maria",
+            "middle_names": "Louisa",
+            "last_name": "Hefferman",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -120,7 +128,9 @@
         },
         {
             "id": "ok-005",
-            "name": "William O'Keefe",
+            "first_name": "William",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-004",
             "father": "ok-003",
@@ -137,7 +147,9 @@
         },
         {
             "id": "ok-006",
-            "name": "Susannah Daly",
+            "first_name": "Susannah",
+            "middle_names": null,
+            "last_name": "Daly",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -154,7 +166,9 @@
         },
         {
             "id": "ok-007",
-            "name": "William Gould",
+            "first_name": "William",
+            "middle_names": null,
+            "last_name": "Gould",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -171,7 +185,9 @@
         },
         {
             "id": "ok-008",
-            "name": "George Edward Lake",
+            "first_name": "George",
+            "middle_names": "Edward",
+            "last_name": "Lake",
             "nickname": null,
             "mother": "ok-002",
             "father": "ok-001",
@@ -188,7 +204,9 @@
         },
         {
             "id": "ok-009",
-            "name": "Eleanor Hickman",
+            "first_name": "Eleanor",
+            "middle_names": null,
+            "last_name": "Hickman",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -205,7 +223,9 @@
         },
         {
             "id": "ok-010",
-            "name": "Lucinda Moulton",
+            "first_name": "Lucinda",
+            "middle_names": null,
+            "last_name": "Moulton",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -222,7 +242,9 @@
         },
         {
             "id": "ok-011",
-            "name": "Charles Leroy (leRoux ?)",
+            "first_name": "Charles",
+            "middle_names": null,
+            "last_name": "Leroy (leRoux ?)",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -239,7 +261,9 @@
         },
         {
             "id": "ok-012",
-            "name": "James Button",
+            "first_name": "James",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -256,7 +280,9 @@
         },
         {
             "id": "ok-013",
-            "name": "Margaret Price",
+            "first_name": "Margaret",
+            "middle_names": null,
+            "last_name": "Price",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -273,7 +299,9 @@
         },
         {
             "id": "ok-014",
-            "name": "Amelia Osmond",
+            "first_name": "Amelia",
+            "middle_names": null,
+            "last_name": "Osmond",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -290,7 +318,9 @@
         },
         {
             "id": "ok-015",
-            "name": "Phillip Parsons",
+            "first_name": "Phillip",
+            "middle_names": null,
+            "last_name": "Parsons",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -307,7 +337,9 @@
         },
         {
             "id": "ok-016",
-            "name": "Phillip Nicholle",
+            "first_name": "Phillip",
+            "middle_names": null,
+            "last_name": "Nicholle",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -324,7 +356,9 @@
         },
         {
             "id": "ok-017",
-            "name": "Hannah Jane Pardy",
+            "first_name": "Hannah",
+            "middle_names": "Jane",
+            "last_name": "Pardy",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -341,7 +375,9 @@
         },
         {
             "id": "ok-018",
-            "name": "George Thomas Lake",
+            "first_name": "George",
+            "middle_names": "Thomas",
+            "last_name": "Lake",
             "nickname": null,
             "mother": "ok-009",
             "father": "ok-008",
@@ -358,7 +394,9 @@
         },
         {
             "id": "ok-019",
-            "name": "Ellen Agnes",
+            "first_name": "Ellen",
+            "middle_names": null,
+            "last_name": "Agnes",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -375,7 +413,9 @@
         },
         {
             "id": "ok-020",
-            "name": "Ellen Leroux",
+            "first_name": "Ellen",
+            "middle_names": null,
+            "last_name": "Leroux",
             "nickname": null,
             "mother": null,
             "father": "ok-011",
@@ -392,7 +432,9 @@
         },
         {
             "id": "ok-021",
-            "name": "Thomas O'Keefe",
+            "first_name": "Thomas",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -409,7 +451,9 @@
         },
         {
             "id": "ok-022",
-            "name": "Lawrence O'Keefe",
+            "first_name": "Lawrence",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-006",
             "father": "ok-005",
@@ -426,7 +470,9 @@
         },
         {
             "id": "ok-023",
-            "name": "Bridget Hayden",
+            "first_name": "Bridget",
+            "middle_names": null,
+            "last_name": "Hayden",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -443,7 +489,9 @@
         },
         {
             "id": "ok-024",
-            "name": "William Gould",
+            "first_name": "William",
+            "middle_names": null,
+            "last_name": "Gould",
             "nickname": null,
             "mother": "ok-010",
             "father": "ok-007",
@@ -460,7 +508,9 @@
         },
         {
             "id": "ok-025",
-            "name": "Susannah Mariah Connors",
+            "first_name": "Susannah",
+            "middle_names": "Mariah",
+            "last_name": "Connors",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -477,7 +527,9 @@
         },
         {
             "id": "ok-026",
-            "name": "Anne Tarrington",
+            "first_name": "Anne",
+            "middle_names": null,
+            "last_name": "Tarrington",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -494,7 +546,9 @@
         },
         {
             "id": "ok-027",
-            "name": "Thomas Butler",
+            "first_name": "Thomas",
+            "middle_names": null,
+            "last_name": "Butler",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -511,7 +565,9 @@
         },
         {
             "id": "ok-028",
-            "name": "Susannah Parsons",
+            "first_name": "Susannah",
+            "middle_names": null,
+            "last_name": "Parsons",
             "nickname": null,
             "mother": "ok-014",
             "father": "ok-015",
@@ -528,7 +584,9 @@
         },
         {
             "id": "ok-029",
-            "name": "Jacob Button",
+            "first_name": "Jacob",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-013",
             "father": "ok-012",
@@ -545,7 +603,9 @@
         },
         {
             "id": "ok-030",
-            "name": "John Nicolle",
+            "first_name": "John",
+            "middle_names": null,
+            "last_name": "Nicolle",
             "nickname": null,
             "mother": "ok-017",
             "father": "ok-016",
@@ -562,7 +622,9 @@
         },
         {
             "id": "ok-031",
-            "name": "Emeline Lake",
+            "first_name": "Emeline",
+            "middle_names": null,
+            "last_name": "Lake",
             "nickname": null,
             "mother": "ok-020",
             "father": "ok-018",
@@ -579,7 +641,9 @@
         },
         {
             "id": "ok-032",
-            "name": "William O'Keefe",
+            "first_name": "William",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-023",
             "father": "ok-022",
@@ -596,7 +660,9 @@
         },
         {
             "id": "ok-033",
-            "name": "John J O'Keefe",
+            "first_name": "John",
+            "middle_names": "J",
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-019",
             "father": "ok-021",
@@ -613,7 +679,9 @@
         },
         {
             "id": "ok-034",
-            "name": "Beatrice Gould",
+            "first_name": "Beatrice",
+            "middle_names": null,
+            "last_name": "Gould",
             "nickname": null,
             "mother": "ok-025",
             "father": "ok-024",
@@ -630,7 +698,9 @@
         },
         {
             "id": "ok-035",
-            "name": "Mary Agnes Butler",
+            "first_name": "Mary",
+            "middle_names": "Agnes",
+            "last_name": "Butler",
             "nickname": null,
             "mother": "ok-026",
             "father": "ok-027",
@@ -647,7 +717,9 @@
         },
         {
             "id": "ok-036",
-            "name": "Clarence Button",
+            "first_name": "Clarence",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-028",
             "father": "ok-029",
@@ -664,7 +736,9 @@
         },
         {
             "id": "ok-037",
-            "name": "Emma Nicholle",
+            "first_name": "Emma",
+            "middle_names": null,
+            "last_name": "Nicholle",
             "nickname": null,
             "mother": "ok-031",
             "father": "ok-030",
@@ -681,7 +755,9 @@
         },
         {
             "id": "ok-038",
-            "name": "Helen Agnes O'Keefe",
+            "first_name": "Helen",
+            "middle_names": "Agnes",
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-034",
             "father": "ok-033",
@@ -698,7 +774,9 @@
         },
         {
             "id": "ok-039",
-            "name": "Lawrence O'Keefe",
+            "first_name": "Lawrence",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": "Skipper",
             "mother": "ok-035",
             "father": "ok-032",
@@ -715,7 +793,9 @@
         },
         {
             "id": "ok-040",
-            "name": "Craig O'Keefe",
+            "first_name": "Craig",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-038",
             "father": "ok-039",
@@ -732,7 +812,9 @@
         },
         {
             "id": "ok-041",
-            "name": "Peggy Button",
+            "first_name": "Peggy",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-037",
             "father": "ok-036",
@@ -749,7 +831,9 @@
         },
         {
             "id": "ok-042",
-            "name": "Zachary O'Keefe",
+            "first_name": "Zachary",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-041",
             "father": "ok-040",
@@ -766,7 +850,9 @@
         },
         {
             "id": "ok-043",
-            "name": "Joshua O'Keefe",
+            "first_name": "Joshua",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-041",
             "father": "ok-040",
@@ -783,7 +869,9 @@
         },
         {
             "id": "ok-044",
-            "name": "Joanna O'Keefe",
+            "first_name": "Joanna",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-048",
             "father": "ok-049",
@@ -800,7 +888,9 @@
         },
         {
             "id": "ok-045",
-            "name": "Quinn O'Keefe",
+            "first_name": "Quinn",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-044",
             "father": "ok-042",
@@ -817,7 +907,9 @@
         },
         {
             "id": "ok-046",
-            "name": "Alyssa O'Keefe",
+            "first_name": "Alyssa",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-052",
             "father": "ok-051",
@@ -834,7 +926,9 @@
         },
         {
             "id": "ok-047",
-            "name": "Bella O'Keefe",
+            "first_name": "Bella",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-046",
             "father": "ok-043",
@@ -851,7 +945,9 @@
         },
         {
             "id": "ok-048",
-            "name": "Grace Jao",
+            "first_name": "Grace",
+            "middle_names": null,
+            "last_name": "Jao",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -868,7 +964,9 @@
         },
         {
             "id": "ok-049",
-            "name": "Joseph Jao",
+            "first_name": "Joseph",
+            "middle_names": null,
+            "last_name": "Jao",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -885,7 +983,9 @@
         },
         {
             "id": "ok-050",
-            "name": "Timothy Jao",
+            "first_name": "Timothy",
+            "middle_names": null,
+            "last_name": "Jao",
             "nickname": "Timo",
             "mother": "ok-048",
             "father": "ok-049",
@@ -902,7 +1002,9 @@
         },
         {
             "id": "ok-051",
-            "name": "Vince Malette",
+            "first_name": "Vince",
+            "middle_names": null,
+            "last_name": "Malette",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -919,7 +1021,9 @@
         },
         {
             "id": "ok-052",
-            "name": "Joanna Malette",
+            "first_name": "Joanna",
+            "middle_names": null,
+            "last_name": "Malette",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -934,9 +1038,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-053",
-            "name": "Joanne White",
+            "first_name": "Joanne",
+            "middle_names": null,
+            "last_name": "White",
             "nickname": null,
             "mother": "ok-038",
             "father": "ok-039",
@@ -951,9 +1057,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-054",
-            "name": "Robert O'Keefe",
+            "first_name": "Robert",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-038",
             "father": "ok-039",
@@ -968,9 +1076,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-055",
-            "name": "Lawrence O'Keefe",
+            "first_name": "Lawrence",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-038",
             "father": "ok-039",
@@ -985,9 +1095,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-056",
-            "name": "Kirk White",
+            "first_name": "Kirk",
+            "middle_names": null,
+            "last_name": "White",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -1002,9 +1114,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-057",
-            "name": "Janine O'Keefe",
+            "first_name": "Janine",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": null,
             "father": null,
@@ -1019,9 +1133,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-058",
-            "name": "Ryan O'Keefe",
+            "first_name": "Ryan",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-057",
             "father": "ok-054",
@@ -1036,9 +1152,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-059",
-            "name": "Sara O'Keefe",
+            "first_name": "Sara",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-057",
             "father": "ok-054",
@@ -1053,9 +1171,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-060",
-            "name": "Adam O'Keefe",
+            "first_name": "Adam",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-057",
             "father": "ok-054",
@@ -1070,9 +1190,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-061",
-            "name": "Steven O'Keefe",
+            "first_name": "Steven",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": null,
             "father": "ok-055",
@@ -1087,9 +1209,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-062",
-            "name": "Mark O'Keefe",
+            "first_name": "Mark",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": null,
             "father": "ok-055",
@@ -1104,9 +1228,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-063",
-            "name": "Hunter O'Keefe",
+            "first_name": "Hunter",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-053",
             "father": "ok-056",
@@ -1121,9 +1247,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-064",
-            "name": "Morgan O'Keefe",
+            "first_name": "Morgan",
+            "middle_names": null,
+            "last_name": "O'Keefe",
             "nickname": null,
             "mother": "ok-053",
             "father": "ok-056",
@@ -1138,9 +1266,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-065",
-            "name": "John Button",
+            "first_name": "John",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-037",
             "father": "ok-036",
@@ -1155,9 +1285,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-066",
-            "name": "Clarence Button",
+            "first_name": "Clarence",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-037",
             "father": "ok-036",
@@ -1172,9 +1304,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-067",
-            "name": "Sue Button",
+            "first_name": "Sue",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-037",
             "father": "ok-036",
@@ -1189,9 +1323,11 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-068",
-            "name": "Cheryl Button",
+            "first_name": "Cheryl",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
             "mother": "ok-037",
             "father": "ok-036",
@@ -1206,12 +1342,14 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-069",
-            "name": "Jeniffer Button",
+            "first_name": "Jeniffer",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
-            "father": "ok-065",
             "mother": null,
+            "father": "ok-065",
             "gender": "F",
             "meta": {
                 "birth_year": null,
@@ -1223,12 +1361,14 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-070",
-            "name": "Nicholas Button",
+            "first_name": "Nicholas",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
+            "mother": null,
             "father": "ok-065",
-            "mother": null,
             "gender": "F",
             "meta": {
                 "birth_year": null,
@@ -1240,12 +1380,14 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-071",
-            "name": "Kath Button",
+            "first_name": "Kath",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
-            "father": null,
             "mother": null,
+            "father": null,
             "gender": "F",
             "meta": {
                 "birth_year": null,
@@ -1257,12 +1399,14 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-072",
-            "name": "Christopher Button",
+            "first_name": "Christopher",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
+            "mother": "ok-071",
             "father": "ok-066",
-	    "mother": "ok-071",
             "gender": "M",
             "meta": {
                 "birth_year": null,
@@ -1274,12 +1418,14 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-073",
-            "name": "Cait Button",
+            "first_name": "Cait",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
+            "mother": "ok-071",
             "father": "ok-066",
-	    "mother": "ok-071",
             "gender": "M",
             "meta": {
                 "birth_year": null,
@@ -1291,11 +1437,13 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-074",
-            "name": "Amanda Button",
+            "first_name": "Amanda",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
-	    "mother": "ok-067",
+            "mother": "ok-067",
             "father": null,
             "gender": "F",
             "meta": {
@@ -1308,11 +1456,13 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-075",
-            "name": "Allison Button",
+            "first_name": "Allison",
+            "middle_names": null,
+            "last_name": "Button",
             "nickname": null,
-	    "mother": "ok-067",
+            "mother": "ok-067",
             "father": null,
             "gender": "F",
             "meta": {
@@ -1325,11 +1475,13 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-076",
-            "name": "Matthew Herst",
+            "first_name": "Matthew",
+            "middle_names": null,
+            "last_name": "Herst",
             "nickname": null,
-	    "mother": "ok-068",
+            "mother": "ok-068",
             "father": null,
             "gender": "M",
             "meta": {
@@ -1342,11 +1494,13 @@
                 "about": null
             }
         },
-	{
+        {
             "id": "ok-077",
-            "name": "Sarah Herst",
+            "first_name": "Sarah",
+            "middle_names": null,
+            "last_name": "Herst",
             "nickname": null,
-	    "mother": "ok-068",
+            "mother": "ok-068",
             "father": null,
             "gender": "M",
             "meta": {

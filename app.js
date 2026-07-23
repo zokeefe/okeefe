@@ -147,8 +147,10 @@ function processData(rawData) {
     const coupleMap = new Map();
 
     peopleArray.forEach(item => {
+        const fullName = [item.first_name, item.middle_names, item.last_name].filter(Boolean).join(' ') || item.name || item.id;
         state.people[item.id] = {
             ...item,
+            name: fullName,
             children: [],
             parents: [],
             partners: [],
@@ -808,6 +810,19 @@ function renderMetadata(p) {
                 <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
             </div>
             <div class="meta-rows">
+                <div class="meta-row">
+                    <span class="meta-label">First Name</span>
+                    <span class="meta-value">${p.first_name || (p.name ? p.name.split(' ')[0] : 'N/A')}</span>
+                </div>
+                ${p.middle_names ? `
+                <div class="meta-row">
+                    <span class="meta-label">Middle Name(s)</span>
+                    <span class="meta-value">${p.middle_names}</span>
+                </div>` : ''}
+                <div class="meta-row">
+                    <span class="meta-label">Last Name</span>
+                    <span class="meta-value">${p.last_name || (p.name && p.name.includes(' ') ? p.name.split(' ').slice(1).join(' ') : 'N/A')}</span>
+                </div>
                 <div class="meta-row">
                     <span class="meta-label">Lifespan</span>
                     <span class="meta-value">${by} – ${dy}</span>

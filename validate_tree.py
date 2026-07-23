@@ -43,7 +43,7 @@ def validate_family_tree(json_path="family_tree.json"):
                 if invalid_keys:
                     warnings.append(f"Place ID '{loc_id}' contains unexpected keys: {invalid_keys}.")
     
-    required_keys = {"id", "name", "mother", "father", "gender", "meta"}
+    required_keys = {"id", "first_name", "middle_names", "last_name", "mother", "father", "gender", "meta"}
 
     # Pass 1: Syntax, ID uniqueness, and indexing
     for i, p in enumerate(people_list):
@@ -65,14 +65,23 @@ def validate_family_tree(json_path="family_tree.json"):
         else:
             people_map[pid] = p
 
+        # Check name fields types
+        for k in ["first_name", "last_name"]:
+            if not isinstance(p.get(k), (str, type(None))):
+                errors.append(f"ID '{pid}': '{k}' must be a string or null.")
+        if not isinstance(p.get("middle_names"), (str, type(None))):
+            errors.append(f"ID '{pid}': 'middle_names' must be a string or null.")
+
         # Check gender validity
         gender = p.get("gender")
         if gender not in {"M", "F", None}:
             errors.append(f"ID '{pid}': Invalid gender '{gender}'. Must be 'M', 'F', or null.")
 
+    get_full_name = lambda rec, fallback: " ".join(filter(None, [rec.get("first_name"), rec.get("middle_names"), rec.get("last_name")])) or rec.get("name", fallback)
+
     # Pass 2: Relational and semantic constraints
     for pid, p in people_map.items():
-        name = p.get("name", pid)
+        name = get_full_name(p, pid)
         meta = p.get("meta", {})
         
         # Check mother reference
@@ -85,7 +94,7 @@ def validate_family_tree(json_path="family_tree.json"):
             else:
                 mother_person = people_map[mother_id]
                 if mother_person.get("gender") != "F":
-                    errors.append(f"ID '{pid}' ({name}): Mother ID '{mother_id}' ({mother_person.get('name')}) has gender '{mother_person.get('gender')}', expected 'F'.")
+                    errors.append(f"ID '{pid}' ({name}): Mother ID '{mother_id}' ({get_full_name(mother_person, mother_id)}) has gender '{mother_person.get('gender')}', expected 'F'.")
         
         # Check father reference
         father_id = p.get("father")
@@ -97,7 +106,7 @@ def validate_family_tree(json_path="family_tree.json"):
             else:
                 father_person = people_map[father_id]
                 if father_person.get("gender") != "M":
-                    errors.append(f"ID '{pid}' ({name}): Father ID '{father_id}' ({father_person.get('name')}) has gender '{father_person.get('gender')}', expected 'M'.")
+                    errors.append(f"ID '{pid}' ({name}): Father ID '{father_id}' ({get_full_name(father_person, father_id)}) has gender '{father_person.get('gender')}', expected 'M'.")
         
         # Lifespan sanity check
         birth_year = meta.get("birth_year")
