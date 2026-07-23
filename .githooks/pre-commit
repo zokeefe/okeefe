@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+# Change to the repository root directory
+REPO_ROOT=$(git rev-parse --show-toplevel)
+cd "$REPO_ROOT"
+
+echo "Running pre-commit check: validating family tree dataset..."
+python3 validate_tree.py

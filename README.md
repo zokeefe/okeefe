@@ -8,3 +8,12 @@ The `family_tree.json` dataset is structured as a normalized object with two roo
 - **people**: An array of person records referencing places via compact foreign keys in `meta`:
   - **birth_location_id** & **residence_location_id**: Optional string referencing a valid place ID in `places`.
   - **birthday**: Optional string standardized to ISO 8601 (`YYYY-MM-DD`) date format when known (e.g., `"1990-04-15"`).
+
+## Development & Validation
+To preserve dataset consistency, a validation script ([validate_tree.py](file:///home/zokeefe/proj/okeefe/validate_tree.py)) checks relational integrity, lifespan rules, ISO dates, and location foreign keys.
+
+To activate automated validation before every commit, configure Git to use the repository's version-controlled hooks directory:
+```bash
+git config core.hooksPath .githooks
+```
+Once activated, Git will run `validate_tree.py` automatically during `git commit` and abort any changes that introduce semantic or formatting errors.
