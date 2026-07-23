@@ -540,7 +540,7 @@ function renderGraph() {
             x: CONFIG.NODE_WIDTH / 2,
             y: 32
         });
-        const nodeDisplayName = p.nickname ? `${p.name} "${p.nickname}"` : p.name;
+        const nodeDisplayName = getPersonName(p, true);
         textName.textContent = truncateText(nodeDisplayName, 22);
         nodeGroup.appendChild(textName);
 
@@ -747,6 +747,19 @@ function clearSelection(updateURL = true) {
 }
 
 /**
+ * Name composition helper for first_name, middle_names, and last_name schema
+ */
+function getPersonName(p, includeNickname = false) {
+    if (!p) return 'Unknown';
+    const parts = [p.first_name, p.middle_names, p.last_name].filter(Boolean);
+    const baseName = parts.length > 0 ? parts.join(' ') : (p.name || p.id);
+    if (includeNickname && p.nickname) {
+        return `${baseName} "${p.nickname}"`;
+    }
+    return baseName;
+}
+
+/**
  * Location resolver and formatter helpers
  */
 function resolveLocation(locId, inlineLoc, legacyTown, legacyCountry) {
@@ -791,28 +804,28 @@ function renderMetadata(p) {
     const resLocStr = formatLocation(resolveLocation(p.meta?.residence_location_id, p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence));
 
     const parentLinks = p.parents.length > 0 
-        ? p.parents.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
+        ? p.parents.map(pid => `<span class="meta-link" data-id="${pid}">${getPersonName(state.people[pid]) || pid}</span>`).join(', ')
         : 'None recorded';
 
     const childrenLinks = p.children.length > 0
-        ? p.children.map(cid => `<span class="meta-link" data-id="${cid}">${state.people[cid]?.name || cid}</span>`).join(', ')
+        ? p.children.map(cid => `<span class="meta-link" data-id="${cid}">${getPersonName(state.people[cid]) || cid}</span>`).join(', ')
         : 'None recorded';
 
     const partnerLinks = p.partners.length > 0
-        ? p.partners.map(pid => `<span class="meta-link" data-id="${pid}">${state.people[pid]?.name || pid}</span>`).join(', ')
+        ? p.partners.map(pid => `<span class="meta-link" data-id="${pid}">${getPersonName(state.people[pid]) || pid}</span>`).join(', ')
         : 'None recorded';
 
     DOM.metadataContent.innerHTML = `
         <p class="meta-header">Person Details</p>
         <div class="meta-card">
             <div class="meta-title-bar">
-                <h2 class="meta-name">${p.name}${p.nickname ? ` "${p.nickname}"` : ''}</h2>
+                <h2 class="meta-name">${getPersonName(p, true)}</h2>
                 <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
             </div>
             <div class="meta-rows">
                 <div class="meta-row">
                     <span class="meta-label">First Name</span>
-                    <span class="meta-value">${p.first_name || (p.name ? p.name.split(' ')[0] : 'N/A')}</span>
+                    <span class="meta-value">${p.first_name || 'N/A'}</span>
                 </div>
                 ${p.middle_names ? `
                 <div class="meta-row">
@@ -821,7 +834,7 @@ function renderMetadata(p) {
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Last Name</span>
-                    <span class="meta-value">${p.last_name || (p.name && p.name.includes(' ') ? p.name.split(' ').slice(1).join(' ') : 'N/A')}</span>
+                    <span class="meta-value">${p.last_name || 'N/A'}</span>
                 </div>
                 <div class="meta-row">
                     <span class="meta-label">Lifespan</span>
@@ -1312,7 +1325,7 @@ function setupSearchAutoComplete() {
         }
 
         const allPeople = Object.values(state.people);
-        const getSearchText = p => `${p.name} ${p.nickname || ''}`.toLowerCase();
+        const getSearchText = p => `${p.first_name || ''} ${p.middle_names || ''} ${p.last_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
         const prefixMatches = allPeople.filter(p => getSearchText(p).startsWith(query));
         const partialMatches = allPeople.filter(p => !getSearchText(p).startsWith(query) && getSearchText(p).includes(query));
         const matches = [...prefixMatches, ...partialMatches].slice(0, 8);
@@ -1328,7 +1341,7 @@ function setupSearchAutoComplete() {
             const locStr = formatLocation(resolveLocation(m.meta?.residence_location_id, m.meta?.residence_location, m.meta?.town_of_residence, m.meta?.country_of_residence)) || formatLocation(resolveLocation(m.meta?.birth_location_id, m.meta?.birth_location));
             return `
             <li class="autocomplete-item" data-index="${i}" data-id="${m.id}">
-                <span>${m.nickname ? `${m.name} "${m.nickname}"` : m.name}</span>
+                <span>${getPersonName(m, true)}</span>
                 <span class="item-sub">${m.meta?.birth_year || '?'} – ${m.meta?.death_year || 'Present'} • ${m.meta?.occupation || locStr || 'Family Member'}</span>
             </li>
             `;
@@ -1387,7 +1400,7 @@ function selectAndFocusFromSearch(id) {
     const person = state.people[id];
     if (!person) return;
 
-    DOM.searchInput.value = person.name;
+    DOM.searchInput.value = getPersonName(person);
     DOM.autocompleteDropdown.style.display = 'none';
 
     selectPerson(id);
