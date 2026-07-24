@@ -804,7 +804,7 @@ function formatGoogleMapsLink(locStr) {
  */
 function getNationalities(p) {
     if (!p) return [];
-    if (Array.isArray(p.nationalities) && p.nationalities.length > 0) {
+    if (Array.isArray(p.nationalities)) {
         return p.nationalities;
     }
 
