@@ -450,6 +450,16 @@ html, body {
 .node.M .node-text-name { fill: var(--node-text-m); }
 .node.F .node-text-name { fill: var(--node-text-f); }
 
+.node-text-subname {
+    font-size: 12px;
+    font-weight: 600;
+    fill: var(--text-secondary);
+    font-family: var(--font-family);
+    pointer-events: none;
+    text-anchor: middle;
+    transition: opacity 0.15s ease;
+}
+
 .node-text-dates {
     font-size: 12px;
     font-weight: 600;

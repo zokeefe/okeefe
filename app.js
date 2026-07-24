@@ -537,19 +537,32 @@ function renderGraph() {
         });
         nodeGroup.appendChild(box);
 
+        const subNameStr = [p.nickname ? `"${p.nickname}"` : null, p.alt_lang_name].filter(Boolean).join(' • ');
+        const hasSubName = Boolean(subNameStr);
+
         const textName = createSVGElement('text', {
             class: 'node-text-name',
             x: CONFIG.NODE_WIDTH / 2,
-            y: 32
+            y: hasSubName ? 24 : 32
         });
-        const nodeDisplayName = getPersonName(p, true);
-        textName.textContent = truncateText(nodeDisplayName, 22);
+        const mainName = [p.first_name, p.last_name].filter(Boolean).join(' ') || getPersonName(p);
+        textName.textContent = truncateText(mainName, 22);
         nodeGroup.appendChild(textName);
+
+        if (hasSubName) {
+            const textSubName = createSVGElement('text', {
+                class: 'node-text-subname',
+                x: CONFIG.NODE_WIDTH / 2,
+                y: 44
+            });
+            textSubName.textContent = truncateText(subNameStr, 24);
+            nodeGroup.appendChild(textSubName);
+        }
 
         const textDates = createSVGElement('text', {
             class: 'node-text-dates',
             x: CONFIG.NODE_WIDTH / 2,
-            y: 58
+            y: hasSubName ? 64 : 58
         });
         const by = p.meta?.birth_year || '?';
         const dy = p.meta?.death_year || '';
@@ -560,7 +573,7 @@ function renderGraph() {
         const textMeta = createSVGElement('text', {
             class: 'node-text-meta',
             x: CONFIG.NODE_WIDTH / 2,
-            y: 82
+            y: hasSubName ? 85 : 82
         });
         const resLoc = formatLocation(resolveLocation(p.meta?.residence_location_id, p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence));
         const birthLoc = formatLocation(resolveLocation(p.meta?.birth_location_id, p.meta?.birth_location));
