@@ -804,8 +804,9 @@ function formatGoogleMapsLink(locStr) {
  */
 function getNationalities(p) {
     if (!p) return [];
-    if (Array.isArray(p.nationalities)) {
-        return p.nationalities;
+    const override = p.nationalities || p.meta?.nationalities;
+    if (Array.isArray(override)) {
+        return override;
     }
 
     const birthLoc = resolveLocation(p.meta?.birth_location_id, p.meta?.birth_location);
@@ -849,7 +850,8 @@ function getNationalityFlag(nat) {
     if (n === 'american' || n === 'usa' || n === 'us') return '🇺🇸';
     if (n === 'irish' || n === 'ireland') return '🇮🇪';
     if (n.includes('newfoundland') || n === 'nl' || n === 'british' || n === 'uk' || n === 'england' || n === 'scottish' || n === 'scotland' || n === 'wales') return '🇬🇧';
-    if (n === 'chinese' || n === 'china' || n === 'taiwanese' || n === 'taiwan') return '🇨🇳';
+    if (n === 'taiwanese' || n === 'taiwan' || n.includes('taiwan')) return '🇹🇼';
+    if (n === 'chinese' || n === 'china' || n.includes('china')) return '🇨🇳';
     if (n === 'french' || n === 'france') return '🇫🇷';
     if (n === 'german' || n === 'germany') return '🇩🇪';
     if (n === 'italian' || n === 'italy') return '🇮🇹';

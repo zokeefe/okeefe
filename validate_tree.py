@@ -76,8 +76,8 @@ def validate_family_tree(json_path="family_tree.json"):
                 errors.append(f"ID '{pid}': '{k}' must be a string when provided.")
 
         for k in ["middle_names", "nicknames", "nationalities"]:
-            if k in p and p.get(k) is not None:
-                vals = p.get(k)
+            vals = p.get(k) if k in p else p.get("meta", {}).get(k)
+            if vals is not None:
                 if not isinstance(vals, list) or not all(isinstance(x, str) and x.strip() for x in vals):
                     errors.append(f"ID '{pid}': '{k}' must be a list of non-empty strings when provided.")
 
