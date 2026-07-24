@@ -484,7 +484,6 @@
             "id": "ok-039",
             "first_name": "Lawrence",
             "last_name": "O'Keefe",
-            "nickname": "Skipper",
             "gender": "M",
             "mother": "ok-035",
             "father": "ok-032",
@@ -492,7 +491,11 @@
                 "birth_year": 1938,
                 "death_year": 2018,
                 "residence_location_id": "loc-harbor-grace"
-            }
+            },
+            "nicknames": [
+                "Skips",
+                "Skipper"
+            ]
         },
         {
             "id": "ok-040",
@@ -659,7 +662,6 @@
             "id": "ok-050",
             "first_name": "Timothy",
             "last_name": "Jao",
-            "nickname": "Timo",
             "gender": "M",
             "mother": "ok-048",
             "father": "ok-049",
@@ -668,7 +670,10 @@
                 "birth_location_id": "loc-los-angeles",
                 "occupation": "Software Engineer",
                 "residence_location_id": "loc-montebello"
-            }
+            },
+            "nicknames": [
+                "Timo"
+            ]
         },
         {
             "id": "ok-051",
