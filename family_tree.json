@@ -648,7 +648,8 @@
             "meta": {
                 "birth_year": 1961,
                 "birthday": "1961-04-09",
-                "residence_location_id": "loc-la-canada"
+                "residence_location_id": "loc-la-canada",
+		"nationalities": ["American", "Taiwanese"]
             }
         },
         {
@@ -662,7 +663,8 @@
             "meta": {
                 "birth_year": 1960,
                 "birthday": "1960-03-11",
-                "residence_location_id": "loc-la-canada"
+                "residence_location_id": "loc-la-canada",
+		"nationalities": ["American", "Taiwanese"]
             }
         },
         {
