@@ -848,7 +848,7 @@ function getNationalityFlag(nat) {
     if (n === 'canadian' || n === 'canada') return '🇨🇦';
     if (n === 'american' || n === 'usa' || n === 'us') return '🇺🇸';
     if (n === 'irish' || n === 'ireland') return '🇮🇪';
-    if (n === 'british' || n === 'uk' || n === 'england' || n === 'scottish' || n === 'scotland' || n === 'wales') return '🇬🇧';
+    if (n.includes('newfoundland') || n === 'nl' || n === 'british' || n === 'uk' || n === 'england' || n === 'scottish' || n === 'scotland' || n === 'wales') return '🇬🇧';
     if (n === 'chinese' || n === 'china' || n === 'taiwanese' || n === 'taiwan') return '🇨🇳';
     if (n === 'french' || n === 'france') return '🇫🇷';
     if (n === 'german' || n === 'germany') return '🇩🇪';
