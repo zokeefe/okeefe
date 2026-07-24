@@ -342,7 +342,7 @@ html, body {
     line-height: 1.45;
 }
 
-.meta-link {
+.meta-link, .location-link {
     color: var(--link-color);
     cursor: pointer;
     text-decoration: underline;
@@ -351,7 +351,7 @@ html, body {
     display: inline-block;
 }
 
-.meta-link:hover {
+.meta-link:hover, .location-link:hover {
     opacity: 0.8;
 }
 

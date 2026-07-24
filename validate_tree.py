@@ -39,7 +39,7 @@ def validate_family_tree(json_path="family_tree.json"):
             if not isinstance(loc_val, dict):
                 errors.append(f"Place ID '{loc_id}' must be a dictionary with country/town pairs.")
             else:
-                invalid_keys = set(loc_val.keys()) - {"country", "town"}
+                invalid_keys = set(loc_val.keys()) - {"country", "town", "state", "province"}
                 if invalid_keys:
                     warnings.append(f"Place ID '{loc_id}' contains unexpected keys: {invalid_keys}.")
     
@@ -163,7 +163,7 @@ def validate_family_tree(json_path="family_tree.json"):
                 if not isinstance(loc_val, dict):
                     errors.append(f"ID '{pid}' ({name}): '{loc_key}' must be a dictionary with country/town pairs.")
                 else:
-                    invalid_keys = set(loc_val.keys()) - {"country", "town"}
+                    invalid_keys = set(loc_val.keys()) - {"country", "town", "state", "province"}
                     if invalid_keys:
                         warnings.append(f"ID '{pid}' ({name}): '{loc_key}' contains unexpected keys: {invalid_keys}.")
 

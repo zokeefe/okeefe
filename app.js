@@ -774,7 +774,14 @@ function resolveLocation(locId, inlineLoc, legacyTown, legacyCountry) {
 
 function formatLocation(loc) {
     if (!loc) return null;
-    return [loc.town, loc.country].filter(Boolean).join(', ') || null;
+    const stateOrProv = loc.state || loc.province || null;
+    return [loc.town, stateOrProv, loc.country].filter(Boolean).join(', ') || null;
+}
+
+function formatGoogleMapsLink(locStr) {
+    if (!locStr) return null;
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locStr)}`;
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="location-link" title="View ${locStr} on Google Maps">${locStr} ↗</a>`;
 }
 
 /**
@@ -866,12 +873,12 @@ function renderMetadata(p) {
                 ${birthLocStr ? `
                 <div class="meta-row">
                     <span class="meta-label">Birthplace</span>
-                    <span class="meta-value">${birthLocStr}</span>
+                    <span class="meta-value">${formatGoogleMapsLink(birthLocStr)}</span>
                 </div>` : ''}
                 ${resLocStr ? `
                 <div class="meta-row">
                     <span class="meta-label">Residence</span>
-                    <span class="meta-value">${resLocStr}</span>
+                    <span class="meta-value">${formatGoogleMapsLink(resLocStr)}</span>
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Parents</span>
