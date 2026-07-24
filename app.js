@@ -537,7 +537,8 @@ function renderGraph() {
         });
         nodeGroup.appendChild(box);
 
-        const subNameStr = [p.nickname ? `"${p.nickname}"` : null, p.alt_lang_name].filter(Boolean).join(' • ');
+        const nicks = Array.isArray(p.nicknames) ? p.nicknames.map(n => `"${n}"`).join(' / ') : (p.nickname ? `"${p.nickname}"` : null);
+        const subNameStr = [nicks, p.alt_lang_name].filter(Boolean).join(' • ');
         const hasSubName = Boolean(subNameStr);
 
         const textName = createSVGElement('text', {
@@ -769,8 +770,9 @@ function getPersonName(p, includeNickname = false) {
     const middleStr = Array.isArray(p.middle_names) ? p.middle_names.join(' ') : p.middle_names;
     const parts = [p.first_name, middleStr, p.last_name].filter(Boolean);
     const baseName = parts.length > 0 ? parts.join(' ') : (p.name || p.id);
-    if (includeNickname && p.nickname) {
-        return `${baseName} "${p.nickname}"`;
+    if (includeNickname) {
+        const nicks = Array.isArray(p.nicknames) ? p.nicknames.map(n => `"${n}"`).join(' / ') : (p.nickname ? `"${p.nickname}"` : null);
+        if (nicks) return `${baseName} ${nicks}`;
     }
     return baseName;
 }
@@ -859,6 +861,11 @@ function renderMetadata(p) {
                     <span class="meta-label">Last Name</span>
                     <span class="meta-value">${p.last_name || 'N/A'}</span>
                 </div>
+                ${p.nicknames && (Array.isArray(p.nicknames) ? p.nicknames.length > 0 : p.nicknames) ? `
+                <div class="meta-row">
+                    <span class="meta-label">Nickname(s)</span>
+                    <span class="meta-value">${Array.isArray(p.nicknames) ? p.nicknames.join(', ') : p.nicknames}</span>
+                </div>` : ''}
                 ${p.maiden_name ? `
                 <div class="meta-row">
                     <span class="meta-label">Maiden Name</span>
@@ -1360,7 +1367,8 @@ function setupSearchAutoComplete() {
         const allPeople = Object.values(state.people);
         const getSearchText = p => {
             const middleSearch = Array.isArray(p.middle_names) ? p.middle_names.join(' ') : (p.middle_names || '');
-            return `${p.first_name || ''} ${middleSearch} ${p.last_name || ''} ${p.maiden_name || ''} ${p.alt_lang_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
+            const nickSearch = Array.isArray(p.nicknames) ? p.nicknames.join(' ') : (p.nickname || '');
+            return `${p.first_name || ''} ${middleSearch} ${p.last_name || ''} ${p.maiden_name || ''} ${p.alt_lang_name || ''} ${nickSearch} ${getPersonName(p)}`.toLowerCase();
         };
         const prefixMatches = allPeople.filter(p => getSearchText(p).startsWith(query));
         const partialMatches = allPeople.filter(p => !getSearchText(p).startsWith(query) && getSearchText(p).includes(query));
