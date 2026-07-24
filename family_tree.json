@@ -2,54 +2,67 @@
     "places": {
         "loc-burgeo": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Burgeo"
         },
         "loc-fogo": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Fogo"
         },
         "loc-grand-bank": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Grand Bank"
         },
         "loc-harbor-grace": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Harbor Grace"
         },
         "loc-keefes-cove": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Keefe's Cove"
         },
         "loc-los-angeles": {
             "country": "USA",
+            "state": "California",
             "town": "Los Angeles"
         },
         "loc-montebello": {
             "country": "USA",
+            "state": "California",
             "town": "Montebello"
         },
         "loc-ottawa": {
             "country": "Canada",
+            "province": "Ontario",
             "town": "Ottawa"
         },
         "loc-pouch-cove": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "Pouch Cove"
         },
         "loc-rancho-palos-verdes": {
             "country": "USA",
+            "state": "California",
             "town": "Rancho Palos Verdes"
         },
         "loc-la-canada": {
             "country": "USA",
+            "state": "California",
             "town": "La Cañada Flintridge"
         },
         "loc-st-johns": {
             "country": "Canada",
+            "province": "Newfoundland",
             "town": "St. John's"
         },
         "loc-sudbury": {
             "country": "Canada",
+            "province": "Ontario",
             "town": "Sudbury"
         }
     },
