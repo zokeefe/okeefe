@@ -147,7 +147,8 @@ function processData(rawData) {
     const coupleMap = new Map();
 
     peopleArray.forEach(item => {
-        const fullName = [item.first_name, item.middle_names, item.last_name].filter(Boolean).join(' ') || item.name || item.id;
+        const middleStr = Array.isArray(item.middle_names) ? item.middle_names.join(' ') : item.middle_names;
+        const fullName = [item.first_name, middleStr, item.last_name].filter(Boolean).join(' ') || item.name || item.id;
         state.people[item.id] = {
             meta: {},
             ...item,
@@ -752,7 +753,8 @@ function clearSelection(updateURL = true) {
  */
 function getPersonName(p, includeNickname = false) {
     if (!p) return 'Unknown';
-    const parts = [p.first_name, p.middle_names, p.last_name].filter(Boolean);
+    const middleStr = Array.isArray(p.middle_names) ? p.middle_names.join(' ') : p.middle_names;
+    const parts = [p.first_name, middleStr, p.last_name].filter(Boolean);
     const baseName = parts.length > 0 ? parts.join(' ') : (p.name || p.id);
     if (includeNickname && p.nickname) {
         return `${baseName} "${p.nickname}"`;
@@ -828,10 +830,10 @@ function renderMetadata(p) {
                     <span class="meta-label">First Name</span>
                     <span class="meta-value">${p.first_name || 'N/A'}</span>
                 </div>
-                ${p.middle_names ? `
+                ${p.middle_names && (Array.isArray(p.middle_names) ? p.middle_names.length > 0 : p.middle_names) ? `
                 <div class="meta-row">
                     <span class="meta-label">Middle Name(s)</span>
-                    <span class="meta-value">${p.middle_names}</span>
+                    <span class="meta-value">${Array.isArray(p.middle_names) ? p.middle_names.join(' ') : p.middle_names}</span>
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Last Name</span>
@@ -1336,7 +1338,10 @@ function setupSearchAutoComplete() {
         }
 
         const allPeople = Object.values(state.people);
-        const getSearchText = p => `${p.first_name || ''} ${p.middle_names || ''} ${p.last_name || ''} ${p.maiden_name || ''} ${p.alt_lang_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
+        const getSearchText = p => {
+            const middleSearch = Array.isArray(p.middle_names) ? p.middle_names.join(' ') : (p.middle_names || '');
+            return `${p.first_name || ''} ${middleSearch} ${p.last_name || ''} ${p.maiden_name || ''} ${p.alt_lang_name || ''} ${p.nickname || ''} ${getPersonName(p)}`.toLowerCase();
+        };
         const prefixMatches = allPeople.filter(p => getSearchText(p).startsWith(query));
         const partialMatches = allPeople.filter(p => !getSearchText(p).startsWith(query) && getSearchText(p).includes(query));
         const matches = [...prefixMatches, ...partialMatches].slice(0, 8);

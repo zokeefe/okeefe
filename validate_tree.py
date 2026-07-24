@@ -71,16 +71,27 @@ def validate_family_tree(json_path="family_tree.json"):
             if val is None or not isinstance(val, str):
                 errors.append(f"ID '{pid}': required field '{k}' must be a non-null string.")
 
-        for k in ["middle_names", "alt_lang_name", "maiden_name", "nickname"]:
+        for k in ["alt_lang_name", "maiden_name", "nickname"]:
             if k in p and p.get(k) is not None and not isinstance(p.get(k), str):
                 errors.append(f"ID '{pid}': '{k}' must be a string when provided.")
+
+        if "middle_names" in p and p.get("middle_names") is not None:
+            mns = p.get("middle_names")
+            if not isinstance(mns, list) or not all(isinstance(x, str) and x.strip() for x in mns):
+                errors.append(f"ID '{pid}': 'middle_names' must be a list of non-empty strings when provided.")
 
         # Check gender validity (must be non-null 'M' or 'F')
         gender = p.get("gender")
         if gender not in {"M", "F"}:
             errors.append(f"ID '{pid}': Invalid required gender '{gender}'. Must be 'M' or 'F'.")
 
-    get_full_name = lambda rec, fallback: " ".join(filter(None, [rec.get("first_name"), rec.get("middle_names"), rec.get("last_name")])) or rec.get("name", fallback)
+    def get_full_name(rec, fallback):
+        first = rec.get("first_name")
+        middle = rec.get("middle_names")
+        middle_str = " ".join(middle) if isinstance(middle, list) else (middle if isinstance(middle, str) else None)
+        last = rec.get("last_name")
+        parts = [val for val in [first, middle_str, last] if val]
+        return " ".join(parts) or rec.get("name", fallback)
 
     # Pass 2: Relational and semantic constraints
     for pid, p in people_map.items():
