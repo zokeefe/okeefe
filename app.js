@@ -808,8 +808,9 @@ function getNationalities(p) {
         return p.nationalities;
     }
 
-    const birthLoc = resolveLocation(p.meta?.birth_location_id || p.meta?.residence_location_id, p.meta?.birth_location || p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence);
-    if (!birthLoc) return [];
+    const birthLoc = resolveLocation(p.meta?.birth_location_id, p.meta?.birth_location);
+    const by = p.meta?.birth_year;
+    if (!birthLoc || !by || typeof by !== 'number') return [];
 
     const country = (birthLoc.country || '').trim().toLowerCase();
     const provOrState = (birthLoc.province || birthLoc.state || '').trim().toLowerCase();
@@ -818,18 +819,13 @@ function getNationalities(p) {
     const isNewfoundland = provOrState.includes('newfoundland') || provOrState === 'nl' || provOrState === 'nf' || ['st. john\'s', 'fogo', 'burgeo', 'grand bank', 'harbor grace', 'keefes cove', 'keefe\'s cove', 'pouch cove'].includes(town);
 
     if (isNewfoundland || country === 'newfoundland') {
-        const by = p.meta?.birth_year;
         const dy = p.meta?.death_year;
-        if (!by || by < 1949) {
+        if (by < 1949) {
             const livedPast1949 = !dy || dy >= 1949;
-            if (livedPast1949 && by && (by > 1850 || dy >= 1949)) {
+            if (livedPast1949 && (by > 1850 || dy >= 1949)) {
                 return ['Republic of Newfoundland', 'Canadian'];
-            } else if (dy && dy < 1949) {
-                return ['Republic of Newfoundland'];
-            } else if (!by || by <= 1850) {
-                return ['Republic of Newfoundland'];
             }
-            return ['Republic of Newfoundland', 'Canadian'];
+            return ['Republic of Newfoundland'];
         } else {
             return ['Canadian'];
         }
@@ -844,12 +840,11 @@ function getNationalities(p) {
     if (country === 'germany') return ['German'];
     if (country === 'italy') return ['Italian'];
 
-    return [birthLoc.country || 'Unknown'];
+    return [];
 }
 
 function getNationalityFlag(nat) {
     const n = (nat || '').trim().toLowerCase();
-    if (n.includes('newfoundland') || n === 'nl') return '🟩⬜️🟥';
     if (n === 'canadian' || n === 'canada') return '🇨🇦';
     if (n === 'american' || n === 'usa' || n === 'us') return '🇺🇸';
     if (n === 'irish' || n === 'ireland') return '🇮🇪';
@@ -858,7 +853,7 @@ function getNationalityFlag(nat) {
     if (n === 'french' || n === 'france') return '🇫🇷';
     if (n === 'german' || n === 'germany') return '🇩🇪';
     if (n === 'italian' || n === 'italy') return '🇮🇹';
-    return '🏴';
+    return '';
 }
 
 /**
@@ -903,7 +898,10 @@ function renderMetadata(p) {
         : 'None recorded';
 
     const nationalities = getNationalities(p);
-    const nationalityStr = nationalities.map(n => `<span style="display: inline-block; margin-right: 6px;" title="${n}">${getNationalityFlag(n)} ${n}</span>`).join('');
+    const nationalityStr = nationalities.map(n => {
+        const flag = getNationalityFlag(n);
+        return `<span style="display: inline-block; margin-right: 8px;" title="${n}">${flag ? `${flag} ${n}` : n}</span>`;
+    }).join('');
 
     DOM.metadataContent.innerHTML = `
         <p class="meta-header">Person Details</p>
@@ -911,7 +909,10 @@ function renderMetadata(p) {
             <div class="meta-title-bar">
                 <h2 class="meta-name">${getPersonName(p, true)}${p.alt_lang_name ? ` (${p.alt_lang_name})` : ''}</h2>
                 <div class="meta-badges">
-                    ${nationalities.map(n => `<span class="meta-flag-badge" title="${n}">${getNationalityFlag(n)}</span>`).join('')}
+                    ${nationalities.map(n => {
+                        const f = getNationalityFlag(n);
+                        return f ? `<span class="meta-flag-badge" title="${n}">${f}</span>` : '';
+                    }).join('')}
                     <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
                 </div>
             </div>
