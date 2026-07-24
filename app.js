@@ -800,6 +800,68 @@ function formatGoogleMapsLink(locStr) {
 }
 
 /**
+ * Nationality deduction engine and flag formatter
+ */
+function getNationalities(p) {
+    if (!p) return [];
+    if (Array.isArray(p.nationalities) && p.nationalities.length > 0) {
+        return p.nationalities;
+    }
+
+    const birthLoc = resolveLocation(p.meta?.birth_location_id || p.meta?.residence_location_id, p.meta?.birth_location || p.meta?.residence_location, p.meta?.town_of_residence, p.meta?.country_of_residence);
+    if (!birthLoc) return [];
+
+    const country = (birthLoc.country || '').trim().toLowerCase();
+    const provOrState = (birthLoc.province || birthLoc.state || '').trim().toLowerCase();
+    const town = (birthLoc.town || '').trim().toLowerCase();
+
+    const isNewfoundland = provOrState.includes('newfoundland') || provOrState === 'nl' || provOrState === 'nf' || ['st. john\'s', 'fogo', 'burgeo', 'grand bank', 'harbor grace', 'keefes cove', 'keefe\'s cove', 'pouch cove'].includes(town);
+
+    if (isNewfoundland || country === 'newfoundland') {
+        const by = p.meta?.birth_year;
+        const dy = p.meta?.death_year;
+        if (!by || by < 1949) {
+            const livedPast1949 = !dy || dy >= 1949;
+            if (livedPast1949 && by && (by > 1850 || dy >= 1949)) {
+                return ['Republic of Newfoundland', 'Canadian'];
+            } else if (dy && dy < 1949) {
+                return ['Republic of Newfoundland'];
+            } else if (!by || by <= 1850) {
+                return ['Republic of Newfoundland'];
+            }
+            return ['Republic of Newfoundland', 'Canadian'];
+        } else {
+            return ['Canadian'];
+        }
+    }
+
+    if (country === 'canada') return ['Canadian'];
+    if (country === 'usa' || country === 'united states' || country === 'us' || provOrState === 'california' || provOrState === 'ca') return ['American'];
+    if (country === 'ireland' || country === 'ire') return ['Irish'];
+    if (country === 'uk' || country === 'united kingdom' || country === 'england' || country === 'scotland' || country === 'wales') return ['British'];
+    if (country === 'china' || country === 'taiwan') return ['Chinese'];
+    if (country === 'france') return ['French'];
+    if (country === 'germany') return ['German'];
+    if (country === 'italy') return ['Italian'];
+
+    return [birthLoc.country || 'Unknown'];
+}
+
+function getNationalityFlag(nat) {
+    const n = (nat || '').trim().toLowerCase();
+    if (n.includes('newfoundland') || n === 'nl') return '🟩⬜️🟥';
+    if (n === 'canadian' || n === 'canada') return '🇨🇦';
+    if (n === 'american' || n === 'usa' || n === 'us') return '🇺🇸';
+    if (n === 'irish' || n === 'ireland') return '🇮🇪';
+    if (n === 'british' || n === 'uk' || n === 'england' || n === 'scottish' || n === 'scotland' || n === 'wales') return '🇬🇧';
+    if (n === 'chinese' || n === 'china' || n === 'taiwanese' || n === 'taiwan') return '🇨🇳';
+    if (n === 'french' || n === 'france') return '🇫🇷';
+    if (n === 'german' || n === 'germany') return '🇩🇪';
+    if (n === 'italian' || n === 'italy') return '🇮🇹';
+    return '🏴';
+}
+
+/**
  * Format standardized ISO 8601 (YYYY-MM-DD) birthday strings for presentation
  */
 function formatBirthday(isoString, short = false) {
@@ -840,12 +902,18 @@ function renderMetadata(p) {
         ? p.partners.map(pid => `<span class="meta-link" data-id="${pid}">${getPersonName(state.people[pid]) || pid}</span>`).join(', ')
         : 'None recorded';
 
+    const nationalities = getNationalities(p);
+    const nationalityStr = nationalities.map(n => `<span style="display: inline-block; margin-right: 6px;" title="${n}">${getNationalityFlag(n)} ${n}</span>`).join('');
+
     DOM.metadataContent.innerHTML = `
         <p class="meta-header">Person Details</p>
         <div class="meta-card">
             <div class="meta-title-bar">
                 <h2 class="meta-name">${getPersonName(p, true)}${p.alt_lang_name ? ` (${p.alt_lang_name})` : ''}</h2>
-                <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
+                <div class="meta-badges">
+                    ${nationalities.map(n => `<span class="meta-flag-badge" title="${n}">${getNationalityFlag(n)}</span>`).join('')}
+                    <span class="meta-badge ${p.gender || 'M'}">${p.gender === 'F' ? 'Female' : 'Male'}</span>
+                </div>
             </div>
             <div class="meta-rows">
                 <div class="meta-row">
@@ -899,6 +967,11 @@ function renderMetadata(p) {
                 <div class="meta-row">
                     <span class="meta-label">Residence</span>
                     <span class="meta-value">${formatGoogleMapsLink(resLocStr)}</span>
+                </div>` : ''}
+                ${nationalities.length > 0 ? `
+                <div class="meta-row">
+                    <span class="meta-label">Nationality</span>
+                    <span class="meta-value">${nationalityStr}</span>
                 </div>` : ''}
                 <div class="meta-row">
                     <span class="meta-label">Parents</span>
